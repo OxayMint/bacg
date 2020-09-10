@@ -5,7 +5,7 @@ import 'package:bacg/components/verify.dart';
 // import 'package:bacg/views/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:bacg/services/main.service.dart' as service;
+import 'package:bacg/services/base_service.dart';
 import 'package:bacg/model/requests.dart' as req;
 
 class Login extends StatefulWidget {
@@ -18,11 +18,11 @@ class _LoginState extends State<Login> {
   TextEditingController _passController = new TextEditingController();
   // String _phone, _pass;
   void login(BuildContext context) async {
-    bool loggedIn = await service
-        .login(req.Login(phone: '994515224452', password: 'qwerty'));
+    bool loggedIn = true;
+    // bool loggedIn = await MainService.getInstance.login(req.Login(phone: '994515224452', password: 'qwerty'));
     // phone: _phoneController.text, password: _passController.text));
     if (loggedIn) {
-      await service.getUser();
+      // await MainService.getInstance.getUser();
       Navigator.of(context).pushReplacementNamed('/home');
     }
   }

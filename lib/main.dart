@@ -3,7 +3,7 @@ import 'package:bacg/services/local_data.service.dart';
 import 'package:flutter/material.dart';
 import 'views/Home.dart';
 import 'views/Login.dart';
-import 'package:bacg/services/main.service.dart' as service;
+import 'package:bacg/services/base_service.dart' as service;
 
 void main() async {
   //TODO check if logged in
