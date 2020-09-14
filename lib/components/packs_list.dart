@@ -22,16 +22,4 @@ class _PacksListState extends State<PacksList> {
       ),
     );
   }
-
-  // List<Widget> getList() {
-  //   List<Pack> l = new List<Pack>();
-  //   for (int i = 0; i < list.length; i++) {
-  //     l.add(
-  //       Pack(
-  //         pack: list[i],
-  //       ),
-  //     );
-  //   }
-  //   return l;
-  // }
 }

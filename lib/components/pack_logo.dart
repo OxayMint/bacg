@@ -26,6 +26,7 @@ class PackLogo extends StatelessWidget {
           // color: Colors.red,
           child: Text(
             "$number",
+            textAlign: TextAlign.end,
             style: TextStyle(
                 shadows: [
                   Shadow(

@@ -1,100 +1,131 @@
 import 'package:bacg/components/packs_list.dart';
 import 'package:bacg/components/user_package.dart';
+import 'package:bacg/model/app_state.dart';
 import 'package:bacg/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:bacg/components/pack.dart';
 import 'package:bacg/model/pack.dart' as model;
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
-class Packs extends StatefulWidget {
-  @override
-  _PacksState createState() => _PacksState();
-}
-
-class _PacksState extends State<Packs> {
+class Packs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        // mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          ListHeader(
-            text: "MY PACKS",
-          ),
-          PacksList(
-            packsList: <Widget>[
-              UserPack(
-                pack: UserPackage(
-                  packageId: 2,
-                  callCount: 2,
-                  endAt: DateTime.now().add(new Duration(days: -3)),
-                  pack: model.Pack(
-                    id: 3,
-                    callCount: 3,
-                    // usedCallCount: 0,
-                    duration: 30,
-                    name: "3",
-                    // isPurcshased: false,
-                    priceAzn: '30',
-                    priceUsd: '30',
-                  ),
-                ),
-              ),
-            ],
-          ),
-          ListHeader(
-            text: "STORE",
-          ),
-          PacksList(
-            packsList: <Widget>[
-              Pack(
-                pack: model.Pack(
-                  id: 3,
-                  callCount: 3,
-                  // usedCallCount: 0,
-                  duration: 30,
-                  name: "3",
-                  // isPurcshased: false,
-                  priceAzn: '30',
-                  priceUsd: '30',
-                ),
-              ),
-              Pack(
-                pack: model.Pack(
-                  id: 5,
-                  callCount: 5,
-                  // usedCallCount: 0,
-                  duration: 90,
-                  name: "5",
-                  // isPurchased: false,
-                  priceAzn: '50',
-                  priceUsd: '50',
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+      child: Consumer<AppState>(builder: (context, state, widget) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            MyPacks(state.ownedPackages),
+            StorePacks(state.storePackages),
+          ],
+        );
+      }),
     );
   }
-
-  List<Widget> getPacksList() {}
 }
+
+// class ListHeader extends StatelessWidget {
+//   const ListHeader({Key key, @required this.text}) : super(key: key);
+//   final String text;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       height: 60,
+//       width: double.infinity,
+//       alignment: Alignment.center,
+//       padding: EdgeInsets.all(5),
+//       decoration: BoxDecoration(
+//         color: Theme.of(context).primaryColor,
+//       ),
+//       child: Text(
+//         text,
+//         style: Theme.of(context).textTheme.headline3,
+//       ),
+//     );
+//   }
+// }
 
 class ListHeader extends StatelessWidget {
   const ListHeader({Key key, @required this.text}) : super(key: key);
   final String text;
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
+      height: 60,
       width: double.infinity,
-      alignment: Alignment.center,
-      padding: EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-        // border: Border.all(color: Theme.of(context).primaryColor)
+      child: Stack(
+        children: [
+          SizedBox(
+            // height: 60,
+            child: SvgPicture.asset(
+              'assets/broken_gradient.svg',
+              fit: BoxFit.fitWidth,
+              colorBlendMode: BlendMode.darken,
+              width: double.infinity,
+            ),
+          ),
+          Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              gradient: RadialGradient(
+                center: Alignment(0, -3),
+                radius: 4,
+                // radius: 2,
+                colors: [
+                  Color.fromRGBO(37, 152, 33, .4),
+                  Color.fromRGBO(17, 74, 76, .4)
+                ],
+              ),
+            ),
+          ),
+          Center(
+            child: Text(text, style: Theme.of(context).textTheme.headline3),
+          ),
+        ],
       ),
-      child: Text(text, style: Theme.of(context).textTheme.headline3),
+    );
+  }
+}
+
+class StorePacks extends StatelessWidget {
+  StorePacks(this.packs);
+  final List<model.Pack> packs;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListHeader(
+          text: "STORE",
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: packs.map((p) => Pack(pack: p)).toList(),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class MyPacks extends StatelessWidget {
+  MyPacks(this.packs);
+  final List<UserPackage> packs;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListHeader(
+          text: "MY PACKS",
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: packs.map((p) => UserPack(pack: p)).toList(),
+          ),
+        ),
+      ],
     );
   }
 }

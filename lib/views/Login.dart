@@ -2,11 +2,13 @@
 // import 'dart:html';
 import 'package:bacg/components/custom_button.dart';
 import 'package:bacg/components/verify.dart';
+import 'package:bacg/model/app_state.dart';
 // import 'package:bacg/views/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:bacg/services/base_service.dart';
+import 'package:bacg/services/main_service.dart';
 import 'package:bacg/model/requests.dart' as req;
+import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -18,38 +20,33 @@ class _LoginState extends State<Login> {
   TextEditingController _passController = new TextEditingController();
   // String _phone, _pass;
   void login(BuildContext context) async {
-    bool loggedIn = true;
-    // bool loggedIn = await MainService.getInstance.login(req.Login(phone: '994515224452', password: 'qwerty'));
-    // phone: _phoneController.text, password: _passController.text));
-    if (loggedIn) {
-      // await MainService.getInstance.getUser();
-      Navigator.of(context).pushReplacementNamed('/home');
-    }
+    final appState = Provider.of<AppState>(context, listen: false);
+    appState.login(req.Login(phone: '994515224452', password: 'qwerty'));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // color: Colors.white,
-      // alignment: Alignment.center,
-
       body: Stack(
         children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: RadialGradient(
+                center: Alignment(-1, -1),
+                radius: 2.0,
+                colors: [
+                  Color.fromRGBO(37, 152, 33, 1),
+                  Color.fromRGBO(17, 74, 76, 1)
+                ],
+              ),
+            ),
+          ),
           SizedBox.expand(
               child: SvgPicture.asset(
             'assets/broken_gradient.svg',
             fit: BoxFit.cover,
+            colorBlendMode: BlendMode.darken,
           )),
-          Container(
-            decoration: BoxDecoration(
-                gradient: RadialGradient(
-                    center: Alignment(.25, 1),
-                    radius: 2.0,
-                    colors: [
-                  Color.fromRGBO(37, 152, 33, .84),
-                  Color.fromRGBO(17, 74, 76, .8)
-                ])),
-          ),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -116,7 +113,6 @@ class _LoginState extends State<Login> {
                   text: "Log in",
                   type: ButtonType.Login,
                   onPressed: () {
-                    // Navigator.of(context).pushReplacementNamed('/home');
                     login(context);
                   },
                 ),

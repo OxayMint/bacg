@@ -1,7 +1,9 @@
+import 'package:bacg/model/app_state.dart';
 import 'package:bacg/views/home_components/packs.dart';
 import 'package:bacg/views/home_components/Settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 import 'home_components/contacts.dart';
 import 'home_components/rules.dart';
@@ -17,17 +19,29 @@ class _HomeState extends State<Home> {
   bool drawerOpen = false;
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<AppState>(context, listen: false);
     return Scaffold(
       // key: _scaffoldKey,
       appBar: AppBar(
-        //title: SvgPicture.asset('assets/logo-white.svg', height: 40,),
-        title: Text(
-          "Baku Consulting Group",
-          style: Theme.of(context).textTheme.headline2,
+        backgroundColor: Colors.white,
+        toolbarHeight: 60,
+        title: Center(
+          child: SvgPicture.asset(
+            'assets/logo.svg',
+            height: 40,
+          ),
         ),
+        // title:
+
+        // ,
+        // Text(
+        //   "Baku Consulting Group",
+        //   style: Theme.of(context).textTheme.headline2,
+        // ),
         leading: FlatButton(
           child:
-              Icon(drawerOpen ? Icons.close : Icons.menu, color: Colors.white),
+              // Icon(drawerOpen ? Icons.close : Icons.menu, color: Colors.grey),
+              _getIcon(drawerOpen ? 'close' : 'hamburger'),
           onPressed: () {
             if (_scaffoldKey.currentState.isDrawerOpen) {
               _scaffoldKey.currentState.openEndDrawer();
@@ -40,14 +54,19 @@ class _HomeState extends State<Home> {
           },
         ),
         actions: [
-          IconButton(
-              icon: Icon(Icons.account_circle),
-              onPressed: () {
-                setState(() {
-                  currentWidgetName = 'settings';
-                  closeDrawer();
-                });
-              }),
+          SizedBox(
+            // height: 30,
+            // width: 30,
+            child: IconButton(
+                // icon: Icon(Icons.account_circle, color: Colors.grey),
+                icon: _getIcon('user'),
+                onPressed: () {
+                  setState(() {
+                    currentWidgetName = 'settings';
+                    closeDrawer();
+                  });
+                }),
+          ),
           // ,
           SizedBox(
             width: 10,
@@ -121,8 +140,7 @@ class _HomeState extends State<Home> {
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
                 onTap: () {
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil('/login', (route) => false);
+                  appState.logout();
                 },
               ),
             ],
@@ -152,5 +170,9 @@ class _HomeState extends State<Home> {
       case 'contacts':
         return Contacts();
     }
+  }
+
+  Widget _getIcon(String name) {
+    return SvgPicture.asset('assets/$name.svg', fit: BoxFit.cover);
   }
 }

@@ -7,14 +7,10 @@ class LocalData {
 
   static LocalData get getInstance => _instance = _instance ?? LocalData._();
   SharedPreferences prefs;
-  // LocalData() {}
 
   String token = '', lang = '';
-  void init() {
-    _init();
-  }
 
-  Future<void> _init() async {
+  Future<void> init() async {
     final sharedPrefsInst = await SharedPreferences.getInstance();
     prefs = sharedPrefsInst;
     token = prefs.containsKey('token') ? prefs.getString('token') : '';

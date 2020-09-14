@@ -10,15 +10,15 @@ class User {
   String phone;
   // String email;
   List<UserPackage> userPackages;
-  factory User.fromJson(String jsonString) {
-    final _map = json.decode(jsonString);
-    var _userpacks = _map['user_packages'] as List;
+  factory User.fromJson(Map<String, dynamic> _map) {
+    // final _map = json.decode(jsonString);
+    // var _userpacks = _map['user_packages'] as List;
     return User(
       id: _map['id'],
       name: _map['name'],
       surname: _map['surname'],
       phone: _map['phone'],
-      userPackages: _userpacks.map((e) => UserPackage.fromJson(e)).toList(),
+      // userPackages: _userpacks.map((e) => UserPackage.fromJson(e)).toList(),
     );
   }
 }
@@ -31,7 +31,8 @@ class UserPackage {
   int daysLeft;
 
   UserPackage({this.packageId, this.callCount, this.endAt, this.pack}) {
-    daysLeft = DateTime.now().difference(this.endAt).inDays;
+    print(this.endAt);
+    daysLeft = this.endAt.difference(DateTime.now()).inDays;
   }
 
   void initState() {}
@@ -40,15 +41,7 @@ class UserPackage {
     return UserPackage(
         packageId: jsonString['package_id'],
         callCount: jsonString['call_count'],
-        endAt: DateTime(jsonString['end_at'] as int),
+        endAt: DateTime.fromMillisecondsSinceEpoch(jsonString['end_at'] * 1000),
         pack: Pack.fromJson(jsonString['package']));
   }
 }
-
-//  "id": 73,
-//     "name": "Farhad",
-//     "surname": "Goja",
-//     "phone": "994515224452",
-//     "email": null,
-//     "verification_code": 68970,
-//     "user_packages": []

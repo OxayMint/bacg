@@ -1,5 +1,6 @@
 import 'package:bacg/components/custom_button.dart';
 import 'package:bacg/components/map.dart';
+import 'package:bacg/services/url.service.dart';
 import 'package:flutter/material.dart';
 
 class Contacts extends StatelessWidget {
@@ -83,45 +84,55 @@ class Contacts extends StatelessWidget {
           ),
           Positioned(
             top: 200,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                height: 140,
-                width: 350,
-                color: Colors.white,
-                child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          // crossAxisAlignment: CrossAxisAlignment.end,
+            child: Container(
+              height: 140,
+              width: 350,
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 50,
+                          ),
+                          Icon(
+                            Icons.location_on,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          SizedBox(
+                            width: 190,
+                            child: Text(
+                                "68-72, Bulbul Avenue, 4th Floor, AZ1014, Baku, Azerbaijan",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(fontSize: 12)),
+                          ),
+                        ],
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          UrlOpener.launchURL('tel:+994124978965');
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Icon(
-                              Icons.location_on,
-                              color: Theme.of(context).primaryColor,
+                            SizedBox(
+                              width: 50,
                             ),
                             Icon(
                               Icons.phone,
                               color: Theme.of(context).primaryColor,
                             ),
-                            Icon(
-                              Icons.mail,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
                             SizedBox(
-                              width: 190,
-                              child: Text(
-                                  "68-72, Bulbul Avenue, 4th Floor, AZ1014, Baku, Azerbaijan",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(fontSize: 12)),
+                              width: 20,
                             ),
                             SizedBox(
                               child: Text(
@@ -130,6 +141,26 @@ class Contacts extends StatelessWidget {
                                 style: TextStyle(fontSize: 12),
                               ),
                             ),
+                          ],
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          UrlOpener.launchURL('mailto:info@bacg.az');
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 50,
+                            ),
+                            Icon(
+                              Icons.mail,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
                             SizedBox(
                               width: 100,
                               child: Text("info@bacg.az",
@@ -137,63 +168,37 @@ class Contacts extends StatelessWidget {
                                   style: TextStyle(fontSize: 12)),
                             ),
                           ],
-                        )
-                      ],
-                    )
-                    /*child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Icon(
-                              Icons.location_on,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            SizedBox(
-                              width: 190,
-                              child: Text(
-                                  "68-72, Bulbul Avenue, 4th Floor, AZ1014, Baku, Azerbaijan",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 12)),
-                            )
-                          ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Icon(
-                              Icons.phone,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            SizedBox(
-                              child: Text(
-                                "+99412 497 89 65 / 66\n+99412 497 89 66",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 12),
-                              ),
-                            )
-                          ],
+                      ),
+                    ],
+                  ),
+                  /*Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 190,
+                        child: Text(
+                            "68-72, Bulbul Avenue, 4th Floor, AZ1014, Baku, Azerbaijan",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 12)),
+                      ),
+                      SizedBox(
+                        child: Text(
+                          "+99412 497 89 65 / 66\n+99412 497 89 66",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(fontSize: 12),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Icon(
-                              Icons.mail,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            SizedBox(
-                              width: 100,
-                              child: Text("info@bacg.az",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 12)),
-                            )
-                          ],
-                        ),
-                      ]),
-                */
-                    ),
+                      ),
+                      SizedBox(
+                        width: 100,
+                        child: Text("info@bacg.az",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 12)),
+                      ),
+                    ],
+                  )*/
+                ],
               ),
             ),
           )

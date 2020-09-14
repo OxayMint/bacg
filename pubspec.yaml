@@ -34,6 +34,7 @@ dependencies:
   bloc: ^6.0.2
   flutter_bloc: ^6.0.5
   equatable: ^1.2.5
+  provider: ^4.3.2+2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -60,6 +61,8 @@ flutter:
   fonts:
     - family: Montserrat
       fonts:
+        - asset: assets/fonts/Montserrat-Black.ttf
+          weight: 900
         - asset: assets/fonts/Montserrat-Bold.ttf
           weight: 700
         - asset: assets/fonts/Montserrat-Regular.ttf
