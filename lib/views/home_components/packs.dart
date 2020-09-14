@@ -57,26 +57,12 @@ class ListHeader extends StatelessWidget {
       child: Stack(
         children: [
           SizedBox(
-            // height: 60,
-            child: SvgPicture.asset(
-              'assets/broken_gradient.svg',
-              fit: BoxFit.fitWidth,
-              colorBlendMode: BlendMode.darken,
-              width: double.infinity,
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              gradient: RadialGradient(
-                center: Alignment(0, -3),
-                radius: 4,
-                // radius: 2,
-                colors: [
-                  Color.fromRGBO(37, 152, 33, .4),
-                  Color.fromRGBO(17, 74, 76, .4)
-                ],
-              ),
+            width: double.infinity,
+            child: Image.asset(
+              'assets/gradient_filled.png',
+              fit: BoxFit.cover,
+              colorBlendMode: BlendMode.color,
+              color: Colors.white10,
             ),
           ),
           Center(

@@ -1,37 +1,33 @@
 import 'package:bacg/components/custom_button.dart';
 import 'package:bacg/components/pack_logo.dart';
-import 'package:bacg/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:bacg/model/pack.dart' as model;
 
-class UserPack extends StatelessWidget {
-  UserPack({Key key, this.pack});
-  UserPackage pack;
-  // int daysLeft;
+class PackOld extends StatelessWidget {
+  PackOld({Key key, this.pack});
+  model.Pack pack;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Container(
         // alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              offset: Offset(0, 1),
-              color: Color.fromRGBO(0, 0, 0, 0.1),
-              blurRadius: 1,
-            ),
-          ],
-        ),
+        decoration: BoxDecoration(color: Colors.white, boxShadow: [
+          BoxShadow(
+            offset: Offset(0, 1),
+            color: Color.fromRGBO(0, 0, 0, 0.1),
+            blurRadius: 1,
+          )
+        ]),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               // crossAxisAlignment: CrossAxisAlignment.,
               children: [
-                PackLogo(number: pack.callCount, owned: true),
+                PackLogo(number: pack.callCount),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -47,9 +43,8 @@ class UserPack extends StatelessWidget {
                               style: Theme.of(context).textTheme.caption,
                             ),
                             Text(
-                                '${pack.callCount} of ${pack.pack.callCount} left'
-                                // style: Theme.of(context).textTheme.bodyText1,
-                                ),
+                              pack.callCount.toString(),
+                            ),
                           ],
                         ),
                       ],
@@ -68,7 +63,7 @@ class UserPack extends StatelessWidget {
                               style: Theme.of(context).textTheme.caption,
                             ),
                             Text(
-                              '${pack.daysLeft} days left',
+                              "${pack.duration} days",
                               // style: Theme.of(context).textTheme.bodyText1,
                             ),
                           ],
@@ -78,7 +73,24 @@ class UserPack extends StatelessWidget {
                     SizedBox(
                       height: 8,
                     ),
-                    Container(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Price",
+                              style: Theme.of(context).textTheme.caption,
+                            ),
+                            Text(
+                              pack.getPrice('az'),
+                              // style: Theme.of(context).textTheme.bodyText1,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ],
@@ -92,11 +104,9 @@ class UserPack extends StatelessWidget {
                   Expanded(
                     child: BacgButton(
                       type: ButtonType.Primary,
-                      onPressed: () {
-                        launch('tel:+994124978965');
-                      },
-                      text: "Call",
-                      icon: Icons.phone,
+                      onPressed: () {},
+                      text: "Buy",
+                      icon: Icons.shopping_cart,
                       // preferredWidth: 300,
                     ),
                   ),

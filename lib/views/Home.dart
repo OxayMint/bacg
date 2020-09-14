@@ -75,78 +75,90 @@ class _HomeState extends State<Home> {
       ),
       // drawer:
       body: Scaffold(
+        // drawerEdgeDragWidth: double.infinity,
         key: _scaffoldKey,
-        drawer: Drawer(
-          child: Column(
-            children: [
-              ListTile(
-                leading: Icon(
-                  Icons.view_list,
-                  color: Theme.of(context).primaryColor,
-                ),
-                title: Text(
-                  'Packs',
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
-                onTap: () {
-                  setState(() {
-                    currentWidgetName = 'packs';
-                    closeDrawer();
-                  });
-                },
+        drawer: Container(
+          width: double.infinity,
+          child: Drawer(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: ,
+                children: [
+                  ListTile(
+                    title: Text(
+                      'Packs',
+                      style: Theme.of(context).textTheme.subtitle2,
+                      textAlign: TextAlign.center,
+                    ),
+                    onTap: () {
+                      setState(() {
+                        currentWidgetName = 'packs';
+                        closeDrawer();
+                      });
+                    },
+                  ),
+                  Divider(
+                    color: Colors.black87,
+                  ),
+                  ListTile(
+                    title: Text(
+                      'Rules',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.subtitle2,
+                    ),
+                    onTap: () {
+                      setState(() {
+                        currentWidgetName = 'rules';
+                        closeDrawer();
+                      });
+                    },
+                  ),
+                  Divider(
+                    color: Colors.black87,
+                  ),
+                  ListTile(
+                    title: Text(
+                      'Contacts',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.subtitle2,
+                    ),
+                    onTap: () {
+                      setState(() {
+                        currentWidgetName = 'contacts';
+                        closeDrawer();
+                      });
+                    },
+                  ),
+                  Divider(
+                    color: Colors.black87,
+                  ),
+                  Expanded(
+                    child: Container(),
+                  ),
+                  Divider(
+                    color: Colors.black12,
+                  ),
+                  ListTile(
+                    title: Text(
+                      'Log out',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.subtitle2,
+                    ),
+                    onTap: () {
+                      appState.logout();
+                    },
+                  ),
+                ],
               ),
-              ListTile(
-                leading: Icon(
-                  Icons.pan_tool,
-                  color: Theme.of(context).primaryColor,
-                ),
-                title: Text(
-                  'Rules',
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
-                onTap: () {
-                  setState(() {
-                    currentWidgetName = 'rules';
-                    closeDrawer();
-                  });
-                },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.phone,
-                  color: Theme.of(context).primaryColor,
-                ),
-                title: Text(
-                  'Contacts',
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
-                onTap: () {
-                  setState(() {
-                    currentWidgetName = 'contacts';
-                    closeDrawer();
-                  });
-                },
-              ),
-              Expanded(
-                child: Container(),
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.power_settings_new,
-                  color: Theme.of(context).primaryColor,
-                ),
-                title: Text(
-                  'Log out',
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
-                onTap: () {
-                  appState.logout();
-                },
-              ),
-            ],
+            ),
           ),
         ),
-        body: setMainWidget(currentWidgetName),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: setMainWidget(currentWidgetName),
+        ),
       ),
     );
   }
