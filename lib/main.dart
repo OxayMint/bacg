@@ -3,6 +3,7 @@ import 'package:bacg/model/app_state.dart';
 import 'package:bacg/services/local_data.service.dart';
 import 'package:bacg/views/Loading.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'views/Home.dart';
 import 'views/Login.dart';
@@ -10,6 +11,12 @@ import 'package:bacg/services/main_service.dart' as service;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.blue, // navigation bar color
+    statusBarColor: Colors.black, // status bar color
+  ));
+  // SystemChrome.setSystemUIOverlayStyle(
+  //     SystemUiOverlayStyle(statusBarColor: Colors.black));
   await LocalData.getInstance.init();
   runApp(MyApp(loggedIn: false));
 }
@@ -56,37 +63,50 @@ class MyApp extends StatelessWidget {
             textTheme: TextTheme(
               headline1: TextStyle(
                   fontFamily: "Montserrat",
-                  fontSize: 20,
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w700),
+                  fontSize: 24,
+                  // color: Colors.black87,
+                  color: Color.fromRGBO(72, 72, 72, 1),
+                  fontWeight: FontWeight.w700), //Black big headline
               headline2: TextStyle(
-                  fontFamily: "Montserrat", fontSize: 18, color: Colors.white),
+                  fontFamily: "Montserrat",
+                  fontSize: 20,
+                  color: Color.fromRGBO(72, 72, 72, 1),
+                  // color: Colors.black87,
+                  fontWeight: FontWeight.w700), //Black headline
               headline3: TextStyle(
                   fontFamily: "Montserrat",
                   fontWeight: FontWeight.w900,
                   fontSize: 22,
                   color: Colors.white,
-                  letterSpacing: 2),
+                  letterSpacing: 2), //White bold headline
               bodyText1: TextStyle(
                   fontFamily: "ProximaNova",
                   fontSize: 14,
                   color: Colors.black,
                   fontWeight: FontWeight.w700),
               bodyText2: TextStyle(
-                  fontFamily: "ProximaNova",
-                  fontSize: 14,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w300),
+                fontFamily: "ProximaNova",
+                fontSize: 14,
+                color: Colors.black,
+                fontWeight: FontWeight.w300,
+              ),
               caption: TextStyle(
-                  fontFamily: "Montserrat", fontSize: 12, color: Colors.grey),
+                fontFamily: "Montserrat",
+                fontSize: 12,
+                // color: Colors.grey,
+                color: Color.fromRGBO(72, 72, 72, 1),
+                fontWeight: FontWeight.w600,
+              ),
               subtitle1: TextStyle(
-                  fontFamily: "Montserrat",
-                  fontSize: 14,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w300),
+                fontFamily: "Montserrat",
+                fontSize: 14,
+                // color: Colors.black,
+                color: Color.fromRGBO(72, 72, 72, 1),
+                fontWeight: FontWeight.w300,
+              ),
               subtitle2: TextStyle(
                   fontFamily: "Montserrat",
-                  fontSize: 20,
+                  fontSize: 18,
                   color: Color.fromRGBO(72, 72, 72, 1),
                   fontWeight: FontWeight.w700),
               // bodyText2: TextStyle(fontFamily: "Montserrat", fontSize: 16, color: Colors.black ,fontWeight: FontWeight.w300),

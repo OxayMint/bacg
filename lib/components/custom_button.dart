@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class BacgButton extends StatefulWidget {
   BacgButton(
       {Key key,
-      this.icon,
+      this.iconName = '',
       @required this.onPressed,
       @required this.type,
       @required this.text});
@@ -11,15 +12,18 @@ class BacgButton extends StatefulWidget {
   final GestureTapCallback onPressed;
   final ButtonType type;
   final String text;
-  IconData icon;
+  String iconName;
   @override
-  _BacgButtonState createState() =>
-      _BacgButtonState(type: type, onPressed: onPressed, text: text, icon: icon);
+  _BacgButtonState createState() => _BacgButtonState(
+      type: type, onPressed: onPressed, text: text, iconName: iconName);
 }
 
 class _BacgButtonState extends State<BacgButton> {
   _BacgButtonState(
-      {@required this.onPressed, @required this.type, @required this.text, this.icon});
+      {@required this.onPressed,
+      @required this.type,
+      @required this.text,
+      this.iconName});
   @override
   void initState() {
     super.initState();
@@ -31,7 +35,7 @@ class _BacgButtonState extends State<BacgButton> {
   final GestureTapCallback onPressed;
   final ButtonType type;
   final String text;
-  IconData icon;
+  String iconName;
   bool pressed = false;
   Color textCol, fillCol, borderCol, iconCol;
 
@@ -61,12 +65,20 @@ class _BacgButtonState extends State<BacgButton> {
       color: getFillColor(context),
       // shape: SHape,
       highlightColor: getHighlightColor(context),
-      child: 
-      Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          icon == null ? Container() : Icon(icon, color: getIconColor(context)),
-          icon == null ? Container() : SizedBox( width: 10,),
+          iconName == ''
+              ? Container()
+              : SvgPicture.asset(
+                  'assets/$iconName.svg',
+                  color: getIconColor(context),
+                ),
+          iconName == ''
+              ? Container()
+              : SizedBox(
+                  width: 10,
+                ),
           Text(
             text,
             //style: Theme.of(context).textTheme.bodyText2.apply(),
@@ -137,8 +149,8 @@ class _BacgButtonState extends State<BacgButton> {
     }
   }
 
-  Color getIconColor(BuildContext c){
-    return pressed ? Colors.white : Theme.of(context).primaryColor;
+  Color getIconColor(BuildContext c) {
+    return pressed ? Colors.white : Colors.black;
   }
 
   double getBorderWidth(BuildContext c) {

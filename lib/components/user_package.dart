@@ -31,7 +31,14 @@ class UserPack extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               // crossAxisAlignment: CrossAxisAlignment.,
               children: [
-                PackLogo(number: pack.callCount, owned: true),
+                SizedBox(
+                  width: 178,
+                  height: 160,
+                  child: PackLogo(number: pack.callCount, owned: true),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -43,19 +50,22 @@ class UserPack extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Call count",
+                              "Call count :",
                               style: Theme.of(context).textTheme.caption,
                             ),
+                            SizedBox(
+                              height: 5,
+                            ),
                             Text(
-                                '${pack.callCount} of ${pack.pack.callCount} left'
-                                // style: Theme.of(context).textTheme.bodyText1,
-                                ),
+                              '${pack.callCount} of ${pack.pack.callCount} left',
+                              style: Theme.of(context).textTheme.subtitle2,
+                            ),
                           ],
                         ),
                       ],
                     ),
                     SizedBox(
-                      height: 8,
+                      height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -64,12 +74,15 @@ class UserPack extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Duration",
+                              "Duration :",
                               style: Theme.of(context).textTheme.caption,
+                            ),
+                            SizedBox(
+                              height: 5,
                             ),
                             Text(
                               '${pack.daysLeft} days left',
-                              // style: Theme.of(context).textTheme.bodyText1,
+                              style: Theme.of(context).textTheme.subtitle2,
                             ),
                           ],
                         ),
@@ -96,7 +109,7 @@ class UserPack extends StatelessWidget {
                         launch('tel:+994124978965');
                       },
                       text: "Call",
-                      icon: Icons.phone,
+                      iconName: 'phone',
                       // preferredWidth: 300,
                     ),
                   ),

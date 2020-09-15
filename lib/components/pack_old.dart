@@ -106,7 +106,7 @@ class PackOld extends StatelessWidget {
                       type: ButtonType.Primary,
                       onPressed: () {},
                       text: "Buy",
-                      icon: Icons.shopping_cart,
+                      iconName: 'cart',
                       // preferredWidth: 300,
                     ),
                   ),

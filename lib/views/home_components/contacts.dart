@@ -23,10 +23,8 @@ class Contacts extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 child: Column(
                   children: [
-                    Text(
-                      "SEND US AN EMAIL",
-                      style: TextStyle(fontSize: 20, fontFamily: "Montserrat"),
-                    ),
+                    Text("SEND US AN EMAIL",
+                        style: Theme.of(context).textTheme.headline1),
                     SizedBox(
                       height: 10,
                     ),

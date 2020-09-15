@@ -8,20 +8,31 @@ class PackLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      fit: StackFit.expand,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.fitHeight,
-              image: AssetImage(owned
-                  ? 'assets/logo_bckgrnd_blue.png'
-                  : 'assets/logo_bckgrnd_green.png'),
-            ),
+        SizedBox(
+          width: 200,
+          height: 200,
+          child: Image.asset(
+            'assets/broken_gradient.png',
+            // color: Colors.transparent,
+            colorBlendMode: BlendMode.modulate,
+            fit: BoxFit.cover,
           ),
         ),
-        Positioned(
-          right: -15,
+        Container(
+          decoration: BoxDecoration(
+            gradient: _getGradient(),
+            borderRadius: BorderRadius.circular(2),
+          ),
+          //     SvgPicture.asset(
+          //   'assets/broken_gradient_2.svg',
+          //   // color: Colors.white60,
+          //   fit: BoxFit.fitHeight,
+          //   // colorBlendMode: BlendMode.xor,
+          // ),
+        ),
+        Container(
+          alignment: Alignment.bottomRight,
           child: Text(
             "$number",
             textAlign: TextAlign.end,
@@ -36,27 +47,20 @@ class PackLogo extends StatelessWidget {
               fontFamily: "Montserrat",
               fontWeight: FontWeight.w900,
               color: Colors.white,
-              fontSize: 229,
-              height: 0.88,
-              // letterSpacing: 0,
+              fontSize: 238,
+              height: 0.8,
             ),
           ),
         ),
         // AspectRatio(
         //   aspectRatio: 1,
         //   child:
-        // Image.asset(
-        //   'assets/broken_gradient.png',
-        //   color: Colors.white.withAlpha(150),
-        //   colorBlendMode: BlendMode.colorBurn,
-        //   fit: BoxFit.fitHeight,
-        // ),
-        // ),
-        // SvgPicture.asset(
-        //   'assets/broken_gradient_2.svg',
-        //   // color: Colors.white60,
-        //   fit: BoxFit.fitHeight,
-        //   // colorBlendMode: BlendMode.lighten,
+        //   //     Image.asset(
+        //   //   'assets/broken_gradient.png',
+        //   //   color: Color.fromRGBO(255, 255, 255, .2),
+        //   //   colorBlendMode: BlendMode.src,
+        //   //   fit: BoxFit.fitHeight,
+        //   // ),
         // ),
       ],
     );

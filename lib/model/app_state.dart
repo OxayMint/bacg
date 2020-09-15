@@ -36,6 +36,7 @@ class AppState extends ChangeNotifier {
       token = loginResult.token;
       LocalData.getInstance.setToken(token);
       notifyListeners();
+      getUserPackages();
     } else {
       print('Could not log in');
     }

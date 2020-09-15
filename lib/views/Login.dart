@@ -42,11 +42,12 @@ class _LoginState extends State<Login> {
             ),
           ),
           SizedBox.expand(
-              child: SvgPicture.asset(
-            'assets/broken_gradient.svg',
-            fit: BoxFit.cover,
-            colorBlendMode: BlendMode.darken,
-          )),
+            child: SvgPicture.asset(
+              'assets/broken_gradient.svg',
+              colorBlendMode: BlendMode.darken,
+              fit: BoxFit.cover,
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(

@@ -31,13 +31,6 @@ class _HomeState extends State<Home> {
             height: 40,
           ),
         ),
-        // title:
-
-        // ,
-        // Text(
-        //   "Baku Consulting Group",
-        //   style: Theme.of(context).textTheme.headline2,
-        // ),
         leading: FlatButton(
           child:
               // Icon(drawerOpen ? Icons.close : Icons.menu, color: Colors.grey),
@@ -89,7 +82,7 @@ class _HomeState extends State<Home> {
                   ListTile(
                     title: Text(
                       'Packs',
-                      style: Theme.of(context).textTheme.subtitle2,
+                      style: Theme.of(context).textTheme.headline2,
                       textAlign: TextAlign.center,
                     ),
                     onTap: () {
@@ -106,7 +99,7 @@ class _HomeState extends State<Home> {
                     title: Text(
                       'Rules',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.subtitle2,
+                      style: Theme.of(context).textTheme.headline2,
                     ),
                     onTap: () {
                       setState(() {
@@ -122,7 +115,7 @@ class _HomeState extends State<Home> {
                     title: Text(
                       'Contacts',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.subtitle2,
+                      style: Theme.of(context).textTheme.headline2,
                     ),
                     onTap: () {
                       setState(() {
@@ -144,7 +137,7 @@ class _HomeState extends State<Home> {
                     title: Text(
                       'Log out',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.subtitle2,
+                      style: Theme.of(context).textTheme.headline2,
                     ),
                     onTap: () {
                       appState.logout();
