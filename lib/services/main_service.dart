@@ -86,4 +86,14 @@ class MainService {
       return [];
     }
   }
+
+  Future<bool> register(request.Register request) async {
+    final result = await http.post(getUrl('register'),
+        headers: getHeaders(), body: request.toMap());
+    if (result.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

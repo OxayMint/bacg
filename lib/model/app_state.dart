@@ -15,14 +15,22 @@ class AppState extends ChangeNotifier {
   User user;
   List<UserPackage> ownedPackages;
   List<Pack> storePackages;
+  LoginStage loginStage;
+  DateTime otpRefreshTime;
   AppState() {
     lang = LocalData.getInstance.getLang();
+    print(lang);
     token = LocalData.getInstance.getToken();
     loading = true;
+    otpRefreshTime = DateTime.now().add(
+      Duration(minutes: 3),
+    );
+    loginStage = LoginStage.Otp;
+    //lang == '' ? LoginStage.Lang : LoginStage.SignIn;
     ownedPackages = [];
     storePackages = [];
     getStorePackages();
-    if (token != null) {
+    if (token != '') {
       getUser();
     } else {
       loading = false;
@@ -35,8 +43,8 @@ class AppState extends ChangeNotifier {
       user = loginResult.user;
       token = loginResult.token;
       LocalData.getInstance.setToken(token);
-      notifyListeners();
       getUserPackages();
+      notifyListeners();
     } else {
       print('Could not log in');
     }
@@ -44,11 +52,23 @@ class AppState extends ChangeNotifier {
 
   void getUser() async {
     user = await MainService.getInstance.getUser();
-    notifyListeners();
     getUserPackages();
+    notifyListeners();
   }
 
-  void register() async {}
+  void register(request.Register req) async {
+    var result = await MainService.getInstance.register(req);
+    if (result) {
+      otpRefreshTime = DateTime.now().add(
+        Duration(minutes: 3),
+      );
+      setLoginStage(LoginStage.Otp);
+    }
+  }
+
+  void resendCode() async {
+    // var result = await MainSer
+  }
 
   void getStorePackages() async {
     storePackages = await MainService.getInstance.getPackages();
@@ -67,4 +87,17 @@ class AppState extends ChangeNotifier {
     LocalData.getInstance.setToken(null);
     notifyListeners();
   }
+
+  void setLoginStage(LoginStage stage) {
+    loginStage = stage;
+    notifyListeners();
+  }
+
+  void setLang(String l) {
+    lang = l;
+    LocalData.getInstance.setLang(l);
+    notifyListeners();
+  }
 }
+
+enum LoginStage { Lang, SignIn, SignUp, Otp }

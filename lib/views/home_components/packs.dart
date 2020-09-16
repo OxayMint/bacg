@@ -16,7 +16,9 @@ class Packs extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MyPacks(state.ownedPackages),
+            state.ownedPackages.length > 0
+                ? MyPacks(state.ownedPackages)
+                : Container(),
             StorePacks(state.storePackages),
           ],
         );

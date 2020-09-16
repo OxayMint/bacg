@@ -22,7 +22,7 @@ class Loading extends StatelessWidget {
           SizedBox.expand(
               child: SvgPicture.asset(
             'assets/broken_gradient.svg',
-            fit: BoxFit.fitHeight,
+            fit: BoxFit.cover,
             colorBlendMode: BlendMode.darken,
           )),
           Column(
@@ -31,10 +31,16 @@ class Loading extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SvgPicture.asset(
-                    'assets/logo-white.svg',
-                    width: 200,
-                    height: 80,
+                  Hero(
+                    tag: 'logo',
+                    child: Material(
+                      color: Colors.transparent,
+                      child: SvgPicture.asset(
+                        'assets/logo-white.svg',
+                        width: 200,
+                        height: 80,
+                      ),
+                    ),
                   ),
                 ],
               ),

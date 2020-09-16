@@ -1,9 +1,9 @@
 class Register {
-  String name;
-  String surname;
-  String password;
-  String phone;
-
+  final String name;
+  final String surname;
+  final String password;
+  final String phone;
+  Register({this.name, this.surname, this.phone, this.password});
   Map<String, String> toMap() {
     return {
       'name': name,

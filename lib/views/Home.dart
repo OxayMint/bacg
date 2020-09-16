@@ -149,7 +149,7 @@ class _HomeState extends State<Home> {
           ),
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.only(top: 10),
           child: setMainWidget(currentWidgetName),
         ),
       ),

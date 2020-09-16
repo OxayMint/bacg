@@ -10,23 +10,18 @@ import 'package:bacg/services/main_service.dart';
 import 'package:bacg/model/requests.dart' as req;
 import 'package:provider/provider.dart';
 
+import 'login_components/login_components.dart';
+
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-  TextEditingController _phoneController = new TextEditingController();
-  TextEditingController _passController = new TextEditingController();
-  // String _phone, _pass;
-  void login(BuildContext context) async {
-    final appState = Provider.of<AppState>(context, listen: false);
-    appState.login(req.Login(phone: '994515224452', password: 'qwerty'));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: Stack(
         children: [
           Container(
@@ -53,68 +48,30 @@ class _LoginState extends State<Login> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset(
-                  'assets/logo-white.svg',
-                  width: 200,
-                  height: 70,
-                ),
                 SizedBox(
-                  height: 30,
+                  height: 80,
                 ),
-                TextField(
-                  controller: _phoneController,
-                  decoration: InputDecoration(
-                    filled: true,
-                    // border: InputBorder.none,
-                    labelText: "Phone number",
-                    labelStyle: TextStyle(color: Colors.white),
-                    hintText: "+994 50 123 45 67 ",
-                    hintStyle: TextStyle(color: Colors.grey[400]),
-                    fillColor: Colors.black45,
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  style: TextStyle(color: Colors.white),
-                  keyboardType: TextInputType.phone,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                TextField(
-                  obscureText: true,
-                  controller: _passController,
-                  decoration: InputDecoration(
-                    filled: true,
-                    // border: InputBorder.none,
-                    labelText: "Password",
-                    labelStyle: TextStyle(color: Colors.white),
-                    // hintText: "",
-                    hintStyle: TextStyle(color: Colors.grey[400]),
-                    fillColor: Colors.black45,
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
-                      borderRadius: BorderRadius.circular(5),
+                Hero(
+                  tag: 'logo',
+                  child: Material(
+                    color: Colors.transparent,
+                    child: SvgPicture.asset(
+                      'assets/logo-white.svg',
+                      width: 200,
+                      height: 80,
                     ),
                   ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
-                BacgButton(
-                  text: "Log in",
-                  type: ButtonType.Login,
-                  onPressed: () {
-                    login(context);
+                Consumer<AppState>(
+                  builder: (context, state, w) {
+                    return Expanded(
+                      child: getMainWidget(
+                        state.loginStage,
+                      ),
+                    );
                   },
                 ),
               ],
@@ -123,5 +80,24 @@ class _LoginState extends State<Login> {
         ],
       ),
     );
+  }
+
+  Widget getMainWidget(
+    LoginStage stage,
+  ) {
+    switch (stage) {
+      case LoginStage.Lang:
+        return Language();
+        break;
+      case LoginStage.SignIn:
+        return SignIn();
+        break;
+      case LoginStage.SignUp:
+        return SignUp();
+        break;
+      case LoginStage.Otp:
+        return Otp();
+        break;
+    }
   }
 }
