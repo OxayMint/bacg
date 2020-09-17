@@ -11,6 +11,7 @@ class Settings extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            // Text("Change phone number"),
             TextField(
               decoration: InputDecoration(
                 labelText: "Name",

@@ -2,14 +2,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalData {
   static LocalData _instance;
-
   LocalData._();
-
   static LocalData get getInstance => _instance = _instance ?? LocalData._();
+
   SharedPreferences prefs;
 
   String token = '', lang = '';
-
   Future<void> init() async {
     final sharedPrefsInst = await SharedPreferences.getInstance();
     prefs = sharedPrefsInst;
@@ -39,5 +37,23 @@ class LocalData {
         : prefs.containsKey('lang')
             ? prefs.getString('lang')
             : '';
+  }
+
+  // setOtpTime(DateTime time) {
+  //   prefs.setInt("otpTime", time.millisecondsSinceEpoch);
+  // }
+
+  DateTime getOtpTime() {
+    if (prefs.containsKey('otpTime')) {
+      return DateTime.fromMillisecondsSinceEpoch(prefs.getInt("otpTime"));
+    } else {
+      final time = DateTime.now().add(Duration(minutes: 3));
+      prefs.setInt("otpTime", time.millisecondsSinceEpoch);
+      return time;
+    }
+  }
+
+  removeOtp() {
+    prefs.remove("otpTime");
   }
 }

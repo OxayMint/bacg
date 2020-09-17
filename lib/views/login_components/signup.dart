@@ -1,5 +1,6 @@
 import 'package:bacg/components/custom_button.dart';
 import 'package:bacg/model/app_state.dart';
+import 'package:bacg/services/localization.service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:bacg/model/requests.dart' as req;
@@ -22,7 +23,7 @@ class SignUp extends StatelessWidget {
           TextField(
             controller: _nameController,
             decoration: InputDecoration(
-              labelText: "Name",
+              labelText: Localized("name").value,
               labelStyle: TextStyle(color: Colors.white),
               fillColor: Colors.black45,
               focusedBorder: OutlineInputBorder(
@@ -42,7 +43,7 @@ class SignUp extends StatelessWidget {
           TextField(
             controller: _surnameController,
             decoration: InputDecoration(
-              labelText: "Surname",
+              labelText: Localized("surname").value,
               labelStyle: TextStyle(color: Colors.white),
               fillColor: Colors.black45,
               focusedBorder: OutlineInputBorder(
@@ -63,7 +64,7 @@ class SignUp extends StatelessWidget {
             controller: _phoneController,
             keyboardType: TextInputType.phone,
             decoration: InputDecoration(
-              labelText: "Phone",
+              labelText: Localized("phone").value,
               labelStyle: TextStyle(color: Colors.white),
               fillColor: Colors.black45,
               focusedBorder: OutlineInputBorder(
@@ -85,7 +86,7 @@ class SignUp extends StatelessWidget {
             controller: _passController,
             style: TextStyle(color: Colors.white, fontSize: 16),
             decoration: InputDecoration(
-              labelText: "Password",
+              labelText: Localized("password").value,
               labelStyle: TextStyle(color: Colors.white),
               fillColor: Colors.black45,
               focusedBorder: OutlineInputBorder(
@@ -106,7 +107,7 @@ class SignUp extends StatelessWidget {
             controller: _passConfirmController,
             style: TextStyle(color: Colors.white, fontSize: 16),
             decoration: InputDecoration(
-              labelText: "Confirm password",
+              labelText: Localized("confirm_pass").value,
               labelStyle: TextStyle(color: Colors.white),
               fillColor: Colors.black45,
               focusedBorder: OutlineInputBorder(
@@ -126,7 +127,7 @@ class SignUp extends StatelessWidget {
           //   child: Container(),
           // ),
           BacgButton(
-            text: "SIGN UP",
+            text: Localized("sign_up").value,
             type: ButtonType.Primary,
             onPressed: () {
               final request = req.Register(
@@ -152,10 +153,10 @@ class SignUp extends StatelessWidget {
                 ),
                 children: <TextSpan>[
                   new TextSpan(
-                    text: 'Already have an account? ',
+                    text: Localized('already_have_account').value,
                   ),
                   new TextSpan(
-                    text: 'SIGN IN',
+                    text: Localized('sign_in').value,
                     style: new TextStyle(
                       fontWeight: FontWeight.bold,
                     ),

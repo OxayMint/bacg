@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'views/Home.dart';
 import 'views/Login.dart';
-import 'package:bacg/services/main_service.dart' as service;
+import 'package:bacg/services/main.service.dart' as service;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

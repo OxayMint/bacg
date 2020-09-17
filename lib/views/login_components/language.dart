@@ -18,9 +18,20 @@ class _LanguageState extends State<Language> {
   // bool langSelected = false;
   @override
   Widget build(BuildContext context) {
+    var state = Provider.of<AppState>(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        Text(
+          "Hello!",
+          style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.w600),
+        ),
+        SizedBox(
+          height: 10,
+        ),
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -49,6 +60,7 @@ class _LanguageState extends State<Language> {
               onChanged: (val) {
                 setState(() {
                   selectedLang = val;
+                  print(selectedLang);
                 });
               },
               dropdownColor: Colors.white,
@@ -106,25 +118,34 @@ class _LanguageState extends State<Language> {
         Expanded(
           child: Container(),
         ),
-        Consumer<AppState>(
-          builder: (context, state, w) {
-            return selectedLang == null
-                ? Container()
-                : BacgButton(
-                    text: "SELECT",
-                    type: ButtonType.Primary,
-                    onPressed: () {
-                      // login(context);
-                      state.setLang(selectedLang);
-                      state.setLoginStage(LoginStage.SignIn);
-                    },
-                  );
-          },
-        ),
+        selectedLang == null
+            ? Container()
+            : BacgButton(
+                text: getButtonText(selectedLang),
+                type: ButtonType.Primary,
+                onPressed: () {
+                  // login(context);
+                  state.setLang(selectedLang);
+                  state.setLoginStage(LoginStage.SignIn);
+                },
+              ),
         SizedBox(
           height: 25,
         )
       ],
     );
+  }
+
+  String getButtonText(String lang) {
+    switch (lang) {
+      case 'eng':
+        return "SELECT";
+      case 'rus':
+        return "ВЫБОР";
+      case 'aze':
+        return "SEÇ";
+      default:
+        return "SELECT";
+    }
   }
 }

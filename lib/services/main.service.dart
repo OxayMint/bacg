@@ -24,19 +24,19 @@ class MainService {
   }
 
   Map<String, String> getHeaders() {
-    if (LocalData.getInstance.prefs == null) {
-      return {'Accept': 'application/json'};
+    var headersMap = {'Accept': 'application/json'};
+
+    if (LocalData.getInstance.prefs != null) {
+      headersMap['Authorization'] =
+          'Bearer ' + LocalData.getInstance.getToken();
     }
-    return {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + LocalData.getInstance.getToken(),
-    };
+    return headersMap;
   }
 
   Future<response.Login> login(request.Login req) async {
     final res = await http.post(
       getUrl('login'),
-      headers: MainService.getInstance.getHeaders(),
+      headers: getHeaders(),
       body: req.toMap(),
     );
     if (res.statusCode == 200) {
@@ -95,5 +95,16 @@ class MainService {
     } else {
       return false;
     }
+  }
+
+  void submitOtp(String code) {
+    // final result = await http.post(getUrl('register'),
+    //     headers: getHeaders(), body: request.toMap());
+    // if (result.statusCode == 200) {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+    print(code);
   }
 }

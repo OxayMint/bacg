@@ -81,7 +81,9 @@ class UserPack extends StatelessWidget {
                               height: 5,
                             ),
                             Text(
-                              '${pack.daysLeft} days left',
+                              pack.expired
+                                  ? 'Expired'
+                                  : '${pack.daysLeft} days left',
                               style: Theme.of(context).textTheme.subtitle2,
                             ),
                           ],
@@ -103,15 +105,17 @@ class UserPack extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Expanded(
-                    child: BacgButton(
-                      type: ButtonType.Primary,
-                      onPressed: () {
-                        launch('tel:+994124978965');
-                      },
-                      text: "Call",
-                      iconName: 'phone',
-                      // preferredWidth: 300,
-                    ),
+                    child: pack.expired
+                        ? Container()
+                        : BacgButton(
+                            type: ButtonType.Primary,
+                            onPressed: () {
+                              launch('tel:+994124978965');
+                            },
+                            text: "Call",
+                            iconName: 'phone',
+                            // preferredWidth: 300,
+                          ),
                   ),
                 ],
               ),

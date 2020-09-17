@@ -29,10 +29,12 @@ class UserPackage {
   DateTime endAt;
   Pack pack;
   int daysLeft;
+  bool expired;
 
   UserPackage({this.packageId, this.callCount, this.endAt, this.pack}) {
     print(this.endAt);
     daysLeft = this.endAt.difference(DateTime.now()).inDays;
+    expired = daysLeft < 0;
   }
 
   void initState() {}

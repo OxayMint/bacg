@@ -1,5 +1,6 @@
 import 'package:bacg/components/custom_button.dart';
 import 'package:bacg/model/app_state.dart';
+import 'package:bacg/services/localization.service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:bacg/model/requests.dart' as req;
@@ -16,7 +17,7 @@ class SignIn extends StatelessWidget {
         TextField(
           controller: _phoneController,
           decoration: InputDecoration(
-            labelText: "Phone",
+            labelText: Localized("phone").value,
             labelStyle: TextStyle(color: Colors.white),
             fillColor: Colors.black45,
             focusedBorder: OutlineInputBorder(
@@ -38,7 +39,7 @@ class SignIn extends StatelessWidget {
           controller: _passController,
           style: TextStyle(color: Colors.white, fontSize: 16),
           decoration: InputDecoration(
-            labelText: "Password",
+            labelText: Localized("password").value,
             labelStyle: TextStyle(color: Colors.white),
             fillColor: Colors.black45,
             focusedBorder: OutlineInputBorder(
@@ -55,7 +56,7 @@ class SignIn extends StatelessWidget {
           child: Container(),
         ),
         BacgButton(
-          text: "SIGN IN",
+          text: Localized("sign_in").value.toUpperCase(),
           type: ButtonType.Primary,
           onPressed: () {
             login(context);
@@ -75,10 +76,10 @@ class SignIn extends StatelessWidget {
               ),
               children: <TextSpan>[
                 new TextSpan(
-                  text: 'Don\'t have an account? ',
+                  text: Localized('dont_have_account').value,
                 ),
                 new TextSpan(
-                  text: 'CREATE',
+                  text: Localized('create').value.toUpperCase(),
                   style: new TextStyle(
                     fontWeight: FontWeight.bold,
                   ),

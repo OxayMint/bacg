@@ -3,7 +3,8 @@ import 'dart:core';
 import 'package:bacg/model/pack.dart';
 import 'package:bacg/model/user.dart';
 import 'package:bacg/services/local_data.service.dart';
-import 'package:bacg/services/main_service.dart';
+import 'package:bacg/services/localization.service.dart';
+import 'package:bacg/services/main.service.dart';
 import 'package:bacg/model/requests.dart' as request;
 
 import 'package:flutter/material.dart';
@@ -18,15 +19,19 @@ class AppState extends ChangeNotifier {
   LoginStage loginStage;
   DateTime otpRefreshTime;
   AppState() {
-    lang = LocalData.getInstance.getLang();
+    lang = ''; //LocalData.getInstance.getLang();
     print(lang);
+    Localization.getInstance.setLocale(lang);
     token = LocalData.getInstance.getToken();
     loading = true;
-    otpRefreshTime = DateTime.now().add(
-      Duration(minutes: 3),
-    );
-    loginStage = LoginStage.Otp;
-    //lang == '' ? LoginStage.Lang : LoginStage.SignIn;
+    // otpRefreshTime = LocalData.getInstance.
+
+    //  DateTime.now().add(
+    //   Duration(minutes: 3),
+    // );
+
+    // loginStage = LoginStage.Otp;
+    loginStage = lang == '' ? LoginStage.Lang : LoginStage.SignIn;
     ownedPackages = [];
     storePackages = [];
     getStorePackages();
@@ -95,6 +100,7 @@ class AppState extends ChangeNotifier {
 
   void setLang(String l) {
     lang = l;
+    Localization.getInstance.setLocale(l);
     LocalData.getInstance.setLang(l);
     notifyListeners();
   }

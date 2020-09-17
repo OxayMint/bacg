@@ -6,7 +6,7 @@ import 'package:bacg/model/app_state.dart';
 // import 'package:bacg/views/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:bacg/services/main_service.dart';
+import 'package:bacg/services/main.service.dart';
 import 'package:bacg/model/requests.dart' as req;
 import 'package:provider/provider.dart';
 
@@ -49,7 +49,7 @@ class _LoginState extends State<Login> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  height: 80,
+                  height: 180,
                 ),
                 Hero(
                   tag: 'logo',

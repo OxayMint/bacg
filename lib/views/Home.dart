@@ -1,4 +1,5 @@
 import 'package:bacg/model/app_state.dart';
+import 'package:bacg/services/localization.service.dart';
 import 'package:bacg/views/home_components/packs.dart';
 import 'package:bacg/views/home_components/Settings.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +82,7 @@ class _HomeState extends State<Home> {
                 children: [
                   ListTile(
                     title: Text(
-                      'Packs',
+                      Localized('packs').value,
                       style: Theme.of(context).textTheme.headline2,
                       textAlign: TextAlign.center,
                     ),
