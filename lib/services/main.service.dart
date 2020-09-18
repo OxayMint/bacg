@@ -52,7 +52,9 @@ class MainService {
       );
     } else {
       print(res.body);
-      return response.Login(success: false, token: null, user: null);
+      final exceptionMessage =
+          (json.decode(res.body) as Map<String, String>)['message'];
+      return response.Login(success: false, exception: exceptionMessage);
     }
   }
 
@@ -87,13 +89,16 @@ class MainService {
     }
   }
 
-  Future<bool> register(request.Register request) async {
+  Future<response.Register> register(request.Register request) async {
     final result = await http.post(getUrl('register'),
         headers: getHeaders(), body: request.toMap());
     if (result.statusCode == 200) {
-      return true;
+      return new response.Register(success: true);
     } else {
-      return false;
+      return new response.Register(
+        success: false,
+        exceptions: json.decode(result.body) as Map<String, String>,
+      );
     }
   }
 

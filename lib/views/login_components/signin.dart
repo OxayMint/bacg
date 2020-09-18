@@ -11,7 +11,7 @@ class SignIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appState = Provider.of<AppState>(context, listen: false);
+    final appState = Provider.of<AppState>(context, listen: true);
     return Column(
       children: [
         TextField(
@@ -52,6 +52,9 @@ class SignIn extends StatelessWidget {
             ),
           ),
         ),
+        appState.loginException == null
+            ? Container()
+            : Text(appState.loginException),
         Expanded(
           child: Container(),
         ),
@@ -59,7 +62,9 @@ class SignIn extends StatelessWidget {
           text: Localized("sign_in").value.toUpperCase(),
           type: ButtonType.Primary,
           onPressed: () {
-            login(context);
+            appState
+                .login(req.Login(phone: '994515224452', password: 'qwerty'));
+            // login(context);
           },
         ),
         FlatButton(
@@ -93,8 +98,8 @@ class SignIn extends StatelessWidget {
   }
 
   // String _phone, _pass;
-  void login(BuildContext context) async {
-    final appState = Provider.of<AppState>(context, listen: false);
-    appState.login(req.Login(phone: '994515224452', password: 'qwerty'));
-  }
+  // void login(BuildContext context) async {
+  //   final appState = Provider.of<AppState>(context, listen: false);
+  //   // appState.login();
+  // }
 }

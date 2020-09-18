@@ -1,6 +1,7 @@
 import 'package:bacg/components/verify.dart';
 import 'package:bacg/model/app_state.dart';
 import 'package:bacg/services/local_data.service.dart';
+import 'package:bacg/services/localization.service.dart';
 import 'package:bacg/views/Loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,26 +19,19 @@ void main() async {
   // SystemChrome.setSystemUIOverlayStyle(
   //     SystemUiOverlayStyle(statusBarColor: Colors.black));
   await LocalData.getInstance.init();
-  runApp(MyApp(loggedIn: false));
+  await Localization.getInstance.init();
+  runApp(BacgApp());
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({Key key, this.loggedIn}) : super(key: key);
-  bool loggedIn;
-
+class BacgApp extends StatelessWidget {
+  BacgApp({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AppState>(
       create: (context) => AppState(),
       child: Consumer<AppState>(builder: (context, state, widget) {
         return MaterialApp(
-          routes: {
-            '/login': (context) => Login(),
-            '/home': (context) => Home(),
-          },
-          // initialRoute: state.user == null ? '/login' : '/home',
           debugShowCheckedModeBanner: false,
-
           title: 'BACG',
           theme: ThemeData(
             primarySwatch:
@@ -109,7 +103,6 @@ class MyApp extends StatelessWidget {
                   fontSize: 18,
                   color: Color.fromRGBO(72, 72, 72, 1),
                   fontWeight: FontWeight.w700),
-              // bodyText2: TextStyle(fontFamily: "Montserrat", fontSize: 16, color: Colors.black ,fontWeight: FontWeight.w300),
             ),
           ),
           home: state.loading

@@ -11,18 +11,18 @@ import 'package:flutter/material.dart';
 
 class AppState extends ChangeNotifier {
   bool loading;
-  String lang;
+  // String lang;
   String token;
   User user;
   List<UserPackage> ownedPackages;
   List<Pack> storePackages;
   LoginStage loginStage;
-  DateTime otpRefreshTime;
+
+  String loginException;
+  Map<String, String> registerExceptions;
   AppState() {
-    lang = ''; //LocalData.getInstance.getLang();
-    print(lang);
-    Localization.getInstance.setLocale(lang);
     token = LocalData.getInstance.getToken();
+    final lang = LocalData.getInstance.getLang();
     loading = true;
     // otpRefreshTime = LocalData.getInstance.
 
@@ -49,10 +49,11 @@ class AppState extends ChangeNotifier {
       token = loginResult.token;
       LocalData.getInstance.setToken(token);
       getUserPackages();
-      notifyListeners();
     } else {
       print('Could not log in');
+      loginException = loginResult.exception;
     }
+    notifyListeners();
   }
 
   void getUser() async {
@@ -63,12 +64,12 @@ class AppState extends ChangeNotifier {
 
   void register(request.Register req) async {
     var result = await MainService.getInstance.register(req);
-    if (result) {
-      otpRefreshTime = DateTime.now().add(
-        Duration(minutes: 3),
-      );
+    if (result.success) {
       setLoginStage(LoginStage.Otp);
+    } else {
+      registerExceptions = result.exceptions;
     }
+    notifyListeners();
   }
 
   void resendCode() async {
@@ -99,7 +100,7 @@ class AppState extends ChangeNotifier {
   }
 
   void setLang(String l) {
-    lang = l;
+    // lang = l;
     Localization.getInstance.setLocale(l);
     LocalData.getInstance.setLang(l);
     notifyListeners();

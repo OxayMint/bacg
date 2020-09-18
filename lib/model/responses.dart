@@ -4,16 +4,20 @@ import 'user.dart';
 
 abstract class Result {
   final bool success;
+
   Result({@required this.success});
 }
 
 class Login extends Result {
-  final String token;
-  final User user;
+  String token;
+  User user;
 
   String exception;
-  Login({@required this.token, @required this.user, @required success})
+  Login({@required success, this.user, this.token, this.exception})
       : super(success: success);
 }
 
-class Register {}
+class Register extends Result {
+  Map<String, String> exceptions;
+  Register({@required success, this.exceptions}) : super(success: success);
+}

@@ -35,11 +35,12 @@ class Loading extends StatelessWidget {
                     tag: 'logo',
                     child: Material(
                       color: Colors.transparent,
-                      child: SvgPicture.asset(
-                        'assets/logo-white.svg',
-                        width: 200,
-                        height: 80,
-                      ),
+                      child: Image.asset("logo-white.png"),
+                      // SvgPicture.asset(
+                      //   'assets/logo-white.svg',
+                      //   width: 200,
+                      //   height: 80,
+                      // ),
                     ),
                   ),
                 ],
