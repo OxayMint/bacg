@@ -8,30 +8,68 @@ import 'package:flutter_keyboard_size/flutter_keyboard_size.dart';
 import 'package:provider/provider.dart';
 import 'package:bacg/model/requests.dart' as req;
 
-class SignUp extends StatelessWidget {
+class SignUp extends StatefulWidget {
+  @override
+  _SignUpState createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
   final TextEditingController _phoneController = new TextEditingController();
   final TextEditingController _nameController = new TextEditingController();
   final TextEditingController _surnameController = new TextEditingController();
   final TextEditingController _passController = new TextEditingController();
   final TextEditingController _passConfirmController =
       new TextEditingController();
-  bool _deviceHEight;
+  double _keyboardHeight = 0;
+  double _gapSize = 0;
+  final GlobalKey _columnKey = new GlobalKey();
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _setGapSize());
+  }
+
+  _setGapSize() {
+    print('recalculating size');
+    final _deviceHeight = MediaQuery.of(context).size.height;
+    double _columnHeight;
+    if (_columnKey.currentContext != null) {
+      _columnHeight =
+          (_columnKey.currentContext.findRenderObject() as RenderBox)
+              .size
+              .height;
+    } else {
+      _columnHeight = 0;
+    }
+
+    print('column height : $_columnHeight');
+    final _expandedGapSize = _deviceHeight - 418 - _columnHeight;
+    setState(() {
+      _gapSize = max(_expandedGapSize - _keyboardHeight, 10);
+    });
+  }
+
+  double _getStaticGapSize() {
+    print('recalculating size');
+    final _deviceHeight = MediaQuery.of(context).size.height;
+    final _expandedGapSize = _deviceHeight - 418 - 277;
+    return max(_expandedGapSize - _keyboardHeight, 10);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final _deviceHeight = MediaQuery.of(context).size.height;
-    final _expandedGapSize = _deviceHeight - 666;
-    print(' expanded is $_expandedGapSize');
-
-// _passController.
+    // WidgetsBinding.instance.
+    // _setSizes();
     final appState = Provider.of<AppState>(context, listen: false);
     return Consumer<ScreenHeight>(builder: (context, heightState, widget) {
-      final _collapsedGapSize = _expandedGapSize - heightState.keyboardHeight;
+      _keyboardHeight = heightState.keyboardHeight;
+      // _setGapSize();
       return SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
+              key: _columnKey,
               children: [
                 TextField(
                   controller: _nameController,
@@ -79,7 +117,8 @@ class SignUp extends StatelessWidget {
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
-                    errorText: appState.registerExceptions['phone'],
+                    // errorBorder: InputBorder.none,
+                    // errorText: appState.registerExceptions['phone'],
                     labelText: Localized("phone").value,
                     labelStyle: TextStyle(color: Colors.white),
                     fillColor: Colors.black45,
@@ -147,10 +186,11 @@ class SignUp extends StatelessWidget {
                 //     return ListTile();
                 //   },
                 // ),
+                Text(appState.loginException ?? ''),
               ],
             ),
             SizedBox(
-              height: max(_collapsedGapSize, 10),
+              height: _getStaticGapSize(),
             ),
             // Expanded(
             //   child: Container(),
@@ -161,6 +201,7 @@ class SignUp extends StatelessWidget {
                   text: Localized("sign_up").value,
                   type: ButtonType.Primary,
                   onPressed: () {
+                    appState.loginException = null;
                     final request = req.Register(
                         name: _nameController.text,
                         surname: _surnameController.text,
@@ -173,6 +214,7 @@ class SignUp extends StatelessWidget {
                 FlatButton(
                   // minWidth: double.infinity,
                   onPressed: () {
+                    appState.loginException = null;
                     appState.setLoginStage(LoginStage.SignIn);
                   },
                   child: new RichText(

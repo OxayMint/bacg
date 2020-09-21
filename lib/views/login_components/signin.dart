@@ -8,21 +8,35 @@ import 'package:flutter_keyboard_size/flutter_keyboard_size.dart';
 import 'package:provider/provider.dart';
 import 'package:bacg/model/requests.dart' as req;
 
-class SignIn extends StatelessWidget {
+class SignIn extends StatefulWidget {
+  @override
+  _SignInState createState() => _SignInState();
+}
+
+class _SignInState extends State<SignIn> {
   final TextEditingController _phoneController = new TextEditingController();
   final TextEditingController _passController = new TextEditingController();
-  bool _deviceHeight;
+  // bool _deviceHeight;
+  double _keyboardHeight;
+
+  double _getStaticGapSize() {
+    print('recalculating size');
+    final _deviceHeight = MediaQuery.of(context).size.height;
+    final _expandedGapSize = _deviceHeight - 418 - 277;
+    return max(_expandedGapSize - _keyboardHeight, 10);
+  }
 
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context, listen: true);
     final _deviceHeight = MediaQuery.of(context).size.height;
-    final _expandedGapSize = _deviceHeight - 550;
+    final _expandedGapSize = _deviceHeight - 577;
     print(' expanded is $_expandedGapSize');
 
     return Consumer<ScreenHeight>(
       builder: (context, heightState, widget) {
-        final _collapsedGapSize = _expandedGapSize - heightState.keyboardHeight;
+        _keyboardHeight = heightState.keyboardHeight;
+        // final _collapsedGapSize = _expandedGapSize - heightState.keyboardHeight;
         return Column(
           children: [
             TextField(
@@ -63,17 +77,30 @@ class SignIn extends StatelessWidget {
                 ),
               ),
             ),
-            appState.loginException == null
-                ? Container()
-                : Text(appState.loginException),
+            Text(appState.loginException ?? ''),
+            FlatButton(
+              // minWidth: double.infinity,
+              onPressed: () {
+                appState.anonimousLogin();
+              },
+              child: Text(
+                "Skip for now",
+                style: new TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize: 14.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
             SizedBox(
-              height: max(_collapsedGapSize, 10),
+              height: _getStaticGapSize(),
             ),
             BacgButton(
               text: Localized("sign_in").value.toUpperCase(),
               type: ButtonType.Primary,
               onPressed: () {
                 print(_deviceHeight.toString());
+                appState.loginException = null;
                 appState.login(
                     req.Login(phone: '994515224452', password: 'qwerty'));
                 // login(context);
@@ -82,6 +109,7 @@ class SignIn extends StatelessWidget {
             FlatButton(
               // minWidth: double.infinity,
               onPressed: () {
+                appState.loginException = null;
                 appState.setLoginStage(LoginStage.SignUp);
               },
               child: new RichText(
@@ -102,20 +130,6 @@ class SignIn extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),
-              ),
-            ),
-            FlatButton(
-              // minWidth: double.infinity,
-              onPressed: () {
-                appState.anonimousLogin();
-              },
-              child: Text(
-                "Skip for now",
-                style: new TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontSize: 14.0,
-                  color: Colors.white,
                 ),
               ),
             ),

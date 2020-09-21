@@ -79,6 +79,10 @@ class AppState extends ChangeNotifier {
       setLoginStage(LoginStage.Otp);
     } else {
       registerExceptions = result.exceptions;
+      loginException = registerExceptions[
+          'password']; //.map((key, value) => value).toList();
+      loginException =
+          registerExceptions['phone']; //.map((key, value) => value).toList();
     }
     notifyListeners();
   }
