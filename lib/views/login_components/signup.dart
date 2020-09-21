@@ -161,7 +161,7 @@ class SignUp extends StatelessWidget {
                 },
               ),
               FlatButton(
-                minWidth: double.infinity,
+                // minWidth: double.infinity,
                 onPressed: () {
                   appState.setLoginStage(LoginStage.SignIn);
                 },
