@@ -15,8 +15,8 @@ class SignIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _deviceHeight = MediaQuery.of(context).size.height;
     final appState = Provider.of<AppState>(context, listen: true);
+    final _deviceHeight = MediaQuery.of(context).size.height;
     final _expandedGapSize = _deviceHeight - 550;
     print(' expanded is $_expandedGapSize');
 
