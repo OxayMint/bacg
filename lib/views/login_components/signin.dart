@@ -22,21 +22,16 @@ class _SignInState extends State<SignIn> {
   double _getStaticGapSize() {
     print('recalculating size');
     final _deviceHeight = MediaQuery.of(context).size.height;
-    final _expandedGapSize = _deviceHeight - 418 - 277;
+    final _expandedGapSize = _deviceHeight - 577 - 5; //418 - 94 - 20 - 45;
     return max(_expandedGapSize - _keyboardHeight, 10);
   }
 
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context, listen: true);
-    final _deviceHeight = MediaQuery.of(context).size.height;
-    final _expandedGapSize = _deviceHeight - 577;
-    print(' expanded is $_expandedGapSize');
-
     return Consumer<ScreenHeight>(
       builder: (context, heightState, widget) {
         _keyboardHeight = heightState.keyboardHeight;
-        // final _collapsedGapSize = _expandedGapSize - heightState.keyboardHeight;
         return Column(
           children: [
             TextField(
@@ -99,7 +94,7 @@ class _SignInState extends State<SignIn> {
               text: Localized("sign_in").value.toUpperCase(),
               type: ButtonType.Primary,
               onPressed: () {
-                print(_deviceHeight.toString());
+                // print(_deviceHeight.toString());
                 appState.loginException = null;
                 appState.login(
                     req.Login(phone: '994515224452', password: 'qwerty'));

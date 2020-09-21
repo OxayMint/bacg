@@ -43,7 +43,7 @@ class _SignUpState extends State<SignUp> {
     }
 
     print('column height : $_columnHeight');
-    final _expandedGapSize = _deviceHeight - 418 - _columnHeight;
+    final _expandedGapSize = _deviceHeight - 418 - 5 - _columnHeight;
     setState(() {
       _gapSize = max(_expandedGapSize - _keyboardHeight, 10);
     });
@@ -52,7 +52,7 @@ class _SignUpState extends State<SignUp> {
   double _getStaticGapSize() {
     print('recalculating size');
     final _deviceHeight = MediaQuery.of(context).size.height;
-    final _expandedGapSize = _deviceHeight - 418 - 277;
+    final _expandedGapSize = _deviceHeight - 418 - 5 - 277;
     return max(_expandedGapSize - _keyboardHeight, 10);
   }
 
