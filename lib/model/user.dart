@@ -3,12 +3,18 @@ import 'dart:convert';
 import 'package:bacg/model/pack.dart';
 
 class User {
-  User({this.id, this.name, this.phone, this.surname, this.userPackages});
+  User(
+      {this.id,
+      this.name,
+      this.phone,
+      this.surname,
+      this.userPackages,
+      this.anonymous = false});
   int id;
   String name;
   String surname;
   String phone;
-  // String email;
+  bool anonymous;
   List<UserPackage> userPackages;
   factory User.fromJson(Map<String, dynamic> _map) {
     // final _map = json.decode(jsonString);

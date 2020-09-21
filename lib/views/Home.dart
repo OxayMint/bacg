@@ -56,7 +56,11 @@ class _HomeState extends State<Home> {
                 icon: _getIcon('user'),
                 onPressed: () {
                   setState(() {
-                    currentWidgetName = 'settings';
+                    if (appState.user.anonymous) {
+                      appState.logout();
+                    } else {
+                      currentWidgetName = 'settings';
+                    }
                     closeDrawer();
                   });
                 }),
@@ -136,7 +140,7 @@ class _HomeState extends State<Home> {
                   ),
                   ListTile(
                     title: Text(
-                      'Log out',
+                      appState.user.anonymous ? 'Log in' : 'Log out',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline2,
                     ),

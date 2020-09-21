@@ -67,6 +67,8 @@ class _OtpState extends State<Otp> {
               onPressed: timeRemaining > 0
                   ? null
                   : () {
+                      Provider.of<AppState>(context, listen: false)
+                          .resendCode(isRegistration: true);
                       state.restart();
                     },
               child: Text(
@@ -90,7 +92,8 @@ class _OtpState extends State<Otp> {
               text: "SELECT",
               type: ButtonType.Primary,
               onPressed: () {
-                state.submitCode(_otpController.text);
+                Provider.of<AppState>(context, listen: false)
+                    .verifyOpt(_otpController.text, isRegistration: true);
               },
             )
           ],

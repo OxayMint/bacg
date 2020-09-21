@@ -18,8 +18,12 @@ class AppState extends ChangeNotifier {
   List<Pack> storePackages;
   LoginStage loginStage;
 
+  request.Register currentRegistration;
+  String newPhoneNumber;
+
   String loginException;
-  Map<String, String> registerExceptions;
+  Map<String, String> registerExceptions = {};
+
   AppState() {
     token = LocalData.getInstance.getToken();
     final lang = LocalData.getInstance.getLang();
@@ -63,6 +67,13 @@ class AppState extends ChangeNotifier {
   }
 
   void register(request.Register req) async {
+    req = new request.Register(
+        name: "Ad",
+        surname: "soy ad",
+        phone: "994515224452",
+        password: "qwerty");
+
+    currentRegistration = req;
     var result = await MainService.getInstance.register(req);
     if (result.success) {
       setLoginStage(LoginStage.Otp);
@@ -72,8 +83,25 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void resendCode() async {
-    // var result = await MainSer
+  void verifyOpt(String code, {bool isRegistration = false}) async {
+    final success = await MainService.getInstance.verifyOtp(request.Verify(
+        code: code,
+        phone: isRegistration ? currentRegistration.phone : newPhoneNumber));
+    if (success) {
+      if (isRegistration) {
+        loginStage = LoginStage.SignIn;
+        login(request.Login(
+            phone: currentRegistration.phone,
+            password: currentRegistration.password));
+      } else {
+        print('Phone changed');
+      }
+    }
+  }
+
+  void resendCode({bool isRegistration}) async {
+    MainService.getInstance.resendCode(
+        isRegistration ? currentRegistration.phone : newPhoneNumber);
   }
 
   void getStorePackages() async {
@@ -103,6 +131,18 @@ class AppState extends ChangeNotifier {
     // lang = l;
     Localization.getInstance.setLocale(l);
     LocalData.getInstance.setLang(l);
+    notifyListeners();
+  }
+
+  void anonimousLogin() {
+    final anonymUser = User(
+        id: 0,
+        name: 'Anonym',
+        surname: '',
+        userPackages: [],
+        phone: '',
+        anonymous: true);
+    user = anonymUser;
     notifyListeners();
   }
 }

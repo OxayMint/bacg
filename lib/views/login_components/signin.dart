@@ -55,9 +55,9 @@ class SignIn extends StatelessWidget {
         appState.loginException == null
             ? Container()
             : Text(appState.loginException),
-        Expanded(
-          child: Container(),
-        ),
+        // Expanded(
+        //   child: Container(),
+        // ),
         BacgButton(
           text: Localized("sign_in").value.toUpperCase(),
           type: ButtonType.Primary,
@@ -93,6 +93,20 @@ class SignIn extends StatelessWidget {
             ),
           ),
         ),
+        // FlatButton(
+        //   minWidth: double.infinity,
+        //   onPressed: () {
+        //     appState.anonimousLogin();
+        //   },
+        //   child: Text(
+        //     "Skip for now",
+        //     style: new TextStyle(
+        //       fontFamily: 'Montserrat',
+        //       fontSize: 14.0,
+        //       color: Colors.white,
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

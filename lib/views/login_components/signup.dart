@@ -26,6 +26,7 @@ class SignUp extends StatelessWidget {
               TextField(
                 controller: _nameController,
                 decoration: InputDecoration(
+                  errorText: appState.registerExceptions['name'],
                   labelText: Localized("name").value,
                   labelStyle: TextStyle(color: Colors.white),
                   fillColor: Colors.black45,
@@ -46,6 +47,7 @@ class SignUp extends StatelessWidget {
               TextField(
                 controller: _surnameController,
                 decoration: InputDecoration(
+                  errorText: appState.registerExceptions['surname'],
                   labelText: Localized("surname").value,
                   labelStyle: TextStyle(color: Colors.white),
                   fillColor: Colors.black45,
@@ -67,6 +69,7 @@ class SignUp extends StatelessWidget {
                 controller: _phoneController,
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
+                  errorText: appState.registerExceptions['phone'],
                   labelText: Localized("phone").value,
                   labelStyle: TextStyle(color: Colors.white),
                   fillColor: Colors.black45,
@@ -89,6 +92,7 @@ class SignUp extends StatelessWidget {
                 controller: _passController,
                 style: TextStyle(color: Colors.white, fontSize: 16),
                 decoration: InputDecoration(
+                  errorText: appState.registerExceptions['password'],
                   labelText: Localized("password").value,
                   labelStyle: TextStyle(color: Colors.white),
                   fillColor: Colors.black45,
@@ -110,6 +114,7 @@ class SignUp extends StatelessWidget {
                 controller: _passConfirmController,
                 style: TextStyle(color: Colors.white, fontSize: 16),
                 decoration: InputDecoration(
+                  errorText: appState.registerExceptions['confirm_pass'],
                   labelText: Localized("confirm_pass").value,
                   labelStyle: TextStyle(color: Colors.white),
                   fillColor: Colors.black45,
@@ -133,6 +138,9 @@ class SignUp extends StatelessWidget {
               //   },
               // ),
             ],
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.15,
           ),
           // Expanded(
           //   child: Container(),

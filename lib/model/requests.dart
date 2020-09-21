@@ -25,3 +25,14 @@ class Login {
     return {'phone': phone, 'password': password};
   }
 }
+
+class Verify {
+  final String phone;
+  final String code;
+
+  Verify({this.phone, this.code});
+
+  Map<String, String> toMap() {
+    return {'phone': phone, 'verification_code': code};
+  }
+}

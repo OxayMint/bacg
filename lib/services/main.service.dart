@@ -89,27 +89,36 @@ class MainService {
     }
   }
 
-  Future<response.Register> register(request.Register request) async {
+  Future<response.Register> register(request.Register req) async {
     final result = await http.post(getUrl('register'),
-        headers: getHeaders(), body: request.toMap());
+        headers: getHeaders(), body: req.toMap());
     if (result.statusCode == 200) {
       return new response.Register(success: true);
     } else {
+      var map = Map<String, List<dynamic>>.from(json.decode(result.body));
+      Map<String, String> exceptions = {};
+      map.forEach((key, value) {
+        exceptions[key] = value[0];
+      });
       return new response.Register(
         success: false,
-        exceptions: json.decode(result.body) as Map<String, String>,
+        exceptions: exceptions,
       );
     }
   }
 
-  void submitOtp(String code) {
-    // final result = await http.post(getUrl('register'),
-    //     headers: getHeaders(), body: request.toMap());
-    // if (result.statusCode == 200) {
-    //   return true;
-    // } else {
-    //   return false;
-    // }
-    print(code);
+  Future<bool> verifyOtp(request.Verify req) async {
+    final result = await http.post(getUrl('verify'),
+        headers: getHeaders(), body: req.toMap());
+    if (result.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void resendCode(String phone) {
+    http.post(getUrl('send_code'),
+        headers: getHeaders(), body: {'phone': phone});
   }
 }

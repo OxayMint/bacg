@@ -1,5 +1,4 @@
 import 'package:bacg/services/local_data.service.dart';
-import 'package:bacg/services/main.service.dart';
 import 'package:flutter/material.dart';
 
 class OtpStateModel extends ChangeNotifier {
@@ -11,9 +10,6 @@ class OtpStateModel extends ChangeNotifier {
     timeTicking.listen((event) {
       timeRemaining--;
       notifyListeners();
-      // if (timeRemaining <= 0) {
-
-      // }
     });
   }
 
@@ -29,9 +25,5 @@ class OtpStateModel extends ChangeNotifier {
   restart() {
     LocalData.getInstance.removeOtp();
     _startTimer();
-  }
-
-  submitCode(String code) {
-    MainService.getInstance.submitOtp(code);
   }
 }

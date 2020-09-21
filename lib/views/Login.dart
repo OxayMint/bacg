@@ -21,6 +21,7 @@ class _LoginState extends State<Login> {
       // appBar: ,
       // resizeToAvoidBottomPadding: false,
       body: Container(
+        height: double.infinity, //MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,
@@ -29,37 +30,32 @@ class _LoginState extends State<Login> {
         ),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 180,
-              ),
-              Hero(
-                tag: 'logo',
-                child: Material(
-                  color: Colors.transparent,
-                  child: Image.asset("assets/logo-white.png"),
-                  // SvgPicture.asset(
-                  //   'assets/logo-white.svg',
-                  //   width: 200,
-                  //   height: 80,
-                  // ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.2,
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Consumer<AppState>(
-                builder: (context, state, w) {
-                  return Expanded(
-                    child: getMainWidget(
+                Hero(
+                  tag: 'logo',
+                  child: Material(
+                    color: Colors.transparent,
+                    child: Image.asset("assets/logo-white.png"),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Consumer<AppState>(
+                  builder: (context, state, w) {
+                    return getMainWidget(
                       state.loginStage,
-                    ),
-                  );
-                },
-              ),
-            ],
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
