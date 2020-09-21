@@ -12,9 +12,9 @@ class _LanguageState extends State<Language> {
   final Map<String, String> langs = {
     'eng': 'English',
     'rus': 'Русский',
-    'az': 'Azərbaycan'
+    'aze': 'Azərbaycan'
   };
-  String selectedLang = null;
+  String selectedLang;
   // bool langSelected = false;
   @override
   Widget build(BuildContext context) {
@@ -65,59 +65,61 @@ class _LanguageState extends State<Language> {
               },
               dropdownColor: Colors.white,
               // focusColor: Colors.red,
-              items: [
-                DropdownMenuItem(
-                  value: 'eng',
-                  child: Row(
-                    children: [
-                      Image.asset('assets/eng.png'),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        'English',
-                        style: Theme.of(context).textTheme.subtitle1,
-                      ),
-                    ],
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: 'aze',
-                  child: Row(
-                    children: [
-                      Image.asset('assets/az.png'),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        'Azərbaycan',
-                        style: Theme.of(context).textTheme.subtitle1,
-                      ),
-                    ],
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: 'rus',
-                  child: Row(
-                    children: [
-                      Image.asset('assets/rus.png'),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        'Русский',
-                        style: Theme.of(context).textTheme.subtitle1,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+              items: getDropdownItems(),
+
+              //  [
+              //   DropdownMenuItem(
+              //     value: 'eng',
+              //     child: Row(
+              //       children: [
+              //         Image.asset('assets/eng.png'),
+              //         SizedBox(
+              //           width: 20,
+              //         ),
+              //         Text(
+              //           'English',
+              //           style: Theme.of(context).textTheme.subtitle1,
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              //   DropdownMenuItem(
+              //     value: 'aze',
+              //     child: Row(
+              //       children: [
+              //         Image.asset('assets/az.png'),
+              //         SizedBox(
+              //           width: 20,
+              //         ),
+              //         Text(
+              //           'Azərbaycan',
+              //           style: Theme.of(context).textTheme.subtitle1,
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              //   DropdownMenuItem(
+              //     value: 'rus',
+              //     child: Row(
+              //       children: [
+              //         Image.asset('assets/rus.png'),
+              //         SizedBox(
+              //           width: 20,
+              //         ),
+              //         Text(
+              //           'Русский',
+              //           style: Theme.of(context).textTheme.subtitle1,
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ],
             ),
           ),
         ),
-        Expanded(
-          child: Container(),
-        ),
+        // Expanded(
+        //   child: Container(),
+        // ),
         selectedLang == null
             ? Container()
             : BacgButton(
@@ -147,5 +149,27 @@ class _LanguageState extends State<Language> {
       default:
         return "SELECT";
     }
+  }
+
+  List<DropdownMenuItem> getDropdownItems() {
+    List<DropdownMenuItem> list = [];
+    langs.forEach((key, value) {
+      list.add(DropdownMenuItem(
+        value: key,
+        child: Row(
+          children: [
+            Image.asset('assets/$key.png'),
+            SizedBox(
+              width: 20,
+            ),
+            Text(
+              value,
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+          ],
+        ),
+      ));
+    });
+    return list;
   }
 }
