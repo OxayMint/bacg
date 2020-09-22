@@ -188,10 +188,7 @@ class _SignUpState extends State<SignUp> {
                 // ),
                 Text(
                   appState.loginException ?? '',
-                  style: TextStyle(
-                      color: Color.fromRGBO(255, 139, 139, 1),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 15),
+                  style: Theme.of(context).textTheme.overline,
                 ),
               ],
             ),
