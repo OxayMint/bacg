@@ -11,7 +11,7 @@ import 'package:bacg/model/requests.dart' as req;
 
 class SignIn extends StatefulWidget {
   // SignIn(key)
-  SignIn({key}) : super(key: key);
+  SignIn({key}); //: super(key: key);
   @override
   _SignInState createState() => _SignInState();
 }

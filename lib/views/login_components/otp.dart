@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 class Otp extends StatefulWidget {
+  Otp({Key key}) : super(key: key);
   @override
   _OtpState createState() => _OtpState();
 }

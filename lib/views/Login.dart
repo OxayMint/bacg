@@ -17,9 +17,10 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> with AnimationMixin {
   final multiTween = MultiTween<AnimType>()
-    ..add(AnimType.Position,
-        Tween(begin: 1.0, end: .0).chain(CurveTween(curve: curve)))
-    ..add(AnimType.Opacity, Tween(begin: .0, end: 1.0));
+    ..add(AnimType.Position, Tween(begin: Offset(0, 100), end: Offset(0, 0)),
+        Duration(milliseconds: 500), Curves.easeInOut)
+    ..add(AnimType.Opacity, Tween(begin: .0, end: 1.0),
+        Duration(milliseconds: 500), Curves.easeInOut);
 
   @override
   Widget build(BuildContext context) {
@@ -56,16 +57,38 @@ class _LoginState extends State<Login> with AnimationMixin {
                   ),
                   Consumer<AppState>(
                     builder: (context, state, w) {
-                      return PlayAnimation<MultiTweenValues<AnimType>>(
-                        tween: multiTween,
-                        duration: Duration(seconds: 1),
-                        builder: (context, child, val) {
-                          return Opacity(
-                            opacity: val.get(AnimType.Opacity),
-                            child: getMainWidget(
-                              state.loginStage,
-                            ),
-                          );
+                      return AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        child: getMainWidget(state.loginStage),
+                        transitionBuilder: (child, animation) {
+                          final inAnimation = Tween<Offset>(
+                                  begin: Offset(0.0, -1.0),
+                                  end: Offset(0.0, 0.0))
+                              .animate(animation);
+                          final outAnimation = Tween<Offset>(
+                                  begin: Offset(0.0, -1.0),
+                                  end: Offset(0.0, 0.0))
+                              .animate(animation);
+                          // final offsetAnimation = Tween<Offset>(
+                          //         begin: Offset(1.0, 0.0), end: Offset.zero)
+                          //     .animate(animation);
+                          if (child.key ==
+                              ValueKey<int>(state.loginStage.index)) {
+                            return SlideTransition(
+                              position: inAnimation,
+                              child: child,
+                            );
+                          } else {
+                            return SlideTransition(
+                              position: outAnimation,
+                              child: child,
+                            );
+                          }
+                          // return SlideTransition(
+                          //     position: child.key == ValueKey(state.loginStage)
+                          //         ? inAnimation
+                          //         : outAnimation,
+                          //     child: child);
                         },
                       );
                     },
@@ -80,19 +103,22 @@ class _LoginState extends State<Login> with AnimationMixin {
   }
 
   Widget getMainWidget(LoginStage stage) {
+    // print(stage.index);
     switch (stage) {
       case LoginStage.Lang:
-        return Language(key: ValueKey<String>("lang"));
+        return Language(key: ValueKey<int>(stage.index));
         break;
       case LoginStage.SignIn:
-        return SignIn(key: ValueKey<String>("signin"));
+        return SignIn(key: ValueKey<int>(stage.index));
         break;
       case LoginStage.SignUp:
-        return SignUp();
+        return SignUp(key: ValueKey<int>(stage.index));
         break;
       case LoginStage.Otp:
-        return Otp();
+        return Otp(key: ValueKey<int>(stage.index));
         break;
+      default:
+        return Container();
     }
   }
 }
