@@ -98,15 +98,20 @@ class _SignInState extends State<SignIn> {
             BacgButton(
               text: Localized("sign_in").value.toUpperCase(),
               type: ButtonType.Primary,
-              onPressed: () async {
-                // print(_deviceHeight.toString());
-                loading = true;
+              onPressed: () {
                 appState.loginException = null;
-                await appState.login(
-                  req.Login(phone: '9945152244523', password: 'qwerty'),
-                  // req.Login(phone: _phoneController.text, password: _passController.text)
-                );
-                loading = false;
+                if (_passController.text == '') {
+                  setState(() {
+                    appState.loginException = "Password is not correct";
+                  });
+                } else {
+                  appState.login(
+                    req.Login(phone: '994515224452', password: 'qwertfeffefy'),
+                    // req.Login(phone: _phoneController.text, password: _passController.text)
+                  );
+                }
+                // print(_deviceHeight.toString());
+
                 // login(context);
               },
               disabled: loading,
