@@ -97,12 +97,19 @@ class _SignInState extends State<SignIn> {
               text: Localized("sign_in").value.toUpperCase(),
               type: ButtonType.Primary,
               onPressed: () {
-                // print(_deviceHeight.toString());
                 appState.loginException = null;
-                appState.login(
-                  req.Login(phone: '994515224452', password: 'qwerty'),
-                  // req.Login(phone: _phoneController.text, password: _passController.text)
-                );
+                if (_passController.text == '') {
+                  setState(() {
+                    appState.loginException = "Password is not correct";
+                  });
+                } else {
+                  appState.login(
+                    req.Login(phone: '994515224452', password: 'qwertfeffefy'),
+                    // req.Login(phone: _phoneController.text, password: _passController.text)
+                  );
+                }
+                // print(_deviceHeight.toString());
+
                 // login(context);
               },
             ),
