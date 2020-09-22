@@ -7,15 +7,21 @@ class BacgButton extends StatefulWidget {
       this.iconName = '',
       @required this.onPressed,
       @required this.type,
-      @required this.text});
+      @required this.text,
+      this.disabled = false});
 
   final GestureTapCallback onPressed;
   final ButtonType type;
   final String text;
+  final bool disabled;
   String iconName;
   @override
   _BacgButtonState createState() => _BacgButtonState(
-      type: type, onPressed: onPressed, text: text, iconName: iconName);
+      type: type,
+      onPressed: onPressed,
+      text: text,
+      iconName: iconName,
+      disabled: disabled);
 }
 
 class _BacgButtonState extends State<BacgButton> {
@@ -23,7 +29,9 @@ class _BacgButtonState extends State<BacgButton> {
       {@required this.onPressed,
       @required this.type,
       @required this.text,
-      this.iconName});
+      this.iconName,
+      this.disabled});
+
   @override
   void initState() {
     super.initState();
@@ -35,6 +43,7 @@ class _BacgButtonState extends State<BacgButton> {
   final GestureTapCallback onPressed;
   final ButtonType type;
   final String text;
+  final bool disabled;
   String iconName;
   bool pressed = false;
   Color textCol, fillCol, borderCol, iconCol;
@@ -47,7 +56,7 @@ class _BacgButtonState extends State<BacgButton> {
   Widget button() {
     return FlatButton(
       splashColor: Colors.transparent,
-      onPressed: onPressed,
+      onPressed: disabled ? null : onPressed,
       onHighlightChanged: (val) {
         setState(() {
           pressed = val;

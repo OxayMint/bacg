@@ -46,7 +46,7 @@ class AppState extends ChangeNotifier {
     }
   }
 
-  void login(request.Login request) async {
+  Future<void> login(request.Login request) async {
     var loginResult = await MainService.getInstance.login(request);
     if (loginResult.success) {
       user = loginResult.user;

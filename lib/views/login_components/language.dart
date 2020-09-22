@@ -19,7 +19,7 @@ class _LanguageState extends State<Language> {
   @override
   Widget build(BuildContext context) {
     final _deviceHeight = MediaQuery.of(context).size.height;
-    var state = Provider.of<AppState>(context);
+    var state = Provider.of<AppState>(context, listen: false);
     return SizedBox(
       height: _deviceHeight - 310,
       child: Column(

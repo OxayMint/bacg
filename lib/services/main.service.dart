@@ -52,8 +52,7 @@ class MainService {
       );
     } else {
       print(res.body);
-      final exceptionMessage =
-          (json.decode(res.body) as Map<String, String>)['message'];
+      final exceptionMessage = json.decode(res.body)['message'];
       return response.Login(success: false, exception: exceptionMessage);
     }
   }

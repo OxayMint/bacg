@@ -16,6 +16,8 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final TextEditingController _phoneController = new TextEditingController();
   final TextEditingController _passController = new TextEditingController();
+
+  var loading = false;
   // bool _deviceHeight;
   double _keyboardHeight;
 
@@ -96,15 +98,18 @@ class _SignInState extends State<SignIn> {
             BacgButton(
               text: Localized("sign_in").value.toUpperCase(),
               type: ButtonType.Primary,
-              onPressed: () {
+              onPressed: () async {
                 // print(_deviceHeight.toString());
+                loading = true;
                 appState.loginException = null;
-                appState.login(
-                  req.Login(phone: '994515224452', password: 'qwerty'),
+                await appState.login(
+                  req.Login(phone: '9945152244523', password: 'qwerty'),
                   // req.Login(phone: _phoneController.text, password: _passController.text)
                 );
+                loading = false;
                 // login(context);
               },
+              disabled: loading,
             ),
             FlatButton(
               // minWidth: double.infinity,
