@@ -3,12 +3,15 @@ import 'dart:math';
 import 'package:bacg/components/custom_button.dart';
 import 'package:bacg/model/app_state.dart';
 import 'package:bacg/services/localization.service.dart';
+import 'package:bacg/views/login_components/login_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_size/flutter_keyboard_size.dart';
 import 'package:provider/provider.dart';
 import 'package:bacg/model/requests.dart' as req;
 
 class SignIn extends StatefulWidget {
+  // SignIn(key)
+  SignIn({key}) : super(key: key);
   @override
   _SignInState createState() => _SignInState();
 }
@@ -100,13 +103,14 @@ class _SignInState extends State<SignIn> {
               type: ButtonType.Primary,
               onPressed: () {
                 appState.loginException = null;
-                if (_passController.text == '') {
+                if (_passController.text == '' || _phoneController.text == '') {
                   setState(() {
-                    appState.loginException = "Password is not correct";
+                    appState.loginException =
+                        "Login and password can not be empty";
                   });
                 } else {
                   appState.login(
-                    req.Login(phone: '994515224452', password: 'qwertfeffefy'),
+                    req.Login(phone: '994553861254', password: 'qwerty'),
                     // req.Login(phone: _phoneController.text, password: _passController.text)
                   );
                 }

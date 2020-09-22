@@ -8,13 +8,19 @@ import 'package:bacg/model/requests.dart' as req;
 import 'package:provider/provider.dart';
 import 'package:flutter_keyboard_size/flutter_keyboard_size.dart';
 import 'login_components/login_components.dart';
+import 'package:simple_animations/simple_animations.dart';
 
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginState extends State<Login> with AnimationMixin {
+  final multiTween = MultiTween<AnimType>()
+    ..add(AnimType.Position,
+        Tween(begin: 1.0, end: .0).chain(CurveTween(curve: curve)))
+    ..add(AnimType.Opacity, Tween(begin: .0, end: 1.0));
+
   @override
   Widget build(BuildContext context) {
     return KeyboardSizeProvider(
@@ -50,8 +56,17 @@ class _LoginState extends State<Login> {
                   ),
                   Consumer<AppState>(
                     builder: (context, state, w) {
-                      return getMainWidget(
-                        state.loginStage,
+                      return PlayAnimation<MultiTweenValues<AnimType>>(
+                        tween: multiTween,
+                        duration: Duration(seconds: 1),
+                        builder: (context, child, val) {
+                          return Opacity(
+                            opacity: val.get(AnimType.Opacity),
+                            child: getMainWidget(
+                              state.loginStage,
+                            ),
+                          );
+                        },
                       );
                     },
                   ),
@@ -64,15 +79,13 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Widget getMainWidget(
-    LoginStage stage,
-  ) {
+  Widget getMainWidget(LoginStage stage) {
     switch (stage) {
       case LoginStage.Lang:
-        return Language();
+        return Language(key: ValueKey<String>("lang"));
         break;
       case LoginStage.SignIn:
-        return SignIn();
+        return SignIn(key: ValueKey<String>("signin"));
         break;
       case LoginStage.SignUp:
         return SignUp();
@@ -83,3 +96,5 @@ class _LoginState extends State<Login> {
     }
   }
 }
+
+enum AnimType { Position, Opacity }

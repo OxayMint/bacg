@@ -208,13 +208,23 @@ class _SignUpState extends State<SignUp> {
                   type: ButtonType.Primary,
                   onPressed: () {
                     appState.loginException = null;
-                    final request = req.Register(
-                        name: _nameController.text,
-                        surname: _surnameController.text,
-                        phone: _phoneController.text,
-                        password: _passController.text);
-                    print(request.toMap());
-                    appState.register(request);
+                    if (_nameController.text == '' ||
+                        _surnameController.text == '' ||
+                        _phoneController.text == '' ||
+                        _passController.text == '' ||
+                        _passConfirmController.text == '') {
+                      setState(() {
+                        appState.loginException = "All fields should be filled";
+                      });
+                    } else {
+                      final request = req.Register(
+                          name: _nameController.text,
+                          surname: _surnameController.text,
+                          phone: _phoneController.text,
+                          password: _passController.text);
+                      print(request.toMap());
+                      appState.register(request);
+                    }
                   },
                 ),
                 FlatButton(
