@@ -103,6 +103,10 @@ class BacgApp extends StatelessWidget {
                   fontSize: 18,
                   color: Color.fromRGBO(72, 72, 72, 1),
                   fontWeight: FontWeight.w700),
+              overline: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15),
             ),
           ),
           home: state.loading

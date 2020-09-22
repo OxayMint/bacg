@@ -154,21 +154,23 @@ class _LanguageState extends State<Language> {
   List<DropdownMenuItem> getDropdownItems() {
     List<DropdownMenuItem> list = [];
     langs.forEach((key, value) {
-      list.add(DropdownMenuItem(
-        value: key,
-        child: Row(
-          children: [
-            Image.asset('assets/$key.png'),
-            SizedBox(
-              width: 20,
-            ),
-            Text(
-              value,
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
-          ],
+      list.add(
+        DropdownMenuItem(
+          value: key,
+          child: Row(
+            children: [
+              Image.asset('assets/$key.png'),
+              SizedBox(
+                width: 20,
+              ),
+              Text(
+                value,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+            ],
+          ),
         ),
-      ));
+      );
     });
     return list;
   }

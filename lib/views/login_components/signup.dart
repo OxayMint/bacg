@@ -186,7 +186,13 @@ class _SignUpState extends State<SignUp> {
                 //     return ListTile();
                 //   },
                 // ),
-                Text(appState.loginException ?? ''),
+                Text(
+                  appState.loginException ?? '',
+                  style: TextStyle(
+                      color: Color.fromRGBO(255, 139, 139, 1),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15),
+                ),
               ],
             ),
             SizedBox(

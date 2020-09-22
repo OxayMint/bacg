@@ -72,7 +72,10 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
             ),
-            Text(appState.loginException ?? ''),
+            Text(
+              appState.loginException ?? '',
+              style: Theme.of(context).textTheme.overline,
+            ),
             FlatButton(
               // minWidth: double.infinity,
               onPressed: () {
@@ -97,7 +100,9 @@ class _SignInState extends State<SignIn> {
                 // print(_deviceHeight.toString());
                 appState.loginException = null;
                 appState.login(
-                    req.Login(phone: '994515224452', password: 'qwerty'));
+                  req.Login(phone: '994515224452', password: 'qwerty'),
+                  // req.Login(phone: _phoneController.text, password: _passController.text)
+                );
                 // login(context);
               },
             ),
