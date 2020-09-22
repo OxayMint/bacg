@@ -10,6 +10,7 @@ import 'home_components/contacts.dart';
 import 'home_components/rules.dart';
 
 class Home extends StatefulWidget {
+  // Home({key}) : super(key: key);
   @override
   _HomeState createState() => _HomeState();
 }

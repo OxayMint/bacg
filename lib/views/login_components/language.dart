@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Language extends StatefulWidget {
+  Language({key}) : super(key: key);
   @override
   _LanguageState createState() => _LanguageState();
 }
