@@ -18,123 +18,86 @@ class _LanguageState extends State<Language> {
   // bool langSelected = false;
   @override
   Widget build(BuildContext context) {
+    final _deviceHeight = MediaQuery.of(context).size.height;
     var state = Provider.of<AppState>(context);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Text(
-          "Hello!",
-          style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'Montserrat',
-              fontWeight: FontWeight.w600),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
+    return SizedBox(
+      height: _deviceHeight - 310,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            children: [
+              Text(
+                "Hello!",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w600),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              // DropDown starts here
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: DropdownButton(
+                    // isDense: true,
+                    underline: Container(),
+                    // style: Theme.of(context).textTheme.subtitle2,
+
+                    value: selectedLang,
+                    icon: Icon(
+                      Icons.expand_more,
+                      color: Colors.black,
+                    ),
+                    isExpanded: true,
+                    hint: Text(
+                      'Select language',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1, //TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+
+                    onChanged: (val) {
+                      setState(() {
+                        selectedLang = val;
+                        print(selectedLang);
+                      });
+                    },
+                    dropdownColor: Colors.white,
+                    // focusColor: Colors.red,
+                    items: getDropdownItems(),
+                  ),
+                ),
+              ),
+            ],
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: DropdownButton(
-              // isDense: true,
-              underline: Container(),
-              // style: Theme.of(context).textTheme.subtitle2,
-
-              value: selectedLang,
-              icon: Icon(
-                Icons.expand_more,
-                color: Colors.black,
+          Column(
+            children: [
+              selectedLang == null
+                  ? Container()
+                  : BacgButton(
+                      text: getButtonText(selectedLang),
+                      type: ButtonType.Primary,
+                      onPressed: () {
+                        // login(context);
+                        state.setLang(selectedLang);
+                        state.setLoginStage(LoginStage.SignIn);
+                        // state.setLoginStage(LoginStage.)
+                      },
+                    ),
+              SizedBox(
+                height: 25,
               ),
-              isExpanded: true,
-              hint: Text(
-                'Select language',
-                textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1, //TextStyle(color: Colors.white, fontSize: 16),
-              ),
-
-              onChanged: (val) {
-                setState(() {
-                  selectedLang = val;
-                  print(selectedLang);
-                });
-              },
-              dropdownColor: Colors.white,
-              // focusColor: Colors.red,
-              items: getDropdownItems(),
-
-              //  [
-              //   DropdownMenuItem(
-              //     value: 'eng',
-              //     child: Row(
-              //       children: [
-              //         Image.asset('assets/eng.png'),
-              //         SizedBox(
-              //           width: 20,
-              //         ),
-              //         Text(
-              //           'English',
-              //           style: Theme.of(context).textTheme.subtitle1,
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              //   DropdownMenuItem(
-              //     value: 'aze',
-              //     child: Row(
-              //       children: [
-              //         Image.asset('assets/az.png'),
-              //         SizedBox(
-              //           width: 20,
-              //         ),
-              //         Text(
-              //           'Azərbaycan',
-              //           style: Theme.of(context).textTheme.subtitle1,
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              //   DropdownMenuItem(
-              //     value: 'rus',
-              //     child: Row(
-              //       children: [
-              //         Image.asset('assets/rus.png'),
-              //         SizedBox(
-              //           width: 20,
-              //         ),
-              //         Text(
-              //           'Русский',
-              //           style: Theme.of(context).textTheme.subtitle1,
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ],
-            ),
-          ),
-        ),
-        // Expanded(
-        //   child: Container(),
-        // ),
-        selectedLang == null
-            ? Container()
-            : BacgButton(
-                text: getButtonText(selectedLang),
-                type: ButtonType.Primary,
-                onPressed: () {
-                  // login(context);
-                  state.setLang(selectedLang);
-                  state.setLoginStage(LoginStage.SignIn);
-                },
-              ),
-        SizedBox(
-          height: 25,
-        )
-      ],
+            ],
+          )
+        ],
+      ),
     );
   }
 
