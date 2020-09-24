@@ -28,22 +28,9 @@ class Loading extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Hero(
-                    tag: 'logo',
-                    child: Material(
-                      color: Colors.transparent,
-                      child: Image.asset("logo-white.png"),
-                      // SvgPicture.asset(
-                      //   'assets/logo-white.svg',
-                      //   width: 200,
-                      //   height: 80,
-                      // ),
-                    ),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Image.asset("assets/logo-white.png"),
               ),
             ],
           ),

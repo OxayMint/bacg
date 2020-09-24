@@ -35,8 +35,10 @@ class _BacgButtonState extends State<BacgButton> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      textCol = getTextColor(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {
+        textCol = getTextColor(context);
+      });
     });
   }
 
@@ -101,7 +103,7 @@ class _BacgButtonState extends State<BacgButton> {
   Color getHighlightColor(BuildContext c) {
     switch (type) {
       case ButtonType.Action:
-        return Colors.white;
+        return Theme.of(c).primaryColor;
       case ButtonType.Primary:
         return Theme.of(c).primaryColor;
       case ButtonType.Warning:
@@ -116,7 +118,7 @@ class _BacgButtonState extends State<BacgButton> {
   Color getFillColor(BuildContext c) {
     switch (type) {
       case ButtonType.Action:
-        return Theme.of(c).primaryColor;
+        return Colors.white; //Theme.of(c).primaryColor;
       case ButtonType.Primary:
         return Colors.white;
       case ButtonType.Warning:
@@ -129,9 +131,10 @@ class _BacgButtonState extends State<BacgButton> {
   }
 
   Color getTextColor(BuildContext c) {
+    // return pressed ? Theme.of(c).primaryColor : Colors.white;
     switch (type) {
       case ButtonType.Action:
-        return pressed ? Theme.of(c).primaryColor : Colors.white;
+        return pressed ? Colors.white : Theme.of(c).primaryColor;
       case ButtonType.Primary:
         return pressed ? Colors.white : Colors.black;
       case ButtonType.Warning:

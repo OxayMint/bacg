@@ -43,17 +43,22 @@ class LocalData {
   //   prefs.setInt("otpTime", time.millisecondsSinceEpoch);
   // }
 
-  DateTime getOtpTime() {
-    if (prefs.containsKey('otpTime')) {
-      return DateTime.fromMillisecondsSinceEpoch(prefs.getInt("otpTime"));
-    } else {
-      final time = DateTime.now().add(Duration(minutes: 3));
-      prefs.setInt("otpTime", time.millisecondsSinceEpoch);
-      return time;
+  DateTime getOtpTime(bool registration) {
+    final key = registration ? 'regOtpTime' : 'updateOtpTime';
+    DateTime time = DateTime.fromMillisecondsSinceEpoch(0);
+    if (prefs.containsKey(key)) {
+      time = DateTime.fromMillisecondsSinceEpoch(prefs.getInt(key));
     }
+    return time;
   }
 
-  removeOtp() {
-    prefs.remove("otpTime");
+  setOtpTime(bool registration) {
+    final time = DateTime.now().add(Duration(minutes: 3));
+    prefs.setInt(registration ? 'regOtpTime' : 'updateOtpTime',
+        time.millisecondsSinceEpoch);
+  }
+
+  removeOtp(bool registration) {
+    prefs.remove(registration ? 'regOtpTime' : 'updateOtpTime');
   }
 }
