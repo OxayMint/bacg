@@ -19,7 +19,7 @@ class _OtpState extends State<Otp> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<OtpStateModel>(
-      create: (context) => OtpStateModel(),
+      create: (context) => OtpStateModel(isRegistration: true),
       child: Consumer<OtpStateModel>(builder: (context, state, widget) {
         final timeRemaining = state.timeRemaining;
         final mins = (timeRemaining / 60).floor();

@@ -26,8 +26,7 @@ class Localization {
   setLocale(String lang) async {
     final jsonString = await rootBundle.loadString("assets/langs.json");
     var map = json.decode(jsonString) as Map<String, dynamic>;
-    values = map[lang]; //.toMap<String, String>(); // as Map<String, String>;
-    // print(langVals);
+    values = map[lang];
   }
 
   String getString(String key) {

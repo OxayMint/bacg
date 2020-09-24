@@ -62,12 +62,10 @@ class _LoginState extends State<Login> with AnimationMixin {
                         child: getMainWidget(state.loginStage),
                         transitionBuilder: (child, animation) {
                           final inAnimation = Tween<Offset>(
-                                  begin: Offset(0.0, -1.0),
-                                  end: Offset(0.0, 0.0))
+                                  begin: Offset(0.0, .5), end: Offset(0.0, 0.0))
                               .animate(animation);
                           final outAnimation = Tween<Offset>(
-                                  begin: Offset(0.0, -1.0),
-                                  end: Offset(0.0, 0.0))
+                                  begin: Offset(0.0, .5), end: Offset(0.0, 0.0))
                               .animate(animation);
                           // final offsetAnimation = Tween<Offset>(
                           //         begin: Offset(1.0, 0.0), end: Offset.zero)

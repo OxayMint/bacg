@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 class OtpStateModel extends ChangeNotifier {
   int timeRemaining;
-  OtpStateModel() {
-    _startTimer();
+  bool isRegistration;
+  OtpStateModel({this.isRegistration = false}) {
     final Stream timeTicking = new Stream.periodic(Duration(seconds: 1));
 
     timeTicking.listen((event) {
@@ -13,17 +13,17 @@ class OtpStateModel extends ChangeNotifier {
     });
   }
 
-  _startTimer() {
-    var otpTime = LocalData.getInstance.getOtpTime();
+  startTimer() {
+    var otpTime = LocalData.getInstance.getOtpTime(isRegistration);
     if (otpTime.isBefore(DateTime.now())) {
-      LocalData.getInstance.removeOtp();
-      otpTime = LocalData.getInstance.getOtpTime();
+      LocalData.getInstance.removeOtp(isRegistration);
+      otpTime = LocalData.getInstance.getOtpTime(isRegistration);
     }
     timeRemaining = otpTime.difference(DateTime.now()).inSeconds;
   }
 
   restart() {
-    LocalData.getInstance.removeOtp();
-    _startTimer();
+    LocalData.getInstance.removeOtp(isRegistration);
+    startTimer();
   }
 }
