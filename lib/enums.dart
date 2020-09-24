@@ -1,0 +1,1 @@
+enum OtpType { Registration, Update }

@@ -25,6 +25,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       // key: _scaffoldKey,
       appBar: AppBar(
+        brightness: Brightness.light,
         backgroundColor: Colors.white,
         toolbarHeight: 60,
         title: Center(
@@ -57,12 +58,12 @@ class _HomeState extends State<Home> {
                 icon: _getIcon('user'),
                 onPressed: () {
                   setState(() {
-                    if (appState.user.anonymous) {
+                    if (appState.isAnonymous) {
                       appState.logout();
                     } else {
                       currentWidgetName = 'settings';
+                      closeDrawer();
                     }
-                    closeDrawer();
                   });
                 }),
           ),
@@ -141,7 +142,7 @@ class _HomeState extends State<Home> {
                   ),
                   ListTile(
                     title: Text(
-                      appState.user.anonymous ? 'Log in' : 'Log out',
+                      appState.isAnonymous ? 'Log in' : 'Log out',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline2,
                     ),

@@ -1,29 +1,34 @@
+import 'package:bacg/enums.dart';
 import 'package:bacg/services/local_data.service.dart';
 import 'package:flutter/material.dart';
 
 class OtpStateModel extends ChangeNotifier {
-  int timeRemaining;
-  bool isRegistration;
-  OtpStateModel({this.isRegistration = false}) {
+  int secondsRemaining;
+  final OtpType type;
+  OtpStateModel({@required this.type}) {
     final Stream timeTicking = new Stream.periodic(Duration(seconds: 1));
-
+    secondsRemaining = LocalData.getInstance
+        .getOtpTime(type)
+        .difference(DateTime.now())
+        .inSeconds;
     timeTicking.listen((event) {
-      timeRemaining--;
+      secondsRemaining--;
       notifyListeners();
     });
   }
 
-  startTimer() {
-    var otpTime = LocalData.getInstance.getOtpTime(isRegistration);
+  startOtpTimer() {
+    var otpTime = LocalData.getInstance.getOtpTime(type);
     if (otpTime.isBefore(DateTime.now())) {
-      LocalData.getInstance.removeOtp(isRegistration);
-      otpTime = LocalData.getInstance.getOtpTime(isRegistration);
+      LocalData.getInstance.removeOtp(type);
+      otpTime = LocalData.getInstance.getOtpTime(type);
     }
-    timeRemaining = otpTime.difference(DateTime.now()).inSeconds;
+    secondsRemaining = otpTime.difference(DateTime.now()).inSeconds;
   }
 
-  restart() {
-    LocalData.getInstance.removeOtp(isRegistration);
-    startTimer();
+  restartOtpTimer() {
+    // LocalData.getInstance.removeOtp(type);
+    LocalData.getInstance.resetOtpTime(type);
+    startOtpTimer();
   }
 }

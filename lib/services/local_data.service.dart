@@ -1,3 +1,4 @@
+import 'package:bacg/enums.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalData {
@@ -7,12 +8,18 @@ class LocalData {
 
   SharedPreferences prefs;
 
-  String token = '', lang = '';
+  String token = '', lang = '', registrationPhone, updatingPhone;
   Future<void> init() async {
     final sharedPrefsInst = await SharedPreferences.getInstance();
     prefs = sharedPrefsInst;
     token = prefs.containsKey('token') ? prefs.getString('token') : '';
     lang = prefs.containsKey('lang') ? prefs.getString('lang') : '';
+    registrationPhone = prefs.containsKey(_getOtpPhoneKey(OtpType.Registration))
+        ? prefs.getString(_getOtpPhoneKey(OtpType.Registration))
+        : null;
+    updatingPhone = prefs.containsKey(_getOtpPhoneKey(OtpType.Update))
+        ? prefs.getString(_getOtpPhoneKey(OtpType.Update))
+        : null;
   }
 
   setToken(String token) {
@@ -39,26 +46,52 @@ class LocalData {
             : '';
   }
 
-  // setOtpTime(DateTime time) {
-  //   prefs.setInt("otpTime", time.millisecondsSinceEpoch);
-  // }
-
-  DateTime getOtpTime(bool registration) {
-    final key = registration ? 'regOtpTime' : 'updateOtpTime';
+  DateTime getOtpTime(OtpType type) {
     DateTime time = DateTime.fromMillisecondsSinceEpoch(0);
-    if (prefs.containsKey(key)) {
-      time = DateTime.fromMillisecondsSinceEpoch(prefs.getInt(key));
+    if (prefs.containsKey(_getOtpTimeKey(type))) {
+      time = DateTime.fromMillisecondsSinceEpoch(
+          prefs.getInt(_getOtpTimeKey(type)));
     }
     return time;
   }
 
-  setOtpTime(bool registration) {
+  resetOtpTime(OtpType type) {
     final time = DateTime.now().add(Duration(minutes: 3));
-    prefs.setInt(registration ? 'regOtpTime' : 'updateOtpTime',
-        time.millisecondsSinceEpoch);
+    final key = _getOtpTimeKey(type);
+    prefs.setInt(key, time.millisecondsSinceEpoch);
   }
 
-  removeOtp(bool registration) {
-    prefs.remove(registration ? 'regOtpTime' : 'updateOtpTime');
+  setOtpPhone(String phone, OtpType type) {
+    if (type == OtpType.Registration) {
+      registrationPhone = phone;
+    } else {
+      updatingPhone = phone;
+    }
+    resetOtpTime(type);
+    prefs.setString(_getOtpPhoneKey(type), phone);
+  }
+
+  removeOtp(OtpType type) {
+    prefs.remove(_getOtpPhoneKey(type));
+    prefs.remove(_getOtpTimeKey(type));
+    if (type == OtpType.Registration) {
+      registrationPhone = null;
+    } else {
+      updatingPhone = null;
+    }
+  }
+
+  String _getOtpTimeKey(OtpType type) {
+    return type == OtpType.Registration
+        ? 'otpTime_$registrationPhone'
+        : 'otpTime_$updatingPhone';
+  }
+
+  String _getOtpPhoneKey(OtpType type) {
+    return type == OtpType.Registration ? 'regPhone' : 'updatingPhone';
+  }
+
+  String getPhone(OtpType type) {
+    return type == OtpType.Registration ? registrationPhone : updatingPhone;
   }
 }
