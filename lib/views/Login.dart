@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_keyboard_size/flutter_keyboard_size.dart';
 import 'login_components/login_components.dart';
 import 'package:simple_animations/simple_animations.dart';
+import 'package:flutter_animator/flutter_animator.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -16,11 +17,12 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> with AnimationMixin {
-  final multiTween = MultiTween<AnimType>()
-    ..add(AnimType.Position, Tween(begin: Offset(0, 100), end: Offset(0, 0)),
-        Duration(milliseconds: 500), Curves.easeInOut)
-    ..add(AnimType.Opacity, Tween(begin: .0, end: 1.0),
-        Duration(milliseconds: 500), Curves.easeInOut);
+  // Kef for fade animation
+  final GlobalKey<CrossFadeABState> crossFadeAnimation =
+      GlobalKey<CrossFadeABState>();
+
+  final GlobalKey<InOutAnimationState> inOutAnimation =
+      GlobalKey<InOutAnimationState>();
 
   @override
   Widget build(BuildContext context) {
@@ -55,44 +57,72 @@ class _LoginState extends State<Login> with AnimationMixin {
                   SizedBox(
                     height: 20,
                   ),
+
+                  // Fade and Slide transition
                   Consumer<AppState>(
                     builder: (context, state, w) {
-                      return AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 500),
-                        child: getMainWidget(state.loginStage),
-                        transitionBuilder: (child, animation) {
-                          final inAnimation = Tween<Offset>(
-                                  begin: Offset(0.0, -1.0),
-                                  end: Offset(0.0, 0.0))
-                              .animate(animation);
-                          final outAnimation = Tween<Offset>(
-                                  begin: Offset(0.0, -1.0),
-                                  end: Offset(0.0, 0.0))
-                              .animate(animation);
-                          // final offsetAnimation = Tween<Offset>(
-                          //         begin: Offset(1.0, 0.0), end: Offset.zero)
-                          //     .animate(animation);
-                          if (child.key ==
-                              ValueKey<int>(state.loginStage.index)) {
-                            return SlideTransition(
-                              position: inAnimation,
-                              child: child,
-                            );
-                          } else {
-                            return SlideTransition(
-                              position: outAnimation,
-                              child: child,
-                            );
-                          }
-                          // return SlideTransition(
-                          //     position: child.key == ValueKey(state.loginStage)
-                          //         ? inAnimation
-                          //         : outAnimation,
-                          //     child: child);
-                        },
+                      return Column(
+                        children: [
+                          InOutAnimation(
+                            key: inOutAnimation,
+                            inDefinition: SlideInUpAnimation(),
+                            outDefinition: SlideOutDownAnimation(),
+                            child: CrossFadeAB(
+                              key: crossFadeAnimation,
+                              childA: Container(
+                                // key: crossFadeAnimation,
+                                // height: 400,
+                                // width: double.infinity,
+                                // color: Colors.red
+                                child: getMainWidget(state.loginStage),
+                              ),
+                              childB: Container(
+                                child: getMainWidget(state.loginStage),
+                              ),
+                            ),
+                          ),
+                        ],
                       );
                     },
                   ),
+                  // Consumer<AppState>(
+                  //   builder: (context, state, w) {
+                  //     return AnimatedSwitcher(
+                  //       duration: const Duration(milliseconds: 500),
+                  //       // child: getMainWidget(state.loginStage),
+                  //       transitionBuilder: (child, animation) {
+                  //         final inAnimation = Tween<Offset>(
+                  //                 begin: Offset(0.0, 1.0),
+                  //                 end: Offset(0.0, 0.0))
+                  //             .animate(animation);
+                  //         final outAnimation = Tween<Offset>(
+                  //                 begin: Offset(0.0, 1.0),
+                  //                 end: Offset(0.0, 0.0))
+                  //             .animate(animation);
+                  //         // final offsetAnimation = Tween<Offset>(
+                  //         //         begin: Offset(1.0, 0.0), end: Offset.zero)
+                  //         //     .animate(animation);
+                  //         if (child.key ==
+                  //             ValueKey<int>(state.loginStage.index)) {
+                  //           return SlideTransition(
+                  //             position: inAnimation,
+                  //             child: child,
+                  //           );
+                  //         } else {
+                  //           return SlideTransition(
+                  //             position: outAnimation,
+                  //             // opacity:
+                  //             child: AnimatedOpacity(
+                  //               opacity: opacityLevel,
+                  //               duration: Duration(seconds: 3),
+                  //               child: child,
+                  //             ),
+                  //           );
+                  //         }
+                  //       },
+                  //     );
+                  //   },
+                  // ),
                 ],
               ),
             ),
