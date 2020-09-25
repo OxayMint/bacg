@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:bacg/enums.dart';
 import 'package:bacg/model/pack.dart';
 import 'package:bacg/model/user.dart';
 import 'package:bacg/services/local_data.service.dart';
@@ -68,14 +69,15 @@ class AppState extends ChangeNotifier {
 
   void register(request.Register req) async {
     req = new request.Register(
-        name: "Ad",
-        surname: "soy ad",
-        phone: "994515224452",
+        name: "aaad",
+        surname: "soooyad",
+        phone: "0123456789",
         password: "qwerty");
 
     currentRegistration = req;
     var result = await MainService.getInstance.register(req);
     if (result.success) {
+      LocalData.getInstance.setOtpPhone(req.phone, OtpType.Registration);
       setLoginStage(LoginStage.Otp);
     } else {
       registerExceptions = result.exceptions;
@@ -87,12 +89,15 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void verifyOpt(String code, {bool isRegistration = false}) async {
-    final success = await MainService.getInstance.verifyOtp(request.Verify(
+  void verifyOpt(String code, OtpType type) async {
+    final success = await MainService.getInstance.verifyOtp(
+      request.Verify(
         code: code,
-        phone: isRegistration ? currentRegistration.phone : newPhoneNumber));
+        phone: LocalData.getInstance.getPhone(type),
+      ),
+    );
     if (success) {
-      if (isRegistration) {
+      if (type == OtpType.Registration) {
         loginStage = LoginStage.SignIn;
         login(request.Login(
             phone: currentRegistration.phone,
@@ -100,12 +105,12 @@ class AppState extends ChangeNotifier {
       } else {
         print('Phone changed');
       }
+      LocalData.getInstance.removeOtp(type);
     }
   }
 
-  void resendCode({bool isRegistration}) async {
-    MainService.getInstance.resendCode(
-        isRegistration ? currentRegistration.phone : newPhoneNumber);
+  void resendCode(OtpType type) async {
+    MainService.getInstance.resendCode(LocalData.getInstance.getPhone(type));
   }
 
   void getStorePackages() async {
@@ -132,7 +137,6 @@ class AppState extends ChangeNotifier {
   }
 
   void setLang(String l) {
-    // lang = l;
     Localization.getInstance.setLocale(l);
     LocalData.getInstance.setLang(l);
     notifyListeners();
@@ -148,6 +152,10 @@ class AppState extends ChangeNotifier {
         anonymous: true);
     user = anonymUser;
     notifyListeners();
+  }
+
+  bool get isAnonymous {
+    return user == null ? true : user.anonymous;
   }
 }
 

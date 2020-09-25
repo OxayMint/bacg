@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bacg/enums.dart';
 import 'package:bacg/model/pack.dart';
 import 'package:bacg/model/requests.dart' as request;
 import 'package:bacg/model/responses.dart' as response;
@@ -106,7 +107,7 @@ class MainService {
     }
   }
 
-  Future<bool> verifyOtp(request.Verify req) async {
+  Future<bool> verifyOtp(request.Verify req, OtpType type) async {
     final result = await http.post(getUrl('verify'),
         headers: getHeaders(), body: req.toMap());
     if (result.statusCode == 200) {

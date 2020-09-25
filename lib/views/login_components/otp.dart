@@ -1,6 +1,8 @@
 import 'package:bacg/components/custom_button.dart';
+import 'package:bacg/enums.dart';
 import 'package:bacg/model/app_state.dart';
 import 'package:bacg/model/otp_state.dart';
+import 'package:bacg/services/local_data.service.dart';
 import 'package:bacg/services/localization.service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,13 +21,13 @@ class _OtpState extends State<Otp> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<OtpStateModel>(
-      create: (context) => OtpStateModel(isRegistration: true),
+      create: (context) => OtpStateModel(type: OtpType.Registration),
       child: Consumer<OtpStateModel>(builder: (context, state, widget) {
-        final timeRemaining = state.timeRemaining;
+        final timeRemaining = state.secondsRemaining;
         final mins = (timeRemaining / 60).floor();
         final secs = timeRemaining % 60;
-        print("mins:$mins, secs: $secs");
-        print(mins);
+        print("mins: $mins, secs: $secs");
+        // print(mins);
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -69,8 +71,8 @@ class _OtpState extends State<Otp> {
                   ? null
                   : () {
                       Provider.of<AppState>(context, listen: false)
-                          .resendCode(isRegistration: true);
-                      state.restart();
+                          .resendCode(OtpType.Registration);
+                      state.restartOtpTimer();
                     },
               child: Text(
                 timeRemaining > 0
@@ -86,15 +88,15 @@ class _OtpState extends State<Otp> {
             //     },
             //     type: ButtonType.Primary,
             //     text: "Resend"),
-            Expanded(
-              child: Container(),
-            ),
+            // Expanded(
+            //   child: Container(),
+            // ),
             BacgButton(
               text: "SELECT",
               type: ButtonType.Primary,
               onPressed: () {
                 Provider.of<AppState>(context, listen: false)
-                    .verifyOpt(_otpController.text, isRegistration: true);
+                    .verifyOpt(_otpController.text, OtpType.Registration);
               },
             )
           ],

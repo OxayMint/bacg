@@ -1,4 +1,5 @@
 import 'package:bacg/components/custom_button.dart';
+import 'package:bacg/enums.dart';
 import 'package:bacg/model/app_state.dart';
 import 'package:bacg/model/otp_state.dart';
 import 'package:flutter/material.dart';
@@ -61,11 +62,11 @@ class Settings extends StatelessWidget {
               height: 20,
             ),
             ChangeNotifierProvider<OtpStateModel>(
-                create: (context) => OtpStateModel(isRegistration: false),
+                create: (context) => OtpStateModel(type: OtpType.Update),
                 child:
                     Consumer<OtpStateModel>(builder: (context, state, widget) {
-                  print(state.timeRemaining);
-                  return state.timeRemaining <= 0
+                  print(state.secondsRemaining);
+                  return state.secondsRemaining <= 0
                       ? Container()
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
