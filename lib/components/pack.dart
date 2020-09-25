@@ -13,19 +13,18 @@ class Pack extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimateIfVisible(
       key: Key('${pack.id}'),
-      duration: Duration(milliseconds: 500),
+      // delay: Duration(milliseconds: 1000),
+      duration: Duration(milliseconds: 20),
       builder: (BuildContext context, Animation<double> animation) {
         // return Text("ff");
         return FadeTransition(
-          opacity: Tween<double>(
-            begin: 0,
-            end: 1,
-          ).animate(animation),
+          opacity: Tween<double>(begin: 0, end: 1)
+              .chain(CurveTween(curve: Curves.easeInOut))
+              .animate(animation),
           child: SlideTransition(
-            position: Tween<Offset>(
-              begin: Offset(0, -0.1),
-              end: Offset.zero,
-            ).animate(animation),
+            position: Tween<Offset>(begin: Offset(0, 0.1), end: Offset.zero)
+                .chain(CurveTween(curve: Curves.easeInOut))
+                .animate(animation),
             child: SizedBox(
               height: 230,
               child: Column(

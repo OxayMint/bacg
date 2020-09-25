@@ -27,7 +27,8 @@ class AppState extends ChangeNotifier {
 
   AppState() {
     token = LocalData.getInstance.getToken();
-    final lang = LocalData.getInstance.getLang();
+
+    final lang = ''; //LocalData.getInstance.getLang();
     loading = true;
     // otpRefreshTime = LocalData.getInstance.
 

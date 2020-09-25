@@ -14,12 +14,15 @@ class UserPack extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimateIfVisible(
       key: Key('m${pack.packageId}'),
-      duration: Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 80),
       builder: (BuildContext context, Animation<double> animation) {
         return FadeTransition(
-          opacity: Tween<double>(begin: 0, end: 1).animate(animation),
+          opacity: Tween<double>(begin: 0, end: 1)
+              .chain(CurveTween(curve: Curves.easeInOut))
+              .animate(animation),
           child: SlideTransition(
-            position: Tween<Offset>(begin: Offset(0, -0.1), end: Offset.zero)
+            position: Tween<Offset>(begin: Offset(0, 0.1), end: Offset.zero)
+                .chain(CurveTween(curve: Curves.easeInOut))
                 .animate(animation),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),

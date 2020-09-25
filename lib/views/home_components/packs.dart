@@ -140,14 +140,16 @@ class StorePacks extends StatelessWidget {
       children: [
         AnimateIfVisible(
           key: Key("Store Header"),
-          duration: Duration(milliseconds: 500),
+          duration: Duration(milliseconds: 80),
           builder: (BuildContext context, Animation<double> animation) {
             return FadeTransition(
-              opacity: Tween<double>(begin: 0, end: 1).animate(animation),
+              opacity: Tween<double>(begin: 0, end: 1)
+                  .chain(CurveTween(curve: Curves.easeInOut))
+                  .animate(animation),
               child: SlideTransition(
-                position:
-                    Tween<Offset>(begin: Offset(0, -0.1), end: Offset.zero)
-                        .animate(animation),
+                position: Tween<Offset>(begin: Offset(0, 0.1), end: Offset.zero)
+                    .chain(CurveTween(curve: Curves.easeInOut))
+                    .animate(animation),
                 child: SizedBox(child: ListHeader(text: "STORE")),
               ),
             );
@@ -173,14 +175,16 @@ class MyPacks extends StatelessWidget {
       children: [
         AnimateIfVisible(
           key: Key('My Pack key'),
-          duration: Duration(milliseconds: 500),
+          duration: Duration(milliseconds: 80),
           builder: (BuildContext context, Animation<double> animation) {
             return FadeTransition(
-              opacity: Tween<double>(begin: 0, end: 1).animate(animation),
+              opacity: Tween<double>(begin: 0, end: 1)
+                  .chain(CurveTween(curve: Curves.easeInOut))
+                  .animate(animation),
               child: SlideTransition(
-                position:
-                    Tween<Offset>(begin: Offset(0, -0.1), end: Offset.zero)
-                        .animate(animation),
+                position: Tween<Offset>(begin: Offset(0, 0.1), end: Offset.zero)
+                    .chain(CurveTween(curve: Curves.easeInOut))
+                    .animate(animation),
                 child: ListHeader(text: "MY PACKS"),
               ),
             );
