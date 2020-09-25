@@ -111,7 +111,7 @@ class _SignInState extends State<SignIn> {
                   });
                 } else {
                   appState.login(
-                    req.Login(phone: '994515224452', password: 'qwerty'),
+                    req.Login(phone: '5224452', password: 'qwerty'),
                     // req.Login(phone: _phoneController.text, password: _passController.text)
                   );
                 }
