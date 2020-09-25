@@ -1,3 +1,4 @@
+import 'package:auto_animated/auto_animated.dart';
 import 'package:bacg/components/packs_list.dart';
 import 'package:bacg/components/user_package.dart';
 import 'package:bacg/model/app_state.dart';
@@ -8,21 +9,33 @@ import 'package:bacg/model/pack.dart' as model;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
+// class Packs extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     final storePcks =
+//         Provider.of<AppState>(context, listen: false).storePackages;
+//     return StorePacks(storePcks);
+//   }
+// }
+
 class Packs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Consumer<AppState>(builder: (context, state, widget) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            state.ownedPackages.length > 0
-                ? MyPacks(state.ownedPackages)
-                : Container(),
-            StorePacks(state.storePackages),
-          ],
-        );
-      }),
+    return AnimateIfVisibleWrapper(
+      showItemInterval: Duration(milliseconds: 250),
+      child: SingleChildScrollView(
+        child: Consumer<AppState>(builder: (context, state, widget) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              state.ownedPackages.length > 0
+                  ? MyPacks(state.ownedPackages)
+                  : Container(),
+              StorePacks(state.storePackages),
+            ],
+          );
+        }),
+      ),
     );
   }
 }
@@ -76,6 +89,48 @@ class ListHeader extends StatelessWidget {
   }
 }
 
+// class StorePacks extends StatelessWidget {
+//   StorePacks(this.packs);
+//   final List<model.Pack> packs;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: [
+//         ListHeader(
+//           text: 'STORE',
+//         ),
+//         SizedBox(
+//           height:
+//               MediaQuery.of(context).size.height - 50, //230.0 * packs.length,
+//           child: LiveList(
+
+//             itemCount: packs.length,
+//             showItemInterval: Duration(milliseconds: 250),
+//             itemBuilder: (context, index, animation) {
+//               return FadeTransition(
+//                 opacity: animation,
+//                 child: SlideTransition(
+//                   position: Tween<Offset>(
+//                     begin: Offset(0, 0.3),
+//                     end: Offset.zero,
+//                   ).animate(animation),
+//                   child:
+//                       // ListTile(
+//                       //   title: Text('item $index'),
+//                       // ),
+//                       Pack(
+//                     pack: packs[index],
+//                   ),
+//                 ),
+//               );
+//             },
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
+
 class StorePacks extends StatelessWidget {
   StorePacks(this.packs);
   final List<model.Pack> packs;
@@ -83,8 +138,20 @@ class StorePacks extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ListHeader(
-          text: "STORE",
+        AnimateIfVisible(
+          key: Key("Store Header"),
+          duration: Duration(milliseconds: 500),
+          builder: (BuildContext context, Animation<double> animation) {
+            return FadeTransition(
+              opacity: Tween<double>(begin: 0, end: 1).animate(animation),
+              child: SlideTransition(
+                position:
+                    Tween<Offset>(begin: Offset(0, -0.1), end: Offset.zero)
+                        .animate(animation),
+                child: SizedBox(child: ListHeader(text: "STORE")),
+              ),
+            );
+          },
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -104,8 +171,20 @@ class MyPacks extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ListHeader(
-          text: "MY PACKS",
+        AnimateIfVisible(
+          key: Key('My Pack key'),
+          duration: Duration(milliseconds: 500),
+          builder: (BuildContext context, Animation<double> animation) {
+            return FadeTransition(
+              opacity: Tween<double>(begin: 0, end: 1).animate(animation),
+              child: SlideTransition(
+                position:
+                    Tween<Offset>(begin: Offset(0, -0.1), end: Offset.zero)
+                        .animate(animation),
+                child: ListHeader(text: "MY PACKS"),
+              ),
+            );
+          },
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
