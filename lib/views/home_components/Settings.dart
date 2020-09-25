@@ -8,11 +8,13 @@ import 'package:provider/provider.dart';
 class Settings extends StatelessWidget {
   final _nameController = new TextEditingController();
   final _oldPhoneController = new TextEditingController();
+  final _newPhoneController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context, listen: false);
     _nameController.text = '${appState.user.name} ${appState.user.surname}';
     _oldPhoneController.text = appState.user.phone;
+    _newPhoneController.text = appState.newPhoneNumber ?? '';
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20.0),

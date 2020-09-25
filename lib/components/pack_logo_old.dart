@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class PackLogo extends StatelessWidget {
   PackLogo({Key key, this.number, this.owned = false}) : super(key: key);
@@ -24,12 +23,6 @@ class PackLogo extends StatelessWidget {
             gradient: _getGradient(),
             borderRadius: BorderRadius.circular(2),
           ),
-          //     SvgPicture.asset(
-          //   'assets/broken_gradient_2.svg',
-          //   // color: Colors.white60,
-          //   fit: BoxFit.fitHeight,
-          //   // colorBlendMode: BlendMode.xor,
-          // ),
         ),
         Container(
           alignment: Alignment.bottomRight,
@@ -52,16 +45,6 @@ class PackLogo extends StatelessWidget {
             ),
           ),
         ),
-        // AspectRatio(
-        //   aspectRatio: 1,
-        //   child:
-        //   //     Image.asset(
-        //   //   'assets/broken_gradient.png',
-        //   //   color: Color.fromRGBO(255, 255, 255, .2),
-        //   //   colorBlendMode: BlendMode.src,
-        //   //   fit: BoxFit.fitHeight,
-        //   // ),
-        // ),
       ],
     );
   }

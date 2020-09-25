@@ -108,8 +108,11 @@ class MainService {
   }
 
   Future<bool> verifyOtp(request.Verify req, OtpType type) async {
-    final result = await http.post(getUrl('verify'),
-        headers: getHeaders(), body: req.toMap());
+    final path = type == OtpType.Registration
+        ? 'verify_register'
+        : 'verify_update_phone';
+    final result =
+        await http.post(getUrl(path), headers: getHeaders(), body: req.toMap());
     if (result.statusCode == 200) {
       return true;
     } else {

@@ -4,7 +4,6 @@ import 'package:bacg/components/pack_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:bacg/model/pack.dart' as model;
-import 'package:flutter_svg/flutter_svg.dart';
 
 class Pack extends StatelessWidget {
   Pack({Key key, this.pack});

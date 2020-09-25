@@ -32,14 +32,13 @@ class BacgApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AppState>(
       create: (context) => AppState(),
-      child: Consumer<AppState>(builder: (context, state, widget) {
-        return MaterialApp(
+      child: Consumer<AppState>(
+        builder: (context, state, widget) {
+          return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'BACG',
             theme: ThemeData(
-              primarySwatch:
-                  Colors.green, //MaterialColor(Color.fromARGB(a, r, g, b)),
-              // accentColor: Colors.green,
+              primarySwatch: Colors.green,
               accentColor: Color.fromRGBO(255, 110, 115, 1),
               visualDensity: VisualDensity.adaptivePlatformDensity,
               inputDecorationTheme: InputDecorationTheme(
@@ -124,18 +123,10 @@ class BacgApp extends StatelessWidget {
                       ? Login()
                       : Home(),
               duration: Duration(milliseconds: 500),
-              // transitionBuilder: (child, animation) {
-              //   final offsetAnim =
-              //       Tween<Offset>(begin: Offset(0, 0), end: Offset(0, 0))
-              //           .animate(animation);
-
-              //   return SlideTransition(
-              //     position: offsetAnim,
-              //     child: child,
-              //   );
-              // },
-            ));
-      }),
+            ),
+          );
+        },
+      ),
     );
   }
 }

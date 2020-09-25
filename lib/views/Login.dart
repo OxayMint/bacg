@@ -29,7 +29,10 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return KeyboardSizeProvider(
       child: Scaffold(
-        // appBar: ,
+        // appBar: AppBar(
+        //   backgroundColor: Colors.transparent,
+        //   shadowColor: Colors.transparent,
+        // ),
         // resizeToAvoidBottomPadding: false,
         body: Container(
           height: double.infinity, //MediaQuery.of(context).size.height,

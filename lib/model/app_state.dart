@@ -37,6 +37,9 @@ class AppState extends ChangeNotifier {
 
     // loginStage = LoginStage.Otp;
     loginStage = lang == '' ? LoginStage.Lang : LoginStage.SignIn;
+    if (LocalData.getInstance.registrationPhone != null) {
+      loginStage = LoginStage.Otp;
+    }
     ownedPackages = [];
     storePackages = [];
     getStorePackages();
@@ -95,18 +98,23 @@ class AppState extends ChangeNotifier {
         code: code,
         phone: LocalData.getInstance.getPhone(type),
       ),
+      type,
     );
     if (success) {
       if (type == OtpType.Registration) {
+        if (currentRegistration != null) {
+          login(request.Login(
+              phone: currentRegistration.phone,
+              password: currentRegistration.password));
+        }
         loginStage = LoginStage.SignIn;
-        login(request.Login(
-            phone: currentRegistration.phone,
-            password: currentRegistration.password));
+        currentRegistration = null;
       } else {
         print('Phone changed');
       }
       LocalData.getInstance.removeOtp(type);
     }
+    notifyListeners();
   }
 
   void resendCode(OtpType type) async {
