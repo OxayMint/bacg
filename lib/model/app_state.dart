@@ -81,7 +81,7 @@ class AppState extends ChangeNotifier {
     req = new request.Register(
         name: "aaad",
         surname: "soooyad",
-        phone: "012345678980",
+        phone: "01234567897780",
         password: "qwerty");
 
     currentRegistration = req;

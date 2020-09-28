@@ -13,23 +13,47 @@ class NotifyBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Container(
-        height: 70,
+        height: 48,
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
-          color: Colors.black,
+          color: Colors.black87,
         ),
         child: Center(
-            child: Expanded(
+            child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             children: [
               message.type == NotificationType.Error
-                  ? Icon(
-                      Icons.error,
-                      color: Colors.red,
+                  ? SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: Image(
+                        image: AssetImage('assets/icons/exclamation.png'),
+                      ),
                     )
-                  : Icon(Icons.done, color: Colors.green),
-              Text(message.text, style: Theme.of(context).textTheme.headline3),
+                  : SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: Image(
+                        image: AssetImage('assets/icons/check.png'),
+                      ),
+                    ),
+              SizedBox(width: 10),
+              Material(
+                color: Colors.transparent,
+                child: Text(
+                  message.text,
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300,
+                    color: message.type == NotificationType.Succes
+                        ? Color.fromRGBO(92, 209, 88, 1)
+                        : Color.fromRGBO(225, 114, 114, 1),
+                  ),
+                ),
+              ),
             ],
           ),
         )),
