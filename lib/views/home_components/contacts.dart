@@ -117,7 +117,7 @@ class Contacts extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          UrlOpener.launchURL('tel:+994124978965');
+                          Utils.launchURL('tel:+994124978965');
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -144,7 +144,7 @@ class Contacts extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          UrlOpener.launchURL('mailto:info@bacg.az');
+                          Utils.launchURL('mailto:info@bacg.az');
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,

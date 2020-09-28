@@ -120,8 +120,28 @@ class MainService {
     }
   }
 
-  void resendCode(String phone) {
-    http.post(getUrl('send_code'),
-        headers: getHeaders(), body: {'phone': phone});
+  void resendCode(String phone, OtpType type) async {
+    final path = type == OtpType.Registration
+        ? 'resend_code_register'
+        : 'resend_code_update_phone';
+    final headers = getHeaders();
+    var result =
+        await http.post(getUrl(path), headers: headers, body: {'phone': phone});
+    print(result);
+  }
+
+  Future<bool> updatePassword(String oldPass, String newPass) async {
+    var result = await http.post(
+      getUrl('update_user_password'),
+      headers: getHeaders(),
+      body: {'old_password': oldPass, 'password': newPass},
+    );
+    return result.statusCode == 200;
+    // if (result.statusCode == 200) {
+    //   return true;
+    // } else {
+    //   print(result.reasonPhrase);
+    //   return false;
+    // }
   }
 }

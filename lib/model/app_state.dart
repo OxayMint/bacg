@@ -20,7 +20,7 @@ class AppState extends ChangeNotifier {
   LoginStage loginStage;
 
   request.Register currentRegistration;
-  String newPhoneNumber;
+  String newPhoneNumber, registrationPhoneNumber;
 
   String loginException;
   Map<String, String> registerExceptions = {};
@@ -28,7 +28,7 @@ class AppState extends ChangeNotifier {
   AppState() {
     token = LocalData.getInstance.getToken();
 
-    final lang = ''; //LocalData.getInstance.getLang();
+    final lang = LocalData.getInstance.getLang();
     loading = true;
     // otpRefreshTime = LocalData.getInstance.
 
@@ -43,6 +43,9 @@ class AppState extends ChangeNotifier {
     }
     ownedPackages = [];
     storePackages = [];
+    registrationPhoneNumber =
+        LocalData.getInstance.getPhone(OtpType.Registration);
+    newPhoneNumber = LocalData.getInstance.getPhone(OtpType.Update);
     getStorePackages();
     if (token != '') {
       getUser();
@@ -93,7 +96,7 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void verifyOpt(String code, OtpType type) async {
+  void verifyOtp(String code, OtpType type) async {
     final success = await MainService.getInstance.verifyOtp(
       request.Verify(
         code: code,
@@ -112,14 +115,17 @@ class AppState extends ChangeNotifier {
         currentRegistration = null;
       } else {
         print('Phone changed');
+        getUser();
       }
-      LocalData.getInstance.removeOtp(type);
+      // LocalData.getInstance.removeOtp(type);
+      removeOtp(type);
     }
     notifyListeners();
   }
 
-  void resendCode(OtpType type) async {
-    MainService.getInstance.resendCode(LocalData.getInstance.getPhone(type));
+  void resendCode(OtpType type) {
+    MainService.getInstance
+        .resendCode(LocalData.getInstance.getPhone(type), type);
   }
 
   void getStorePackages() async {
@@ -136,6 +142,7 @@ class AppState extends ChangeNotifier {
   void logout() {
     user = null;
     token = null;
+    ownedPackages = [];
     LocalData.getInstance.setToken(null);
     notifyListeners();
   }
@@ -165,6 +172,32 @@ class AppState extends ChangeNotifier {
 
   bool get isAnonymous {
     return user == null ? true : user.anonymous;
+  }
+
+  void updatePhone(String phone) {
+    newPhoneNumber = phone;
+    LocalData.getInstance.setOtpPhone(phone, OtpType.Update);
+    MainService.getInstance.resendCode(
+        phone, OtpType.Update); // LocalData.getInstance.updatingPhone = phone;
+    notifyListeners();
+  }
+
+  void removeOtp(OtpType type) {
+    LocalData.getInstance.removeOtp(type);
+    if (type == OtpType.Registration) {
+      registrationPhoneNumber = null;
+    } else {
+      newPhoneNumber = null;
+    }
+    notifyListeners();
+  }
+
+  void updatePassword(String oldPass, String newPass) async {
+    final success =
+        await MainService.getInstance.updatePassword(oldPass, newPass);
+    if (success) {
+      print('password updated');
+    }
   }
 }
 

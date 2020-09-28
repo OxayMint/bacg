@@ -96,7 +96,7 @@ class _OtpState extends State<Otp> {
               type: ButtonType.Primary,
               onPressed: () {
                 Provider.of<AppState>(context, listen: false)
-                    .verifyOpt(_otpController.text, OtpType.Registration);
+                    .verifyOtp(_otpController.text, OtpType.Registration);
               },
             )
           ],
