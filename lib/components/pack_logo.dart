@@ -21,6 +21,7 @@ class PackLogo extends StatelessWidget {
           ),
         ),
         Positioned(
+          top: 0,
           right: -15,
           child: Text(
             "$number",

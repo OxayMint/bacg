@@ -1,3 +1,4 @@
+import 'package:bacg/components/nitification.dart';
 import 'package:bacg/components/verify.dart';
 import 'package:bacg/model/app_state.dart';
 import 'package:bacg/services/local_data.service.dart';
@@ -116,13 +117,26 @@ class BacgApp extends StatelessWidget {
                 ),
               ),
             ),
-            home: AnimatedSwitcher(
-              child: state.loading
-                  ? Loading()
-                  : state.user == null
-                      ? Login()
-                      : Home(),
-              duration: Duration(milliseconds: 500),
+            home: Stack(
+              children: [
+                AnimatedSwitcher(
+                  child: state.loading
+                      ? Loading()
+                      : state.user == null ? Login() : Home(),
+                  duration: Duration(milliseconds: 500),
+                ),
+                AnimatedSwitcher(
+                  duration: Duration(milliseconds: 200),
+                  child: state.message == null
+                      ? Container()
+                      : Align(
+                          alignment: Alignment.bottomCenter,
+                          child: NotifyBar(
+                            message: state.message,
+                          ),
+                        ),
+                )
+              ],
             ),
           );
         },

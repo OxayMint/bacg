@@ -1,6 +1,7 @@
 import 'dart:core';
 
 import 'package:bacg/enums.dart';
+import 'package:bacg/model/notification.dart';
 import 'package:bacg/model/pack.dart';
 import 'package:bacg/model/user.dart';
 import 'package:bacg/services/local_data.service.dart';
@@ -24,7 +25,7 @@ class AppState extends ChangeNotifier {
 
   String loginException;
   Map<String, String> registerExceptions = {};
-
+  CustomNotification message;
   AppState() {
     token = LocalData.getInstance.getToken();
 
@@ -64,6 +65,8 @@ class AppState extends ChangeNotifier {
     } else {
       print('Could not log in');
       loginException = loginResult.exception;
+      setNotification(CustomNotification(
+          text: loginResult.exception, type: NotificationType.Error));
     }
     notifyListeners();
   }
@@ -92,7 +95,10 @@ class AppState extends ChangeNotifier {
           'password']; //.map((key, value) => value).toList();
       loginException =
           registerExceptions['phone']; //.map((key, value) => value).toList();
+      setNotification(CustomNotification(
+          text: loginException, type: NotificationType.Error));
     }
+
     notifyListeners();
   }
 
@@ -172,6 +178,15 @@ class AppState extends ChangeNotifier {
 
   bool get isAnonymous {
     return user == null ? true : user.anonymous;
+  }
+
+  void setNotification(CustomNotification msg) {
+    message = msg;
+    notifyListeners();
+    Future.delayed(Duration(seconds: 3)).then((value) {
+      message = null;
+      notifyListeners();
+    });
   }
 
   void updatePhone(String phone) {
