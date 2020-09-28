@@ -21,6 +21,7 @@ class _LanguageState extends State<Language> {
   Widget build(BuildContext context) {
     final _deviceHeight = MediaQuery.of(context).size.height;
     var state = Provider.of<AppState>(context, listen: false);
+    final buttonText = _getButtonText(selectedLang);
     return SizedBox(
       height: _deviceHeight - 310,
       child: Column(
@@ -67,8 +68,8 @@ class _LanguageState extends State<Language> {
                     onChanged: (val) {
                       setState(() {
                         selectedLang = val;
-                        print(selectedLang);
                       });
+                      print(selectedLang);
                     },
                     dropdownColor: Colors.white,
                     // focusColor: Colors.red,
@@ -83,7 +84,7 @@ class _LanguageState extends State<Language> {
               selectedLang == null
                   ? Container()
                   : BacgButton(
-                      text: getButtonText(selectedLang),
+                      text: buttonText, // _getButtonText(selectedLang),
                       type: ButtonType.Primary,
                       onPressed: () {
                         // login(context);
@@ -102,8 +103,8 @@ class _LanguageState extends State<Language> {
     );
   }
 
-  String getButtonText(String lang) {
-    switch (lang) {
+  String _getButtonText(String lang) {
+    switch (selectedLang) {
       case 'eng':
         return "SELECT";
       case 'rus':

@@ -12,7 +12,7 @@ class BacgButton extends StatefulWidget {
 
   final GestureTapCallback onPressed;
   final ButtonType type;
-  final String text;
+  String text;
   final bool disabled;
   String iconName;
   @override
@@ -28,7 +28,7 @@ class _BacgButtonState extends State<BacgButton> {
   _BacgButtonState(
       {@required this.onPressed,
       @required this.type,
-      @required this.text,
+      this.text,
       this.iconName,
       this.disabled});
 
@@ -44,7 +44,7 @@ class _BacgButtonState extends State<BacgButton> {
 
   final GestureTapCallback onPressed;
   final ButtonType type;
-  final String text;
+  String text;
   final bool disabled;
   String iconName;
   bool pressed = false;
@@ -52,6 +52,7 @@ class _BacgButtonState extends State<BacgButton> {
 
   @override
   Widget build(BuildContext context) {
+    text = widget.text;
     return button();
   }
 
