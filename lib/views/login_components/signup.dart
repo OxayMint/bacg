@@ -161,10 +161,12 @@ class _SignUpState extends State<SignUp> {
                 //     return ListTile();
                 //   },
                 // ),
-                Text(
-                  appState.loginException ?? '',
-                  style: Theme.of(context).textTheme.overline,
-                ),
+
+                SizedBox(height: 17),
+                // Text(
+                //   appState.loginException ?? '',
+                //   style: Theme.of(context).textTheme.overline,
+                // ),
               ],
             ),
             SizedBox(

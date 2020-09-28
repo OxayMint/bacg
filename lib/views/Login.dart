@@ -1,5 +1,6 @@
 // import 'package:bacg/components/pack_logo.dart';
 // import 'dart:html';
+import 'package:bacg/components/nitification.dart';
 import 'package:bacg/model/app_state.dart';
 // import 'package:bacg/views/Home.dart';
 import 'package:flutter/material.dart';
