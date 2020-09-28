@@ -81,7 +81,7 @@ class AppState extends ChangeNotifier {
     req = new request.Register(
         name: "aaad",
         surname: "soooyad",
-        phone: "0123456789",
+        phone: "012345678980",
         password: "qwerty");
 
     currentRegistration = req;
@@ -89,6 +89,8 @@ class AppState extends ChangeNotifier {
     if (result.success) {
       LocalData.getInstance.setOtpPhone(req.phone, OtpType.Registration);
       setLoginStage(LoginStage.Otp);
+      setNotification(CustomNotification(
+          text: 'SMS Code sent', type: NotificationType.Succes));
     } else {
       registerExceptions = result.exceptions;
       loginException = registerExceptions[
@@ -110,6 +112,7 @@ class AppState extends ChangeNotifier {
       ),
       type,
     );
+    var successMesage;
     if (success) {
       if (type == OtpType.Registration) {
         if (currentRegistration != null) {
@@ -119,13 +122,20 @@ class AppState extends ChangeNotifier {
         }
         loginStage = LoginStage.SignIn;
         currentRegistration = null;
+        successMesage = 'Registration complete';
       } else {
         print('Phone changed');
         getUser();
+        successMesage = 'Phone number updated';
       }
+
       // LocalData.getInstance.removeOtp(type);
       removeOtp(type);
     }
+    setNotification(CustomNotification(
+        text: success ? successMesage : 'Wrong verification code',
+        type: success ? NotificationType.Succes : NotificationType.Error));
+
     notifyListeners();
   }
 
