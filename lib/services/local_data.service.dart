@@ -69,6 +69,7 @@ class LocalData {
     }
     resetOtpTime(type);
     prefs.setString(_getOtpPhoneKey(type), phone);
+    // notify
   }
 
   removeOtp(OtpType type) {

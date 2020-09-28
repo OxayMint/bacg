@@ -139,9 +139,12 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void resendCode(OtpType type) {
-    MainService.getInstance
+  void resendCode(OtpType type) async {
+    var success = await MainService.getInstance
         .resendCode(LocalData.getInstance.getPhone(type), type);
+    setNotification(CustomNotification(
+        text: success ? 'Verification code was sent' : 'Some error happened',
+        type: success ? NotificationType.Succes : NotificationType.Error));
   }
 
   void getStorePackages() async {
@@ -202,8 +205,9 @@ class AppState extends ChangeNotifier {
   void updatePhone(String phone) {
     newPhoneNumber = phone;
     LocalData.getInstance.setOtpPhone(phone, OtpType.Update);
-    MainService.getInstance.resendCode(
-        phone, OtpType.Update); // LocalData.getInstance.updatingPhone = phone;
+    resendCode(OtpType.Update);
+    // var success = await MainService.getInstance.resendCode(
+    //     phone, OtpType.Update); // LocalData.getInstance.updatingPhone = phone;
     notifyListeners();
   }
 

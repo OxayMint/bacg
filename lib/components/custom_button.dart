@@ -28,7 +28,7 @@ class _BacgButtonState extends State<BacgButton> {
   _BacgButtonState(
       {@required this.onPressed,
       @required this.type,
-      this.text,
+      @required this.text,
       this.iconName,
       this.disabled});
 
@@ -42,10 +42,10 @@ class _BacgButtonState extends State<BacgButton> {
     });
   }
 
-  final GestureTapCallback onPressed;
-  final ButtonType type;
+  GestureTapCallback onPressed;
+  ButtonType type;
   String text;
-  final bool disabled;
+  bool disabled;
   String iconName;
   bool pressed = false;
   Color textCol, fillCol, borderCol, iconCol;
@@ -53,6 +53,8 @@ class _BacgButtonState extends State<BacgButton> {
   @override
   Widget build(BuildContext context) {
     text = widget.text;
+    disabled = widget.disabled;
+    type = widget.type;
     return button();
   }
 

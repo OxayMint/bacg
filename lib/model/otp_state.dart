@@ -24,6 +24,7 @@ class OtpStateModel extends ChangeNotifier {
       otpTime = LocalData.getInstance.getOtpTime(type);
     }
     secondsRemaining = otpTime.difference(DateTime.now()).inSeconds;
+    notifyListeners();
   }
 
   restartOtpTimer() {

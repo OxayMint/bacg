@@ -120,7 +120,7 @@ class MainService {
     }
   }
 
-  void resendCode(String phone, OtpType type) async {
+  Future<bool> resendCode(String phone, OtpType type) async {
     final path = type == OtpType.Registration
         ? 'resend_code_register'
         : 'resend_code_update_phone';
@@ -128,6 +128,7 @@ class MainService {
     var result =
         await http.post(getUrl(path), headers: headers, body: {'phone': phone});
     print(result);
+    return result.statusCode == 200;
   }
 
   Future<bool> updatePassword(String oldPass, String newPass) async {
