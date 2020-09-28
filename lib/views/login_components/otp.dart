@@ -27,6 +27,7 @@ class _OtpState extends State<Otp> {
         final mins = (timeRemaining / 60).floor();
         final secs = timeRemaining % 60;
         print("mins: $mins, secs: $secs");
+        final phone = Provider.of<AppState>(context).currentRegistration.phone;
         // print(mins);
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -43,6 +44,11 @@ class _OtpState extends State<Otp> {
                 fontFamily: "Montserrat",
               ),
             ),
+            SizedBox(
+              height: 10,
+            ),
+
+            Text(phone),
             SizedBox(
               height: 20,
             ),

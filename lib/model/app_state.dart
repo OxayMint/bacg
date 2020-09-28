@@ -89,22 +89,24 @@ class AppState extends ChangeNotifier {
     if (result.success) {
       LocalData.getInstance.setOtpPhone(req.phone, OtpType.Registration);
       setLoginStage(LoginStage.Otp);
-      setNotification(CustomNotification(
-          text: 'SMS Code sent', type: NotificationType.Succes));
     } else {
       registerExceptions = result.exceptions;
       loginException = registerExceptions[
           'password']; //.map((key, value) => value).toList();
       loginException =
           registerExceptions['phone']; //.map((key, value) => value).toList();
-      setNotification(CustomNotification(
-          text: loginException, type: NotificationType.Error));
+      // setNotification(CustomNotification(
+      //     text: loginException, type: NotificationType.Error));
     }
+    setNotification(CustomNotification(
+        text: result.success ? 'SMS Code sent' : loginException,
+        type:
+            result.success ? NotificationType.Succes : NotificationType.Error));
 
     notifyListeners();
   }
 
-  void verifyOtp(String code, OtpType type) async {
+  Future<bool> verifyOtp(String code, OtpType type) async {
     final success = await MainService.getInstance.verifyOtp(
       request.Verify(
         code: code,
@@ -132,19 +134,27 @@ class AppState extends ChangeNotifier {
       // LocalData.getInstance.removeOtp(type);
       removeOtp(type);
     }
-    setNotification(CustomNotification(
-        text: success ? successMesage : 'Wrong verification code',
-        type: success ? NotificationType.Succes : NotificationType.Error));
+
+    setNotification(
+      CustomNotification(
+          text: success ? successMesage : 'Wrong verification code',
+          type: success ? NotificationType.Succes : NotificationType.Error),
+    );
 
     notifyListeners();
+    return success;
   }
 
-  void resendCode(OtpType type) async {
+  Future<bool> resendCode(OtpType type) async {
     var success = await MainService.getInstance
         .resendCode(LocalData.getInstance.getPhone(type), type);
-    setNotification(CustomNotification(
-        text: success ? 'Verification code was sent' : 'Some error happened',
-        type: success ? NotificationType.Succes : NotificationType.Error));
+
+    setNotification(
+      CustomNotification(
+          text: success ? 'Verification code was sent' : 'Some error happened',
+          type: success ? NotificationType.Succes : NotificationType.Error),
+    );
+    return success;
   }
 
   void getStorePackages() async {
@@ -202,13 +212,16 @@ class AppState extends ChangeNotifier {
     });
   }
 
-  void updatePhone(String phone) {
-    newPhoneNumber = phone;
-    LocalData.getInstance.setOtpPhone(phone, OtpType.Update);
-    resendCode(OtpType.Update);
+  Future<bool> updatePhone(String phone) async {
+    var success = await resendCode(OtpType.Update);
     // var success = await MainService.getInstance.resendCode(
     //     phone, OtpType.Update); // LocalData.getInstance.updatingPhone = phone;
-    notifyListeners();
+    if (success) {
+      newPhoneNumber = phone;
+      LocalData.getInstance.setOtpPhone(phone, OtpType.Update);
+      notifyListeners();
+    }
+    return success;
   }
 
   void removeOtp(OtpType type) {
