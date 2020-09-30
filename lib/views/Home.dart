@@ -22,6 +22,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context, listen: false);
+    // if (!appState.rulesAccepted) {
+    //   currentWidgetName = 'rules';
+    // }
     return Scaffold(
       // key: _scaffoldKey,
       appBar: AppBar(
@@ -35,9 +38,7 @@ class _HomeState extends State<Home> {
           ),
         ),
         leading: FlatButton(
-          child:
-              // Icon(drawerOpen ? Icons.close : Icons.menu, color: Colors.grey),
-              _getIcon(drawerOpen ? 'close' : 'hamburger', Colors.grey),
+          child: _getIcon(drawerOpen ? 'close' : 'hamburger', Colors.grey),
           onPressed: () {
             if (_scaffoldKey.currentState.isDrawerOpen) {
               _scaffoldKey.currentState.openEndDrawer();
@@ -51,10 +52,7 @@ class _HomeState extends State<Home> {
         ),
         actions: [
           SizedBox(
-            // height: 30,
-            // width: 30,
             child: IconButton(
-                // icon: Icon(Icons.account_circle, color: Colors.grey),
                 icon: _getIcon('user', Colors.grey),
                 onPressed: () {
                   setState(() {
@@ -157,7 +155,8 @@ class _HomeState extends State<Home> {
         ),
         body: Padding(
           padding: const EdgeInsets.only(top: 10),
-          child: setMainWidget(currentWidgetName),
+          child: setMainWidget(
+              appState.rulesAccepted ? currentWidgetName : 'rules'),
         ),
       ),
     );
@@ -173,14 +172,14 @@ class _HomeState extends State<Home> {
 
   Widget setMainWidget(String name) {
     switch (name) {
-      case 'packs':
-        return Packs();
       case 'settings':
         return Settings();
       case 'rules':
-        return Rules(initial: true);
+        return Rules();
       case 'contacts':
         return Contacts();
+      default:
+        return Packs();
     }
   }
 

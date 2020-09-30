@@ -55,11 +55,6 @@ List<Map<String, String>> countryCodes = [
     "dial_code": "+54",
   },
   {
-    "name": "Հայաստան",
-    "code": "AM",
-    "dial_code": "+374",
-  },
-  {
     "name": "Aruba",
     "code": "AW",
     "dial_code": "+297",

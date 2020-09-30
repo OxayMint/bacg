@@ -32,7 +32,7 @@ class _SignUpState extends State<SignUp> {
   double _getStaticGapSize() {
     print('recalculating size');
     final _deviceHeight = MediaQuery.of(context).size.height;
-    final _expandedGapSize = _deviceHeight - 418 - 5 - 277;
+    final _expandedGapSize = _deviceHeight - 418 - 5 - 290;
     return max(_expandedGapSize - _keyboardHeight, 10);
   }
 
@@ -120,6 +120,9 @@ class _SignUpState extends State<SignUp> {
                         currentCountryPrefix = prefix;
                       });
                     }),
+                    SizedBox(
+                      width: 10,
+                    ),
                     Flexible(
                       child: TextField(
                         controller: _phoneController,
@@ -214,7 +217,7 @@ class _SignUpState extends State<SignUp> {
             Column(
               children: [
                 BacgButton(
-                  text: Localized("sign_up").value,
+                  text: Localized("sign_up").value.toUpperCase(),
                   type: ButtonType.Primary,
                   onPressed: () {
                     final request = req.Register(
@@ -234,6 +237,14 @@ class _SignUpState extends State<SignUp> {
                   },
                 ),
                 FlatButton(
+                  minWidth: double.infinity,
+                  shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(3),
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: Colors.green,
+                    ),
+                  ),
                   // minWidth: double.infinity,
                   onPressed: () {
                     appState.loginException = null;

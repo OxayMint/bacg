@@ -133,6 +133,14 @@ class _SignInState extends State<SignIn> {
               disabled: loading,
             ),
             FlatButton(
+              minWidth: double.infinity,
+              shape: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(3),
+                borderSide: BorderSide(
+                  width: 1,
+                  color: Colors.green,
+                ),
+              ),
               // minWidth: double.infinity,
               onPressed: () {
                 appState.loginException = null;

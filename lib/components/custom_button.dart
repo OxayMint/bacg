@@ -76,9 +76,7 @@ class _BacgButtonState extends State<BacgButton> {
           color: getBorderColor(context),
         ),
       ),
-      // hoverColor: ,
       color: getFillColor(context),
-      // shape: SHape,
       highlightColor: getHighlightColor(context),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -96,7 +94,6 @@ class _BacgButtonState extends State<BacgButton> {
                 ),
           Text(
             text,
-            //style: Theme.of(context).textTheme.bodyText2.apply(),
             style: TextStyle(color: textCol, fontFamily: 'ProximaNova'),
           ),
         ],

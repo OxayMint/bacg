@@ -23,13 +23,13 @@ class AppState extends ChangeNotifier {
 
   request.Register currentRegistration;
   PhoneNumber updatingPhone, registrationPhone;
-
+  bool rulesAccepted;
   String loginException;
   Map<String, String> registerExceptions = {};
   CustomNotification message;
   AppState() {
     token = LocalData.getInstance.getToken();
-
+    rulesAccepted = LocalData.getInstance.rulesAccepted;
     final lang = LocalData.getInstance.getLang();
     loading = true;
     // otpRefreshTime = LocalData.getInstance.
@@ -48,6 +48,7 @@ class AppState extends ChangeNotifier {
     registrationPhone = LocalData.getInstance.getPhone(OtpType.Registration);
     updatingPhone = LocalData.getInstance.getPhone(OtpType.Update);
     currentRegistration = LocalData.getInstance.getRegistration();
+    rulesAccepted = LocalData.getInstance.rulesAccepted;
     getStorePackages();
     if (token != '') {
       getUser();
@@ -280,6 +281,13 @@ class AppState extends ChangeNotifier {
     setNotification(CustomNotification.fromResponse(res));
 
     return res.success;
+  }
+
+  void acceptRules() {
+    LocalData.getInstance.acceptRules();
+    rulesAccepted = true;
+
+    notifyListeners();
   }
 }
 

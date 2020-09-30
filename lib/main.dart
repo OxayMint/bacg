@@ -122,7 +122,9 @@ class BacgApp extends StatelessWidget {
                 AnimatedSwitcher(
                   child: state.loading
                       ? Loading()
-                      : state.user == null ? Login() : Home(),
+                      : state.user == null
+                          ? Login()
+                          : Home(),
                   duration: Duration(milliseconds: 500),
                 ),
                 AnimatedSwitcher(

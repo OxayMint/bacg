@@ -119,4 +119,14 @@ class LocalData {
   removeRegistration() {
     prefs.remove('currentRegistration');
   }
+
+  bool get rulesAccepted {
+    return prefs.containsKey('rulesAccepted')
+        ? prefs.getBool('rulesAccepted')
+        : false;
+  }
+
+  acceptRules() {
+    prefs.setBool('rulesAccepted', true);
+  }
 }
