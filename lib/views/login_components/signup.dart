@@ -1,7 +1,11 @@
 import 'dart:math';
 
+import 'package:bacg/components/country_code_dark.dart';
 import 'package:bacg/components/custom_button.dart';
+import 'package:bacg/country_codes.dart';
+import 'package:bacg/enums.dart';
 import 'package:bacg/model/app_state.dart';
+import 'package:bacg/model/phone_number.dart';
 import 'package:bacg/services/localization.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_size/flutter_keyboard_size.dart';
@@ -23,12 +27,25 @@ class _SignUpState extends State<SignUp> {
       new TextEditingController();
   double _keyboardHeight = 0;
   final GlobalKey _columnKey = new GlobalKey();
-
+  String currentCountryCode = 'AZ';
+  String currentCountryPrefix = '994';
   double _getStaticGapSize() {
     print('recalculating size');
     final _deviceHeight = MediaQuery.of(context).size.height;
     final _expandedGapSize = _deviceHeight - 418 - 5 - 277;
     return max(_expandedGapSize - _keyboardHeight, 10);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    final appState = Provider.of<AppState>(context, listen: false);
+    if (appState.registrationPhone != null) {
+      _phoneController.text = appState.registrationPhone.number;
+      currentCountryCode = appState.registrationPhone.countryCode;
+      currentCountryPrefix = appState.registrationPhone.dialCode;
+    }
   }
 
   @override
@@ -39,6 +56,13 @@ class _SignUpState extends State<SignUp> {
     return Consumer<ScreenHeight>(builder: (context, heightState, widget) {
       _keyboardHeight = heightState.keyboardHeight;
       // _setGapSize();
+      if (appState.currentRegistration != null) {
+        _phoneController.text = appState.currentRegistration.phone;
+        _nameController.text = appState.currentRegistration.name;
+        _surnameController.text = appState.currentRegistration.surname;
+        _passController.text = appState.currentRegistration.password;
+        _passConfirmController.text = appState.currentRegistration.password;
+      }
       return SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -49,7 +73,7 @@ class _SignUpState extends State<SignUp> {
                 TextField(
                   controller: _nameController,
                   decoration: InputDecoration(
-                    errorText: appState.registerExceptions['name'],
+                    // errorText: appState.registerExceptions['name'],
                     labelText: Localized("name").value,
                     labelStyle: TextStyle(color: Colors.white),
                     fillColor: Colors.black45,
@@ -70,7 +94,7 @@ class _SignUpState extends State<SignUp> {
                 TextField(
                   controller: _surnameController,
                   decoration: InputDecoration(
-                    errorText: appState.registerExceptions['surname'],
+                    // errorText: appState.registerExceptions['surname'],
                     labelText: Localized("surname").value,
                     labelStyle: TextStyle(color: Colors.white),
                     fillColor: Colors.black45,
@@ -88,25 +112,37 @@ class _SignUpState extends State<SignUp> {
                 SizedBox(
                   height: 10,
                 ),
-                TextField(
-                  controller: _phoneController,
-                  keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                    // errorBorder: InputBorder.none,
-                    // errorText: appState.registerExceptions['phone'],
-                    labelText: Localized("phone").value,
-                    labelStyle: TextStyle(color: Colors.white),
-                    fillColor: Colors.black45,
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                      borderRadius: BorderRadius.circular(5),
+                Row(
+                  children: [
+                    CountryCodeDark(currentCountryCode, (code, prefix) {
+                      setState(() {
+                        currentCountryCode = code;
+                        currentCountryPrefix = prefix;
+                      });
+                    }),
+                    Flexible(
+                      child: TextField(
+                        controller: _phoneController,
+                        keyboardType: TextInputType.phone,
+                        decoration: InputDecoration(
+                          // errorBorder: InputBorder.none,
+                          // errorText: appState.registerExceptions['phone'],
+                          labelText: Localized("phone").value,
+                          labelStyle: TextStyle(color: Colors.white),
+                          fillColor: Colors.black45,
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  style: TextStyle(color: Colors.white, fontSize: 16),
+                  ],
                 ),
                 SizedBox(
                   height: 10,
@@ -116,7 +152,7 @@ class _SignUpState extends State<SignUp> {
                   controller: _passController,
                   style: TextStyle(color: Colors.white, fontSize: 16),
                   decoration: InputDecoration(
-                    errorText: appState.registerExceptions['password'],
+                    // errorText: appState.registerExceptions['password'],
                     labelText: Localized("password").value,
                     labelStyle: TextStyle(color: Colors.white),
                     fillColor: Colors.black45,
@@ -138,7 +174,7 @@ class _SignUpState extends State<SignUp> {
                   controller: _passConfirmController,
                   style: TextStyle(color: Colors.white, fontSize: 16),
                   decoration: InputDecoration(
-                    errorText: appState.registerExceptions['confirm_pass'],
+                    // errorText: appState.registerExceptions['confirm_pass'],
                     labelText: Localized("confirm_pass").value,
                     labelStyle: TextStyle(color: Colors.white),
                     fillColor: Colors.black45,
@@ -181,23 +217,19 @@ class _SignUpState extends State<SignUp> {
                   text: Localized("sign_up").value,
                   type: ButtonType.Primary,
                   onPressed: () {
-                    appState.loginException = null;
-                    // if (_nameController.text == '' ||
-                    //     _surnameController.text == '' ||
-                    //     _phoneController.text == '' ||
-                    //     _passController.text == '' ||
-                    //     _passConfirmController.text == '') {
-                    //   setState(() {
-                    //     appState.loginException = "All fields should be filled";
-                    //   });
-                    // } else {
                     final request = req.Register(
                         name: _nameController.text,
                         surname: _surnameController.text,
                         phone: _phoneController.text,
                         password: _passController.text);
                     print(request.toMap());
-                    appState.register(request);
+                    appState.register(
+                        request,
+                        _passConfirmController.text,
+                        PhoneNumber(
+                            countryCode: currentCountryCode,
+                            dialCode: currentCountryPrefix,
+                            number: _phoneController.text));
                     // }
                   },
                 ),

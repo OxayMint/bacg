@@ -1,9 +1,10 @@
 import 'dart:math';
 
+import 'package:bacg/components/country_code_dark.dart';
 import 'package:bacg/components/custom_button.dart';
 import 'package:bacg/model/app_state.dart';
+import 'package:bacg/model/phone_number.dart';
 import 'package:bacg/services/localization.service.dart';
-import 'package:bacg/views/login_components/login_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_size/flutter_keyboard_size.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,8 @@ class _SignInState extends State<SignIn> {
   final TextEditingController _passController = new TextEditingController();
 
   var loading = false;
+  var currentCountryCode = 'AZ';
+  var currentCountryPrefix = '994';
   // bool _deviceHeight;
   double _keyboardHeight;
 
@@ -34,27 +37,47 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context, listen: true);
+    // currentCountryCode = appState.cu
     return Consumer<ScreenHeight>(
       builder: (context, heightState, widget) {
         _keyboardHeight = heightState.keyboardHeight;
         return Column(
           children: [
-            TextField(
-              controller: _phoneController,
-              decoration: InputDecoration(
-                labelText: Localized("phone").value,
-                labelStyle: TextStyle(color: Colors.white),
-                fillColor: Colors.black45,
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black),
-                  borderRadius: BorderRadius.circular(5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                CountryCodeDark(currentCountryCode, (code, prefix) {
+                  setState(() {
+                    currentCountryCode = code;
+                    currentCountryPrefix = prefix;
+                  });
+                }),
+                SizedBox(
+                  width: 10,
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent),
-                  borderRadius: BorderRadius.circular(5),
+                Flexible(
+                  child: TextField(
+                    controller: _phoneController,
+                    decoration: InputDecoration(
+                      labelText: Localized("phone").value,
+                      labelStyle: TextStyle(color: Colors.white),
+                      hintText: "505556677",
+                      hintStyle: TextStyle(color: Colors.white70),
+                      fillColor: Colors.black45,
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.transparent),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
                 ),
-              ),
-              style: TextStyle(color: Colors.white, fontSize: 16),
+              ],
             ),
             SizedBox(
               height: 10,
@@ -98,22 +121,14 @@ class _SignInState extends State<SignIn> {
               text: Localized("sign_in").value.toUpperCase(),
               type: ButtonType.Primary,
               onPressed: () {
-                appState.loginException = null;
-                // if (_passController.text == '' || _phoneController.text == '') {
-                if (false) {
-                  setState(() {
-                    appState.loginException =
-                        "Login and password can not be empty";
-                  });
-                } else {
-                  appState.login(
-                    req.Login(phone: '0515224452', password: 'qwerty'),
-                    // req.Login(phone: _phoneController.text, password: _passController.text)
-                  );
-                }
-                // print(_deviceHeight.toString());
-
-                // login(context);
+                appState.login(
+                    // req.Login(phone: '0515224452', password: 'zxcvbnm'),
+                    req.Login(
+                        phone: PhoneNumber(
+                            countryCode: currentCountryCode,
+                            dialCode: currentCountryPrefix,
+                            number: _phoneController.text),
+                        password: _passController.text));
               },
               disabled: loading,
             ),
@@ -149,10 +164,4 @@ class _SignInState extends State<SignIn> {
       },
     );
   }
-
-  // String _phone, _pass;
-  // void login(BuildContext context) async {
-  //   final appState = Provider.of<AppState>(context, listen: false);
-  //   // appState.login();
-  // }
 }

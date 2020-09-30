@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class OtpStateModel extends ChangeNotifier {
   int secondsRemaining;
   final OtpType type;
+  bool _stopped = false;
   OtpStateModel({@required this.type}) {
     final Stream timeTicking = new Stream.periodic(Duration(seconds: 1));
     secondsRemaining = LocalData.getInstance
@@ -12,8 +13,10 @@ class OtpStateModel extends ChangeNotifier {
         .difference(DateTime.now())
         .inSeconds;
     timeTicking.listen((event) {
-      secondsRemaining--;
-      notifyListeners();
+      if (!_stopped) {
+        secondsRemaining--;
+        notifyListeners();
+      }
     });
   }
 
@@ -31,5 +34,15 @@ class OtpStateModel extends ChangeNotifier {
     // LocalData.getInstance.removeOtp(type);
     LocalData.getInstance.resetOtpTime(type);
     startOtpTimer();
+  }
+
+  stop() {
+    _stopped = true;
+  }
+
+  @override
+  void dispose() {
+    stop();
+    super.dispose();
   }
 }

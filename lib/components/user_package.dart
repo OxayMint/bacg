@@ -5,7 +5,7 @@ import 'package:bacg/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:auto_animated/auto_animated.dart';
+// import 'package:auto_animated/auto_animated.dart';
 
 class UserPack extends StatelessWidget {
   UserPack({Key key, this.pack});
@@ -16,7 +16,7 @@ class UserPack extends StatelessWidget {
     return AnimatedAppear(
       uniqueKey: ('m${pack.packageId}'),
       child: SizedBox(
-        height: 230,
+        height: pack.expired ? 180 : 230,
         child: Column(
           children: [
             Stack(
@@ -30,13 +30,16 @@ class UserPack extends StatelessWidget {
                   child: Row(
                     children: [
                       SizedBox(
-                          width: 178,
-                          height: 160,
-                          child: PackLogo(number: pack.callCount, owned: true)),
+                        width: 178,
+                        height: 160,
+                        child: PackLogo(
+                          number: pack.callCount,
+                          owned: true,
+                          expired: pack.expired,
+                        ),
+                      ),
                       Expanded(
                         child: Container(
-                          // width: double.infinity,
-
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: AssetImage('assets/broken_gradient.png'),
@@ -131,26 +134,34 @@ class UserPack extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
-              height: 7,
-            ),
-            SizedBox(
-              height: 40,
-              child: pack.expired
-                  ? Container()
-                  : BacgButton(
-                      type: ButtonType.Primary,
-                      onPressed: () {
-                        launch('tel:+994124978965');
-                      },
-                      text: "Call",
-                      iconName: 'phone',
-                      // preferredWidth: 300,
-                    ),
-            ),
+            _button(),
           ],
         ),
       ),
     );
+  }
+
+  Widget _button() {
+    return pack.expired
+        ? Container()
+        : Column(
+            children: [
+              SizedBox(
+                height: 7,
+              ),
+              SizedBox(
+                height: 40,
+                child: BacgButton(
+                  type: ButtonType.Primary,
+                  onPressed: () {
+                    launch('tel:+994124978965');
+                  },
+                  text: "Call",
+                  iconName: 'phone',
+                  // preferredWidth: 300,
+                ),
+              ),
+            ],
+          );
   }
 }

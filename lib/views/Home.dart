@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
         leading: FlatButton(
           child:
               // Icon(drawerOpen ? Icons.close : Icons.menu, color: Colors.grey),
-              _getIcon(drawerOpen ? 'close' : 'hamburger'),
+              _getIcon(drawerOpen ? 'close' : 'hamburger', Colors.grey),
           onPressed: () {
             if (_scaffoldKey.currentState.isDrawerOpen) {
               _scaffoldKey.currentState.openEndDrawer();
@@ -55,7 +55,7 @@ class _HomeState extends State<Home> {
             // width: 30,
             child: IconButton(
                 // icon: Icon(Icons.account_circle, color: Colors.grey),
-                icon: _getIcon('user'),
+                icon: _getIcon('user', Colors.grey),
                 onPressed: () {
                   setState(() {
                     if (appState.isAnonymous) {
@@ -184,7 +184,11 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Widget _getIcon(String name) {
-    return SvgPicture.asset('assets/$name.svg', fit: BoxFit.cover);
+  Widget _getIcon(String name, Color col) {
+    return SvgPicture.asset(
+      'assets/$name.svg',
+      fit: BoxFit.cover,
+      color: col,
+    );
   }
 }

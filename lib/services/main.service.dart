@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bacg/enums.dart';
 import 'package:bacg/model/pack.dart';
+import 'package:bacg/model/phone_number.dart';
 import 'package:bacg/model/requests.dart' as request;
 import 'package:bacg/model/responses.dart' as response;
 import 'package:bacg/model/user.dart';
@@ -9,7 +10,6 @@ import 'package:bacg/model/user.dart';
 // import 'package:bacg/services/authentication_service.dart';
 import 'package:bacg/services/local_data.service.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 
 class MainService {
   static MainService _instance;
@@ -38,7 +38,7 @@ class MainService {
     final res = await http.post(
       getUrl('login'),
       headers: getHeaders(),
-      body: req.toMap(),
+      body: {'phone': req.phone.fullNumber, 'password': req.password},
     );
     if (res.statusCode == 200) {
       final token = json.decode(res.body)['meta']['token'];
@@ -89,9 +89,11 @@ class MainService {
     }
   }
 
-  Future<response.Register> register(request.Register req) async {
+  Future<response.Register> register(request.Register req, String phone) async {
+    var requestMap = req.toMap();
+    requestMap['phone'] = phone;
     final result = await http.post(getUrl('register'),
-        headers: getHeaders(), body: req.toMap());
+        headers: getHeaders(), body: requestMap);
     if (result.statusCode == 200) {
       return new response.Register(success: true);
     } else {
@@ -107,20 +109,21 @@ class MainService {
     }
   }
 
-  Future<bool> verifyOtp(request.Verify req, OtpType type) async {
+  Future<response.Response> verifyOtp(request.Verify req, OtpType type) async {
     final path = type == OtpType.Registration
         ? 'verify_register'
         : 'verify_update_phone';
     final result =
         await http.post(getUrl(path), headers: getHeaders(), body: req.toMap());
-    if (result.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
+
+    return response.Response(
+        success: result.statusCode == 200, msg: result.reasonPhrase);
   }
 
-  Future<bool> resendCode(String phone, OtpType type) async {
+  Future<response.Response> resendCode(
+    String phone,
+    OtpType type,
+  ) async {
     final path = type == OtpType.Registration
         ? 'resend_code_register'
         : 'resend_code_update_phone';
@@ -128,21 +131,21 @@ class MainService {
     var result =
         await http.post(getUrl(path), headers: headers, body: {'phone': phone});
     print(result);
-    return result.statusCode == 200;
+    return response.Response(
+        success: result.statusCode == 200, msg: result.reasonPhrase);
   }
 
-  Future<bool> updatePassword(String oldPass, String newPass) async {
+  Future<response.Response> updatePassword(
+      String oldPass, String newPass) async {
     var result = await http.post(
       getUrl('update_user_password'),
       headers: getHeaders(),
       body: {'old_password': oldPass, 'password': newPass},
     );
-    return result.statusCode == 200;
-    // if (result.statusCode == 200) {
-    //   return true;
-    // } else {
-    //   print(result.reasonPhrase);
-    //   return false;
-    // }
+    return response.Response(
+        success: result.statusCode == 200,
+        msg: result.statusCode == 200
+            ? 'Password was updated'
+            : result.reasonPhrase);
   }
 }

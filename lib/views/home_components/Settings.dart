@@ -1,7 +1,9 @@
+import 'package:bacg/components/country_code_light.dart';
 import 'package:bacg/components/custom_button.dart';
 import 'package:bacg/enums.dart';
 import 'package:bacg/model/app_state.dart';
 import 'package:bacg/model/otp_state.dart';
+import 'package:bacg/model/phone_number.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,11 +22,17 @@ class _SettingsState extends State<Settings> {
   final _newPassController = new TextEditingController();
   final _newPassConfirmController = new TextEditingController();
   final _otpCodeController = new TextEditingController();
+  var currentCountryCode = "AZ";
+  var currentCountryPrefix = "994";
   @override
   void initState() {
     super.initState();
     final appState = Provider.of<AppState>(context, listen: false);
-    _newPhoneController.text = appState.newPhoneNumber ?? '';
+    if (appState.updatingPhone != null) {
+      _newPhoneController.text = appState.updatingPhone.number;
+      currentCountryCode = appState.updatingPhone.countryCode;
+      currentCountryPrefix = appState.updatingPhone.dialCode;
+    }
   }
 
   NumberFormat formatter = new NumberFormat("00");
@@ -34,6 +42,7 @@ class _SettingsState extends State<Settings> {
       builder: (context, appState, child) {
         _nameController.text = '${appState.user.name} ${appState.user.surname}';
         _oldPhoneController.text = appState.user.phone;
+
         return ChangeNotifierProvider<OtpStateModel>(
             create: (context) => OtpStateModel(type: OtpType.Update),
             builder: (context, widget) {
@@ -82,28 +91,51 @@ class _SettingsState extends State<Settings> {
                         height: 20,
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
                         children: [
+                          AnimatedSwitcher(
+                            duration: Duration(milliseconds: 300),
+                            child: appState.updatingPhone == null
+                                ? Row(
+                                    children: [
+                                      CountryCodeLight(currentCountryCode,
+                                          (code, prefix) {
+                                        setState(() {
+                                          currentCountryPrefix = prefix;
+                                          currentCountryCode = code;
+                                        });
+                                      }),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                    ],
+                                  )
+                                : Container(),
+                          ),
                           Flexible(
-                            child: TextField(
-                              // strutStyle: StrutStyle(height: 0.8),
-                              controller: _newPhoneController,
-                              onChanged: (val) {
-                                setState(() {});
-                              },
-                              decoration: InputDecoration(
-                                filled: true,
-                                labelText: "New phone",
-                                hintText: "994501234567",
-                              ),
-                              style: TextStyle(
-                                  color: Color.fromRGBO(72, 72, 72, 1)),
-                              keyboardType: TextInputType.phone,
-                              enabled: appState.newPhoneNumber == null,
-                            ),
+                            child: appState.updatingPhone == null
+                                ? TextField(
+                                    // strutStyle: StrutStyle(height: 0.8),
+                                    controller: _newPhoneController,
+                                    // onChanged: (val) {
+                                    //   setState(() {});
+                                    // },
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      labelText: "New phone",
+                                      hintText: "501112233",
+                                    ),
+                                    style: TextStyle(
+                                        color: Color.fromRGBO(72, 72, 72, 1)),
+                                    keyboardType: TextInputType.phone,
+                                    // enabled: appState.newPhoneNumber == null,
+                                  )
+                                : Text(appState.updatingPhone.fullNumber),
                           ),
                           AnimatedSwitcher(
                             duration: Duration(milliseconds: 300),
-                            child: appState.newPhoneNumber == null
+                            child: appState.updatingPhone == null
                                 ? Container()
                                 : Row(
                                     children: [
@@ -122,6 +154,9 @@ class _SettingsState extends State<Settings> {
                           ),
                         ],
                       ),
+                      // SizedBox(
+                      //   height: 20,
+                      // ),
                       SizedBox(
                         height: 20,
                       ),
@@ -132,7 +167,7 @@ class _SettingsState extends State<Settings> {
                         final secs = timeRemaining % 60;
                         final String timeRemain =
                             '$mins:${formatter.format(secs)}';
-                        return appState.newPhoneNumber == null
+                        return appState.updatingPhone == null
                             ? Container()
                             : Row(
                                 mainAxisAlignment:
@@ -162,8 +197,13 @@ class _SettingsState extends State<Settings> {
                                         : 'Resend',
                                     onPressed: () async {
                                       if (state.secondsRemaining <= 0) {
-                                        if (await appState
-                                            .resendCode(OtpType.Update)) {
+                                        if (await appState.updatePhone(
+                                          PhoneNumber(
+                                            countryCode: currentCountryCode,
+                                            number: _newPhoneController.text,
+                                            dialCode: currentCountryPrefix,
+                                          ),
+                                        )) {
                                           state.restartOtpTimer();
                                         }
                                       }
@@ -181,17 +221,23 @@ class _SettingsState extends State<Settings> {
                         onPressed:
                             // Utils.isProperPhone(_newPhoneController.text) ?
                             () async {
-                          if (appState.newPhoneNumber == null) {
-                            if (await appState
-                                .updatePhone(_newPhoneController.text)) {
+                          if (appState.updatingPhone == null) {
+                            if (await appState.updatePhone(PhoneNumber(
+                                dialCode: currentCountryPrefix,
+                                number: _newPhoneController.text,
+                                countryCode: currentCountryCode))) {
                               Provider.of<OtpStateModel>(context, listen: false)
                                   .restartOtpTimer();
                             }
                           } else {
                             if (await appState.verifyOtp(
-                                _otpCodeController.text, OtpType.Update)) {
+                              _otpCodeController.text,
+                              OtpType.Update,
+                            )) {
                               _otpCodeController.text = '';
                               _newPhoneController.text = '';
+                              Provider.of<OtpStateModel>(context, listen: false)
+                                  .stop();
                             }
                           }
                           setState(() {});
@@ -258,13 +304,14 @@ class _SettingsState extends State<Settings> {
                       BacgButton(
                         onPressed:
                             // Utils.isProperPhone(_newPhoneController.text) ?
-                            () {
-                          if (_newPassConfirmController.text ==
-                              _newPassController.text) {
-                            appState.updatePassword(_oldPassController.text,
-                                _newPassController.text);
-                          } else {
-                            print('passwords don\'t match');
+                            () async {
+                          if (await appState.updatePassword(
+                              _oldPassController.text,
+                              _newPassController.text,
+                              _newPassConfirmController.text)) {
+                            _oldPassController.text = '';
+                            _newPassController.text = '';
+                            _newPassConfirmController.text = '';
                           }
                         }
                         // : null

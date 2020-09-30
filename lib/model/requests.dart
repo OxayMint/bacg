@@ -1,3 +1,5 @@
+import 'package:bacg/model/phone_number.dart';
+
 class Register {
   final String name;
   final String surname;
@@ -12,17 +14,26 @@ class Register {
       'phone': phone
     };
   }
+
+  factory Register.fromJson(Map<String, dynamic> _map) {
+    return Register(
+      name: _map['name'],
+      surname: _map['surname'],
+      phone: _map['phone'],
+      password: _map['password'],
+    );
+  }
 }
 
 class Login {
-  final String phone;
+  final PhoneNumber phone;
   final String password;
   Login({
     this.phone,
     this.password,
   });
-  Map<String, String> toMap() {
-    return {'phone': phone, 'password': password};
+  Map<String, dynamic> toMap() {
+    return {'phone': phone.toMap(), 'password': password};
   }
 }
 

@@ -43,13 +43,23 @@ class UserPackage {
     expired = daysLeft < 0;
   }
 
-  void initState() {}
-
-  factory UserPackage.fromJson(Map<String, dynamic> jsonString) {
+  factory UserPackage.fromJson(Map<String, dynamic> jsonMap) {
     return UserPackage(
-        packageId: jsonString['package_id'],
-        callCount: jsonString['call_count'],
-        endAt: DateTime.fromMillisecondsSinceEpoch(jsonString['end_at'] * 1000),
-        pack: Pack.fromJson(jsonString['package']));
+        packageId: jsonMap['package_id'],
+        callCount: jsonMap['call_count'],
+        endAt: DateTime.fromMillisecondsSinceEpoch(jsonMap['end_at'] * 1000),
+        pack: Pack.fromJson(jsonMap['package']));
   }
 }
+
+// class PhoneNumber {
+//   final String dialCode;
+//   final String number;
+//   PhoneNumber({this.dialCode, this.number});
+//   factory PhoneNumber.fromJson(Map<String, dynamic> jsonMap) {
+//     return PhoneNumber(
+//       dialCode: jsonMap['dial_code'],
+//       number: jsonMap['number'],
+//     );
+//   }
+// }

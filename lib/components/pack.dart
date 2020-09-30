@@ -31,7 +31,9 @@ class Pack extends StatelessWidget {
                       SizedBox(
                         width: 178,
                         height: 160,
-                        child: PackLogo(number: pack.id),
+                        child: PackLogo(
+                          number: pack.id,
+                        ),
                       ),
                       Expanded(
                         child: Container(

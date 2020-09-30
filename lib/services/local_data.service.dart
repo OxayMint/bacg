@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:bacg/enums.dart';
+import 'package:bacg/model/phone_number.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:bacg/model/requests.dart' as request;
 
 class LocalData {
   static LocalData _instance;
@@ -8,18 +12,15 @@ class LocalData {
 
   SharedPreferences prefs;
 
-  String token = '', lang = '', registrationPhone, updatingPhone;
+  String token = '', lang = '';
+  PhoneNumber registrationPhone, updatingPhone;
   Future<void> init() async {
-    final sharedPrefsInst = await SharedPreferences.getInstance();
-    prefs = sharedPrefsInst;
+    prefs = await SharedPreferences.getInstance();
+    // prefs.clear();
     token = prefs.containsKey('token') ? prefs.getString('token') : '';
     lang = prefs.containsKey('lang') ? prefs.getString('lang') : '';
-    registrationPhone = prefs.containsKey(_getOtpPhoneKey(OtpType.Registration))
-        ? prefs.getString(_getOtpPhoneKey(OtpType.Registration))
-        : null;
-    updatingPhone = prefs.containsKey(_getOtpPhoneKey(OtpType.Update))
-        ? prefs.getString(_getOtpPhoneKey(OtpType.Update))
-        : null;
+    registrationPhone = getPhone(OtpType.Registration);
+    updatingPhone = getPhone(OtpType.Update);
   }
 
   setToken(String token) {
@@ -61,19 +62,20 @@ class LocalData {
     prefs.setInt(key, time.millisecondsSinceEpoch);
   }
 
-  setOtpPhone(String phone, OtpType type) {
+  setOtpPhone(PhoneNumber phone, OtpType type) {
     if (type == OtpType.Registration) {
       registrationPhone = phone;
     } else {
       updatingPhone = phone;
     }
     resetOtpTime(type);
-    prefs.setString(_getOtpPhoneKey(type), phone);
+    prefs.setString(_getOtpPhoneKey(type), json.encode(phone.toMap()));
     // notify
   }
 
   removeOtp(OtpType type) {
     prefs.remove(_getOtpPhoneKey(type));
+    prefs.remove(_getOtpTimeKey(type));
     prefs.remove(_getOtpTimeKey(type));
     if (type == OtpType.Registration) {
       registrationPhone = null;
@@ -92,7 +94,29 @@ class LocalData {
     return type == OtpType.Registration ? 'regPhone' : 'updatingPhone';
   }
 
-  String getPhone(OtpType type) {
-    return type == OtpType.Registration ? registrationPhone : updatingPhone;
+  PhoneNumber getPhone(OtpType type) {
+    PhoneNumber phone;
+    if (prefs.containsKey(_getOtpPhoneKey(type))) {
+      phone = PhoneNumber.fromJson(
+          json.decode(prefs.getString(_getOtpPhoneKey(type))));
+    }
+    return phone;
+  }
+
+  setRegistration(request.Register request) {
+    prefs.setString("currentRegistration", json.encode(request.toMap()));
+  }
+
+  request.Register getRegistration() {
+    request.Register registration;
+    if (prefs.containsKey('currentRegistration')) {
+      registration = request.Register.fromJson(
+          json.decode(prefs.getString("currentRegistration")));
+    }
+    return registration;
+  }
+
+  removeRegistration() {
+    prefs.remove('currentRegistration');
   }
 }

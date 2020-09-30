@@ -60,6 +60,7 @@ class _BacgButtonState extends State<BacgButton> {
 
   Widget button() {
     return FlatButton(
+      height: 43,
       splashColor: Colors.transparent,
       onPressed: disabled ? null : onPressed,
       onHighlightChanged: (val) {

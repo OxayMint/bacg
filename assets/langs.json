@@ -1,5 +1,5 @@
 {
-    "eng":{
+    "GB":{
         "sign_in":"Sign In",
         "log_in": "Log in",
         "log_out": "Log out",
@@ -10,8 +10,8 @@
         "phone":"Phone",
         "create_account":"Create account",
         "input_otp": "Input OTP code",
-        "already_have_account": "Already have an account?",
-        "dont_have_account": "Don't have an account?",
+        "already_have_account": "Already have an account? ",
+        "dont_have_account": "Don't have an account? ",
         "create": "Create",
         "sign_up": "Sign up",
         "forgot_pass": "Forgot password",
@@ -26,7 +26,7 @@
         "contacts": "Contacts",
         "settings": "Settings"
     },
-    "rus":{
+    "RU":{
         "sign_in":"Войти",
         "log_in": "Вход",
         "log_out": "Выход",
@@ -37,8 +37,8 @@
         "password":"Пароль",
         "create_account":"Создать аккаунт",
         "input_otp": "Input OTP code",
-        "already_have_account": "Already have an account?",
-        "dont_have_account": "Don't have an account?",
+        "already_have_account": "Already have an account? ",
+        "dont_have_account": "Don't have an account? ",
         "create": "Create",
         "sign_up": "Sign up",
         "forgot_pass": "Forgot password",
@@ -53,7 +53,7 @@
         "contacts": "Contacts",
         "settings": "Settings"
     },
-    "aze":{
+    "AZ":{
         "sign_in":"Giriş",
         "log_in": "Giriş",
         "log_out": "Çıxış",

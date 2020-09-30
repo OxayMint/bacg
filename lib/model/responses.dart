@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'user.dart';
 
-abstract class Result {
+class Response {
   final bool success;
-
-  Result({@required this.success});
+  String msg;
+  Response({@required this.success, this.msg});
 }
 
-class Login extends Result {
+class Login extends Response {
   String token;
   User user;
 
@@ -17,7 +17,7 @@ class Login extends Result {
       : super(success: success);
 }
 
-class Register extends Result {
+class Register extends Response {
   Map<String, String> exceptions;
   Register({@required success, this.exceptions}) : super(success: success);
 }

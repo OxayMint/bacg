@@ -2,27 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PackLogo extends StatelessWidget {
-  PackLogo({Key key, this.number, this.owned = false}) : super(key: key);
+  PackLogo({Key key, this.number, this.owned = false, this.expired = false})
+      : super(key: key);
   final int number;
-  final bool owned;
+  final bool owned, expired;
   @override
   Widget build(BuildContext context) {
     return Stack(
-      fit: StackFit.expand,
+      // fit: StackFit.expand,
       children: [
         Container(
           decoration: BoxDecoration(
             image: DecorationImage(
               fit: BoxFit.fitHeight,
-              image: AssetImage(owned
-                  ? 'assets/logo_bckgrnd_blue.png'
-                  : 'assets/logo_bckgrnd_green.png'),
+              image: AssetImage(expired
+                  ? 'assets/broken_gradient.png'
+                  : owned
+                      ? 'assets/logo_bckgrnd_blue.png'
+                      : 'assets/logo_bckgrnd_green.png'),
             ),
           ),
         ),
         Positioned(
           top: 0,
-          right: -15,
+          right: 10,
           child: Text(
             "$number",
             textAlign: TextAlign.end,
@@ -37,8 +40,9 @@ class PackLogo extends StatelessWidget {
               fontFamily: "Montserrat",
               fontWeight: FontWeight.w900,
               color: Colors.white,
-              fontSize: 229,
-              height: 0.88,
+              fontSize: 187,
+              height: 0.99,
+              letterSpacing: 1.0,
               // letterSpacing: 0,
             ),
           ),
@@ -63,12 +67,12 @@ class PackLogo extends StatelessWidget {
     );
   }
 
-  RadialGradient _getGradient() {
-    return RadialGradient(
-        colors: owned
-            ? [Color.fromRGBO(33, 152, 152, 1), Color.fromRGBO(17, 74, 76, 1)]
-            : [Color.fromRGBO(37, 152, 33, 1), Color.fromRGBO(17, 74, 76, 1)],
-        center: Alignment(1, 0),
-        radius: 1.5);
-  }
+  // RadialGradient _getGradient(){
+  //   return RadialGradient(
+  //       colors: owned
+  //           ? [Color.fromRGBO(33, 152, 152, 1), Color.fromRGBO(17, 74, 76, 1)]
+  //           : [Color.fromRGBO(37, 152, 33, 1), Color.fromRGBO(17, 74, 76, 1)],
+  //       center: Alignment(1, 0),
+  //       radius: 1.5);
+  // }
 }

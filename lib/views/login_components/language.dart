@@ -11,9 +11,9 @@ class Language extends StatefulWidget {
 
 class _LanguageState extends State<Language> {
   final Map<String, String> langs = {
-    'eng': 'English',
-    'rus': 'Русский',
-    'aze': 'Azərbaycan'
+    'GB': 'English',
+    'RU': 'Русский',
+    'AZ': 'Azərbaycan'
   };
   String selectedLang;
   // bool langSelected = false;
@@ -105,11 +105,11 @@ class _LanguageState extends State<Language> {
 
   String _getButtonText(String lang) {
     switch (selectedLang) {
-      case 'eng':
+      case 'GB':
         return "SELECT";
-      case 'rus':
+      case 'RU':
         return "ВЫБОР";
-      case 'aze':
+      case 'AZ':
         return "SEÇ";
       default:
         return "SELECT";
@@ -124,7 +124,7 @@ class _LanguageState extends State<Language> {
           value: key,
           child: Row(
             children: [
-              Image.asset('assets/$key.png'),
+              Image.asset('assets/flags/${key.toLowerCase()}.png'),
               SizedBox(
                 width: 20,
               ),
